@@ -1,10 +1,31 @@
+//Importing modules and defining ports
 const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const userRoute = require("./routes/users");
+const authRoute = require("./routes/auth");
+const itemRoute = require("./routes/item");
 var cors = require("cors");
-let app = express();
 let port = process.env.PORT || 8080;
 var path = require("path");
-app.use(cors());
 
+//read from the .env file
+dotenv.config();
+
+//connect to database
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => console.log("Database connected!"))
+  .catch((err) => console.log(err));
+
+//setup for production environment
 if (process.env.NODE_ENV === "production ") {
   app.use(express.static(path.join(__dirname, "frontend/build")));
 
@@ -13,9 +34,17 @@ if (process.env.NODE_ENV === "production ") {
   });
 }
 
-app.get("/hello", function (req, res) {
-  res.json("Hello from backend !");
-});
+//middleware
+app.use(cors());
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("common"));
+
+//routes
+app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/items", itemRoute);
+
 app.listen(port, () => {
   console.log("Server listening on port: " + port);
 });
