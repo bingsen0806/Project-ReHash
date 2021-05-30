@@ -3,32 +3,64 @@ import RestoreFromTrashRoundedIcon from "@material-ui/icons/RestoreFromTrashRoun
 import { Link } from "react-router-dom";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useContext, useRef, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 
 export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { dispatch } = useContext(AuthContext);
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+
+  const checkCredentials = async () => {
+    try {
+      const res = await axios
+        .post("/auth/login", {
+          username: usernameRef.current.value,
+          password: passwordRef.current.value,
+        })
+        .then(() => {
+          usernameRef.current.setCustomValidity("");
+          passwordRef.current.setCustomValidity("");
+        });
+    } catch (err) {
+      if (err.response.status === 400) {
+        usernameRef.current.setCustomValidity("Incorrect username or password");
+      }
+    }
+  };
+  const handleUsername = async (e) => {
+    setUsername(e.target.value);
+    console.log(e.target.value);
+    checkCredentials();
+  };
+  const handlePassword = async (e) => {
+    setPassword(e.target.value);
+    console.log(e.target.value);
+    checkCredentials();
+  };
+
+  const handleClick = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const loginCall = async (userCredential, dispatch) => {
+      dispatch({ type: "LOGIN_START" });
+      try {
+        const res = await axios.post("/auth/login", userCredential);
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      } catch (err) {
+        dispatch({ type: "LOGIN_FAILURE", payload: err });
+      }
+    };
+    loginCall({ username: username, password: password }, dispatch);
+  };
+
   return (
     <div className="login">
       <div className="loginWrapper">
         <div className="loginTop">
-          {/* <AddShoppingCartIcon
-            className="loginShoppingCartIcon"
-            style={{
-              fontSize: 200,
-              position: "absolute",
-              left: -100,
-              color: "white",
-            }}
-          />
-          <SwapVerticalCircleIcon
-            className="loginSwapIcon"
-            style={{
-              fontSize: 90,
-              position: "absolute",
-              right: -47,
-              backgroundColor: "rgba(255, 153, 1, 0.863)",
-              color: "white",
-              borderRadius: "50%",
-            }}
-          /> */}
           <RestoreFromTrashRoundedIcon
             className="loginShoppingCartIcon"
             style={{
@@ -37,7 +69,7 @@ export default function Login() {
             }}
           />
         </div>
-        <form className="loginBottom">
+        <form className="loginBottom" onSubmit={handleSubmit}>
           <div className="loginInputWrapper">
             <PersonOutlineOutlinedIcon
               style={{
@@ -48,7 +80,14 @@ export default function Login() {
                 left: 10,
               }}
             />
-            <input placeholder="USERNAME" required className="loginInput" />
+            <input
+              placeholder="USERNAME"
+              onChange={handleUsername}
+              value={username}
+              ref={usernameRef}
+              required
+              className="loginInput"
+            />
           </div>
 
           <div className="loginInputWrapper">
@@ -64,11 +103,16 @@ export default function Login() {
             <input
               placeholder="PASSWORD"
               required
+              onChange={handlePassword}
+              value={password}
+              ref={passwordRef}
               className="loginInput"
               type="password"
             />
           </div>
-          <button className="loginButton">LOGIN</button>
+          <button className="loginButton" type="submit">
+            LOGIN
+          </button>
           <Link to="/register" className="loginBottomLink">
             Forgot password?
           </Link>
