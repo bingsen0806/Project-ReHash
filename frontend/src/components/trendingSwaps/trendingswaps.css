@@ -1,0 +1,13 @@
+.trendingSwapItemImg {
+    max-height:300px;
+    object-fit:cover;
+}
+
+.trendingSwapItemBody {
+    max-height: 130px;
+    overflow-y: auto;
+}
+
+.trendingSwapText {
+    font-weight: bold;
+}
