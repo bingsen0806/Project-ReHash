@@ -1,0 +1,30 @@
+.userlistingContainer {
+    display: flex;
+    width: 100%;
+}
+
+.userlistingWrapper {
+   display: flex;
+   flex-direction: column;
+}
+
+/* 
+.dummyRow {
+   flex: 20%; 
+}
+
+.tabRow {
+   flex: 10%;
+}
+
+.listingRow {
+    flex: 90%;
+} */
+
+.tabBar {
+    margin-top: 100px;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 999;
+}
+

@@ -14,10 +14,13 @@ var path = require("path");
 
 //read from the .env file
 dotenv.config();
+console.log("hello");
+console.log(process.env.MONGO_URL);
+
 
 //connect to database
 mongoose
-  .connect(process.env.MONGO_URL, {
+  .connect("mongodb+srv://bingsen0806:testing123@rehash.3cwin.mongodb.net/rehash?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

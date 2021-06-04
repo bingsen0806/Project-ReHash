@@ -1,0 +1,26 @@
+.sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.sidebarIcons {
+    margin-right: 20px;
+}
+
+.logoutLink {
+    cursor: pointer;
+}
+
+.userProfile {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.fa-star {
+    color: #808080;
+}
+.checked {
+    color: #DAA520;
+}

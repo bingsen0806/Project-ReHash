@@ -1,0 +1,18 @@
+.userReviewProfile {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.userReviewName {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.userReviewRatings {
+    margin-left: 70px;
+    margin-top: -20px;
+}

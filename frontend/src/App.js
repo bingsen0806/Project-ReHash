@@ -1,6 +1,9 @@
 import "./App.css";
 import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
+import UserListing from "./pages/userlisting/UserListing";
+import Review from "./pages/review/Review";
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,17 +18,18 @@ function App() {
   const { user } = useContext(AuthContext);
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          {user ? <Home /> : <Register />}
-        </Route>
-        <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
-        <Route path="/register">
-          {user ? <Redirect to="/" /> : <Register />}
-        </Route>
-      </Switch>
-    </Router>
+    // <Router>
+    //   <Switch>
+    //     <Route exact path="/">
+    //       {user ? <Home /> : <Register />}
+    //     </Route>
+    //     <Route path="/login">{user ? <Redirect to="/" /> : <Login />}</Route>
+    //     <Route path="/register">
+    //       {user ? <Redirect to="/" /> : <Register />}
+    //     </Route>
+    //   </Switch>
+    // </Router>
+    <Review />
   );
 }
 

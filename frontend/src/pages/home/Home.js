@@ -8,7 +8,10 @@ import TrendingSwaps from '../../components/trendingSwaps/TrendingSwaps';
 export default function Home() {
     return (
         <div>
-            <TopBar />
+            {/* <div className="topBarHome"> */}
+                <TopBar />
+            {/* </div> */}
+            
             <div className="tangible">
                 <div className="itemsType">
                     <span>Explore Tangible</span>
@@ -21,7 +24,7 @@ export default function Home() {
                 </div>
                 <ItemListsIntangible />
             </div>
-            <hr />
+            
             <div className="trendingSwap">
                 <span className="trendingSwapHead">Trending Swaps</span>
                 <TrendingSwaps />
