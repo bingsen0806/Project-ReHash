@@ -3,7 +3,7 @@ import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
 import UserListing from "./pages/userlisting/UserListing";
 import Review from "./pages/review/Review";
-
+import Product from "./pages/product/Product";
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,7 +29,7 @@ function App() {
     //     </Route>
     //   </Switch>
     // </Router>
-    <Review />
+    <Home />
   );
 }
 

@@ -1,6 +1,7 @@
 .itemWrapper {
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
+    cursor: grab;
   
 }
 

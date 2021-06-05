@@ -3,7 +3,7 @@ import "./review.css";
 import TopBar from "../../components/topbar/TopBar";
 import SideBar from "../../components/sidebar/SideBar";
 import UserReview from "../../components/userReview/UserReview";
-import { Container, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 export default function Review() {
     return (
@@ -18,7 +18,6 @@ export default function Review() {
                     <UserReview className="userReview"/>
                     <UserReview className="userReview"/>
                 </Container>
-                
             </div>
         </div>
     )

@@ -4,31 +4,32 @@ import ItemListsTangible from '../../components/itemlistsTangible/ItemListsTangi
 import "./home.css";
 import ItemListsIntangible from '../../components/itemlistsIntangible/ItemListsIntangible';
 import TrendingSwaps from '../../components/trendingSwaps/TrendingSwaps';
+import Ads from "../../components/ads/Ads";
 
 export default function Home() {
     return (
         <div>
-            {/* <div className="topBarHome"> */}
-                <TopBar />
-            {/* </div> */}
-            
-            <div className="tangible">
-                <div className="itemsType">
-                    <span>Explore Tangible</span>
+            <TopBar />
+            <Ads />
+            <div className="homeWrapper">
+                <div className="tangible">
+                    <div className="itemsType">
+                        <span>Explore Tangible</span>
+                    </div>
+                    <ItemListsTangible />
                 </div>
-                <ItemListsTangible />
-            </div>
-            <div className="intangible">
-                <div className="itemsType">
-                    <span>Explore Intangible</span>
+                <div className="intangible">
+                    <div className="itemsType">
+                        <span>Explore Intangible</span>
+                    </div>
+                    <ItemListsIntangible />
                 </div>
-                <ItemListsIntangible />
-            </div>
-            
-            <div className="trendingSwap">
-                <span className="trendingSwapHead">Trending Swaps</span>
-                <TrendingSwaps />
-            </div>
+                
+                <div className="trendingSwap">
+                    <span className="trendingSwapHead">Trending Swaps</span>
+                    <TrendingSwaps />
+                </div>
+            </div> 
         </div>
     )
 }
