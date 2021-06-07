@@ -4,6 +4,7 @@ import Register from "./pages/register/Register";
 import UserListing from "./pages/userlisting/UserListing";
 import Review from "./pages/review/Review";
 import Product from "./pages/product/Product";
+import CreateLising from "./pages/createListing/CreateListing";
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,7 +30,7 @@ function App() {
     //     </Route>
     //   </Switch>
     // </Router>
-    <Home />
+    <CreateLising />
   );
 }
 

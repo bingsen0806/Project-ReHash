@@ -6,21 +6,21 @@ export default function Ads() {
     return (
         <div>
            <Carousel className="adsWrapper">
-                <Carousel.Item interval={1000}>
+                <Carousel.Item interval={3000}>
                     <img
                     className="adsPics d-block w-50"
                     src="assests/adsPics/ads1.jpeg"
                     alt="First slide"
                     />
                 </Carousel.Item>
-                <Carousel.Item interval={1000}>
+                <Carousel.Item interval={3000}>
                     <img
                     className="adsPics d-block w-50"
                     src="/assests/adsPics/ads2.jpeg"
                     alt="Second slide"
                     />
                 </Carousel.Item>
-                <Carousel.Item interval={1000}>
+                <Carousel.Item interval={3000}>
                     <img
                     className="adsPics d-block w-50"
                     src="/assests/adsPics/ads3.jpeg"

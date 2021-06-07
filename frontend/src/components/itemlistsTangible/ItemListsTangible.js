@@ -2,10 +2,32 @@ import React from 'react'
 import { Button, Col, Row } from "react-bootstrap";
 import { Accessibility, Face, SportsFootball, Home, DriveEta, Redeem, Computer, Apps } from "@material-ui/icons";
 import "./itemlistsTangible.css";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 export default function ItemLists() {
+    const responsive = {
+        superLargeDesktop: {
+          // the naming can be any, depends on you.
+          breakpoint: { max: 4000, min: 3000 },
+          items: 8
+        },
+        desktop: {
+          breakpoint: { max: 3000, min: 1024 },
+          items: 6
+        },
+        tablet: {
+          breakpoint: { max: 1024, min: 464 },
+          items: 2
+        },
+        mobile: {
+          breakpoint: { max: 464, min: 0 },
+          items: 1
+        }
+    };
+
     return (
-        <div className="itemWrapper">
+        <Carousel responsive={responsive}>
            <div className="item">
                 <div className="button">
                     <Button className="itemButton">
@@ -118,6 +140,6 @@ export default function ItemLists() {
                     </Button> 
                 </div>  
             </div>    
-        </div>
+        </Carousel>
     )
 }
