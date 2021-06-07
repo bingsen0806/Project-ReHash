@@ -13,6 +13,7 @@ import {
 import Login from "./pages/login/Login";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import Chat from "./pages/chat/Chat";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -29,7 +30,7 @@ function App() {
     //     </Route>
     //   </Switch>
     // </Router>
-    <Home />
+    <Chat />
   );
 }
 

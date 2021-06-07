@@ -1,0 +1,87 @@
+/* .conversation {
+  width: 90%;
+  display: flex;
+  background-color: yellow;
+  align-items: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.conversationImg {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.conversationRight {
+  max-width: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+.conversationName {
+  font-weight: bold;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.conversationLastMsg {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+} */
+
+.conversation {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  color: black;
+}
+
+.conversation:hover {
+  background-color: rgb(240, 158, 6);
+  color: rgb(243, 239, 239);
+  cursor: pointer;
+}
+
+.conversation:focus {
+  background-color: darkorchid;
+}
+
+.conversationImg {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.conversationRight {
+  max-width: calc(100% - 66px);
+  display: flex;
+  flex-direction: column;
+  /* background-color: bisque; */
+}
+
+.conversationName {
+  font-weight: bold;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.conversationLastMsg {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
