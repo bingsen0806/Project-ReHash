@@ -6,6 +6,10 @@ const ItemSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
     desc: {
       type: String,
       max: 500,
@@ -16,6 +20,10 @@ const ItemSchema = new mongoose.Schema(
     tags: {
       type: Array,
       default: [],
+    },
+    status: {
+      type: String,
+      max: 30,
     },
   },
   { timestamps: true }

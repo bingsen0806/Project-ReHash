@@ -8,23 +8,25 @@ const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const itemRoute = require("./routes/item");
+const conversationRoute = require("./routes/conversations");
+const messageRoute = require("./routes/messages");
 var cors = require("cors");
 let port = process.env.PORT || 8080;
 var path = require("path");
 
 //read from the .env file
 dotenv.config();
-console.log("hello");
-console.log(process.env.MONGO_URL);
-
 
 //connect to database
 mongoose
-  .connect("mongodb+srv://bingsen0806:testing123@rehash.3cwin.mongodb.net/rehash?retryWrites=true&w=majority", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+  .connect(
+    "mongodb+srv://bingsen0806:testing123@rehash.3cwin.mongodb.net/rehash?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    }
+  )
   .then(() => console.log("Database connected!"))
   .catch((err) => console.log(err));
 
@@ -47,6 +49,8 @@ app.use(morgan("common"));
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/items", itemRoute);
+app.use("/api/conversations", conversationRoute);
+app.use("/api/messages", messageRoute);
 
 app.listen(port, () => {
   console.log("Server listening on port: " + port);

@@ -20,4 +20,46 @@ router.get("/", async (req, res) => {
   }
 });
 
+//chat Follow a user
+router.put("/:id/chatfollow", async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body.userId);
+      if (!user.chatFollow.includes(req.body.userId)) {
+        await user.updateOne({ $push: { chatFollow: req.body.userId } });
+        await currentUser.update({ $push: { chatFollow: req.params.id } });
+        res.status(200).json("user has been followed");
+      } else {
+        res.status(403).json("you already followed this user");
+      }
+    } catch (err) {
+      return res.status(400).json(err);
+    }
+  } else {
+    res.status(403).json("you cannot follow yourself");
+  }
+});
+
+//get all people that has a chat with user of userId
+router.get("/chatfollow/:userId", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    const friends = await Promise.all(
+      user.chatFollow.map((friendId) => {
+        return User.findById(friendId);
+      })
+    );
+    let friendList = [];
+    friends.map((friend) => {
+      //nani why below can??
+      const { _id, username, profilePicture } = friend;
+      friendList.push({ _id, username, profilePicture });
+    });
+    res.status(200).json(friendList);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

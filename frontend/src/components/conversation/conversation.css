@@ -1,41 +1,3 @@
-/* .conversation {
-  width: 90%;
-  display: flex;
-  background-color: yellow;
-  align-items: center;
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.conversationImg {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 20px;
-}
-
-.conversationRight {
-  max-width: calc(100% - 80px);
-  display: flex;
-  flex-direction: column;
-}
-
-.conversationName {
-  font-weight: bold;
-  font-size: 18px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: clip;
-}
-
-.conversationLastMsg {
-  font-size: 16px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
-
 .conversation {
   width: 95%;
   display: flex;
@@ -47,21 +9,35 @@
 }
 
 .conversation:hover {
-  background-color: rgb(240, 158, 6);
-  color: rgb(243, 239, 239);
+  background-color: rgba(255, 181, 43, 0.918);
+  color: black;
   cursor: pointer;
+  box-shadow: 3px 6px 25px 1px rgba(143, 52, 13, 0.47);
 }
 
-.conversation:focus {
-  background-color: darkorchid;
+.conversation.conversationActive {
+  background-color: rgb(240, 158, 6);
+  box-shadow: 3px 6px 25px 1px rgba(143, 52, 13, 0.47);
+  color: black;
 }
 
+.conversationBadge {
+  width: 10px;
+  height: 10px;
+  border: 1px solid honeydew;
+  border-radius: 50%;
+  background-color: limegreen;
+}
+.conversationLeft {
+  /* background-color: aqua; */
+  position: relative;
+}
 .conversationImg {
   height: 50px;
   width: 50px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 .conversationRight {
@@ -71,12 +47,42 @@
   /* background-color: bisque; */
 }
 
+.conversationRightTop {
+  width: 100%;
+  /* background-color: yellowgreen; */
+  display: flex;
+  padding-right: 5px;
+}
+
 .conversationName {
-  font-weight: bold;
+  width: 55%;
+  font-weight: 500;
   font-size: 18px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: clip;
+  text-overflow: ellipsis;
+}
+
+.conversationStatus {
+  width: 45%;
+  /* background-color: thistle; */
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+  color: rgb(112, 109, 109);
+}
+
+.conversationBadge {
+  width: 15px;
+  height: 15px;
+  border: 1px solid honeydew;
+  border-radius: 50%;
+  background-color: limegreen;
+  position: absolute;
+  bottom: -1px;
+  right: 15px;
 }
 
 .conversationLastMsg {
@@ -84,4 +90,5 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: rgb(63, 60, 60);
 }

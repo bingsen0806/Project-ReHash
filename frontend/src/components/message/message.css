@@ -15,40 +15,51 @@
 
 .messageTop {
   display: flex;
+  /* background-color: aqua; */
+  width: 100%;
 }
 
-.messageImg {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
+.messageTopOwn {
+  display: flex;
+  flex-direction: row-reverse;
+  /* background-color: aqua; */
+  width: 100%;
 }
 
 .messageImgOwn {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   margin-left: 10px;
 }
-.messageText {
-  padding: 10px;
+
+.messageImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.messageTextOwn {
+  padding: 10px 15px;
   border-radius: 20px;
-  background-color: #1877f2;
-  color: white;
-  max-width: 70%;
+  background-color: rgba(255, 236, 174, 0.952);
+  color: black;
+  font-size: 22px;
+  max-width: 80%;
 }
 
-.messageTextOwn {
-  padding: 10px;
+.messageText {
+  padding: 10px 15px;
   border-radius: 20px;
-  background-color: rgb(245, 241, 241);
+  background-color: rgba(255, 181, 43, 0.918);
   color: black;
-  max-width: 300px;
+  max-width: 80%;
+  font-size: 22px;
 }
 
 .messageBottom {
-  font-size: 12px;
-  margin-top: 10px;
+  font-size: 14px;
+  font-weight: normal;
 }

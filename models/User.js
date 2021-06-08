@@ -28,6 +28,14 @@ const UserSchema = new mongoose.Schema(
       type: String,
       max: 50,
     },
+    lastActive: {
+      type: Date,
+      default: Date.now(),
+    },
+    chatFollow: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );
