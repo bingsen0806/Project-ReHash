@@ -21,12 +21,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateListing() {
     const classes = useStyles();
-    const category = [{title: 'Sports'},
-                        ];
+    const category = [{title: 'Clothing'},
+                    {title: 'Beauty'}, 
+                    {title: 'Sports Equipments'},
+                    {title: 'Home Appliances'},
+                    {title: 'Automotive'},
+                    {title: 'Clothing'},
+                    {title: 'Hobbies'},
+                    {title: 'Computers & Tech'},
+                    {title: 'Others'},
+                    {title: 'Outdoor Activities'},
+                    {title: 'Travel'},
+                    {title: 'Discussion'},
+                    {title: 'Food'},
+                    {title: 'Indoor Activities'},
+                    {title: 'Sports'},
+                    {title: 'Games & Esports'},
+                    {title: 'Others'}];
     return (
-        <div>
-            {/* <TopBar /> */}
-            <Form>
+        <div className="createListingContainer">
+            <TopBar />
+            <Form className="formWrapper">
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Title</Form.Label>
                     <Form.Control type="email" placeholder="Enter your swap title" />
@@ -40,10 +55,14 @@ export default function CreateListing() {
                     <Form.Control as="textarea" rows={3} placeholder="Describe your swap"/>
                 </Form.Group>
                 <Form.Group>
-                    <Form.File id="exampleFormControlFile1" label="Upload photos of your swap" />
+                    <div className="fileButton">
+                        <Form.File id="exampleFormControlFile1" label="Upload photos of your swap" />
+                    </div>
                 </Form.Group>
                 <div className={classes.root}>
+                    <label className="formLabel">What is your swap category?</label>
                     <Autocomplete
+                        className="formInput"
                         multiple
                         limitTags={2}
                         id="multiple-limit-tags"
@@ -51,12 +70,27 @@ export default function CreateListing() {
                         getOptionLabel={(option) => option.title}
                         // defaultValue={}
                         renderInput={(params) => (
-                        <TextField {...params} variant="outlined" label="limitTags" placeholder="Favorites" />
+                        <TextField {...params} variant="outlined" label="Select categories" placeholder="Swap categories" />
                         )}
                     />
                 </div>
-                <Button variant="primary" type="submit">
-                    Submit
+                <div className={classes.root}>
+                    <label className="formLabel">What is your ideal swap?</label>        
+                    <Autocomplete
+                        className="formInput"
+                        multiple
+                        limitTags={2}
+                        id="multiple-limit-tags"
+                        options={category}
+                        getOptionLabel={(option) => option.title}
+                        // defaultValue={}
+                        renderInput={(params) => (
+                        <TextField {...params} variant="outlined" label="Select ideal swaps" placeholder="Ideal swaps" />
+                        )}
+                    />
+                </div>
+                <Button className="postButton" variant="warning" type="submit">
+                    Post Swap
                 </Button>
             </Form>
         </div>
