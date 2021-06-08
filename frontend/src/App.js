@@ -5,6 +5,7 @@ import UserListing from "./pages/userlisting/UserListing";
 import Review from "./pages/review/Review";
 import Product from "./pages/product/Product";
 import CreateLising from "./pages/createListing/CreateListing";
+import Item from "./pages/item/Item";
 import {
   BrowserRouter as Router,
   Switch,
@@ -30,7 +31,7 @@ function App() {
     //     </Route>
     //   </Switch>
     // </Router>
-    <CreateLising />
+    <Item />
    
   );
 }
