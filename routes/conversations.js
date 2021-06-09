@@ -14,6 +14,18 @@ router.post("/", async (req, res) => {
   }
 });
 
+//get conversations by conversation if
+router.get("/id/:conversationId", async (req, res) => {
+  try {
+    const conversation = await Conversation.find({
+      _id: req.params.conversationId,
+    });
+    res.status(200).json(conversation);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //get conv of a user
 router.get("/:userId", async (req, res) => {
   try {
@@ -35,6 +47,22 @@ router.get("/find/:firstUserId/:secondUserId", async (req, res) => {
     res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+//update the last message of a conversation
+router.put("/:id/lastmessage", async (req, res) => {
+  try {
+    const conversation = await Conversation.findById(req.params.id);
+    const lastMessageText = req.body.lastMessageText;
+    const lastMessageTime = req.body.lastMessageTime;
+    await conversation.updateOne({
+      lastMessageText: lastMessageText,
+      lastMessageTime: lastMessageTime,
+    });
+    res.status(200).json("updated last message of conversation");
+  } catch (err) {
+    return res.status(400).json(err);
   }
 });
 

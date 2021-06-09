@@ -20,6 +20,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+//update user's lastActive
+router.put("/:id/lastActive", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const date = new Date();
+    await user.updateOne({ lastActive: date });
+    res.status(200).json("updatedLastActive");
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+});
+
 //chat Follow a user
 router.put("/:id/chatfollow", async (req, res) => {
   if (req.body.userId !== req.params.id) {

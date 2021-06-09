@@ -41,7 +41,7 @@
 }
 
 .conversationRight {
-  max-width: calc(100% - 66px);
+  width: calc(100% - 66px);
   display: flex;
   flex-direction: column;
   /* background-color: bisque; */

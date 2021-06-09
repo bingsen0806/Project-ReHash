@@ -30,7 +30,6 @@ const UserSchema = new mongoose.Schema(
     },
     lastActive: {
       type: Date,
-      default: Date.now(),
     },
     chatFollow: {
       type: Array,
