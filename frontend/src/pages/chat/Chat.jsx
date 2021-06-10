@@ -13,6 +13,7 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [currentChatWith, setCurrentChatWith] = useState(null);
   const [currentChatWithLastActive, setCurrentChatWithLastActive] =
@@ -21,7 +22,34 @@ export default function Chat() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   const scrollRef = useRef();
-  const { user } = useContext(AuthContext);
+  const { user, sockio } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log("socket is: ", sockio.id);
+    //can change slightly to map for all convo, even if not opened
+    sockio.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, [sockio]);
+
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat]);
+
+  useEffect(() => {
+    sockio.on("getUsers", (users) => {
+      // console.log("getUser received on client side");
+      setOnlineUsers(
+        user.chatFollow.filter((f) => users.some((u) => u.userId === f))
+      );
+    });
+  }, [user, sockio]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -29,14 +57,14 @@ export default function Chat() {
         //need to change this and add another API when search function is implemented
         const res = await axios.get("/conversations/" + user._id);
         await setConversations(res.data);
-        console.log(conversations);
+        // console.log(conversations);
         // console.log(user);
       } catch (err) {
         console.log(err);
       }
     };
     getConversations();
-  }, [user._id, messages]);
+  }, [user._id, messages, onlineUsers]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -65,22 +93,25 @@ export default function Chat() {
   }, [user, currentChat]);
 
   useEffect(() => {
-    const updateLastActive = () => {
-      const timeago = format(currentChatWith?.lastActive);
-      if (timeago.includes("second") || timeago.includes("now")) {
-        setCurrentChatWithLastActive("Online");
-      } else {
-        setCurrentChatWithLastActive("Active " + timeago);
+    const updateLastActive = async () => {
+      var timeago = "";
+      try {
+        const res = await axios("/users?userId=" + currentChatWith?._id);
+        const newLastActive = res.data.lastActive;
+        console.log("newLastActive: ", newLastActive);
+        timeago = format(newLastActive);
+        console.log("LOOK AT ME: TIMEAGO ", timeago);
+      } catch (err) {
+        timeago = format(currentChatWith?.lastActive);
+        console.log(err);
       }
+      setCurrentChatWithLastActive("Active " + timeago);
     };
 
     updateLastActive();
     const interval = setInterval(() => {
-      if (currentChatWithLastActive !== format(currentChatWith?.lastActive)) {
-        updateLastActive();
-      }
-      // console.log("This will run every second!");
-    }, 60000);
+      updateLastActive();
+    }, 5000);
     return () => clearInterval(interval);
   }, [currentChatWith]);
 
@@ -93,6 +124,17 @@ export default function Chat() {
         text: newMessage,
         conversationId: currentChat._id,
       };
+
+      const receiverId = currentChat.members.find(
+        (member) => member !== user._id
+      );
+
+      sockio.emit("sendMessage", {
+        senderId: user._id,
+        receiverId,
+        text: newMessage,
+      });
+
       try {
         const res = await axios.post("/messages", message);
 
@@ -133,11 +175,10 @@ export default function Chat() {
             />
             {conversations.map((c) => {
               const userId = c.members.find((m) => m !== user._id);
-              console.log("userId", userId);
               return (
                 <div onClick={() => setCurrentChat(c)}>
                   <Conversation
-                    online={true}
+                    online={onlineUsers.includes(userId)}
                     lastMessageText={c.lastMessageText}
                     lastMessageTime={c.lastMessageTime}
                     userId={userId}
@@ -168,7 +209,9 @@ export default function Chat() {
                         {currentChatWith?.username}
                       </div>
                       <div className="chatBoxHeaderStatus">
-                        {currentChatWithLastActive}
+                        {onlineUsers.includes(currentChatWith?._id)
+                          ? "Online now"
+                          : currentChatWithLastActive}
                       </div>
                     </div>
                   </div>
@@ -212,7 +255,7 @@ export default function Chat() {
               </>
             ) : (
               <span className="noConversationText">
-                Open a conversation to start a chat
+                Open a conversation to start a chat {sockio.id}
               </span>
             )}
           </div>

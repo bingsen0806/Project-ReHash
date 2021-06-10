@@ -23,17 +23,20 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/home">
           {user ? <Home /> : <Register />}
         </Route>
-        <Route path="/login">
-          {user ? <Redirect to="/chat" /> : <Login />}
+        <Route exact path="/login">
+          {user ? <Redirect to="/home" /> : <Login />}
         </Route>
         <Route path="/register">
-          {user ? <Redirect to="/" /> : <Register />}
+          {user ? <Redirect to="/home" /> : <Register />}
         </Route>
         <Route exact path="/chat">
           {user ? <Chat /> : <Register />}
+        </Route>
+        <Route exact path="/profile">
+          {user ? <UserListing /> : <Register />}
         </Route>
       </Switch>
     </Router>

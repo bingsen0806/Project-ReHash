@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import TopBar from "../../components/topbar/TopBar";
 import ItemListsTangible from "../../components/itemlistsTangible/ItemListsTangible";
 import "./home.css";
@@ -8,7 +8,13 @@ import Ads from "../../components/ads/Ads";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Home() {
-  const { user } = useContext(AuthContext);
+  const { user, sockio } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log("socket is: ", sockio.id);
+    console.log("user is: ", user);
+  }, [sockio, user]);
+
   return (
     <div>
       <TopBar />
@@ -22,7 +28,7 @@ export default function Home() {
         </div>
         <div className="intangible">
           <div className="itemsType">
-            <span>Explore Intangible</span>
+            <span>Explore Intangible {sockio.id}</span>
           </div>
           <ItemListsIntangible />
         </div>

@@ -6,6 +6,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { io } from "socket.io-client";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -42,14 +43,21 @@ export default function Login() {
     checkCredentials();
   };
 
-  const handleClick = async (e) => {};
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loginCall = async (userCredential, dispatch) => {
       dispatch({ type: "LOGIN_START" });
       try {
         const res = await axios.post("/auth/login", userCredential);
-        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+        const sock = await io("ws://localhost:8080");
+        sock.on("connect", () => {
+          sock.emit("addUser", res.data._id);
+          console.log("sock inside try block: ", sock);
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: { user: res.data, sock: sock },
+          });
+        });
       } catch (err) {
         dispatch({ type: "LOGIN_FAILURE", payload: err });
       }

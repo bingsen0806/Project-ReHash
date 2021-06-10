@@ -1,6 +1,14 @@
 //Importing modules and defining ports
 const express = require("express");
 const app = express();
+const server = require("http").createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const helmet = require("helmet");
@@ -13,6 +21,8 @@ const messageRoute = require("./routes/messages");
 var cors = require("cors");
 let port = process.env.PORT || 8080;
 var path = require("path");
+
+const User = require("./models/User");
 
 //read from the .env file
 dotenv.config();
@@ -53,6 +63,67 @@ app.use("/api/items", itemRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 
-app.listen(port, () => {
+//socket.io connections
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+io.on("connection", (socket) => {
+  //when a user connects
+  console.log("a user connected");
+
+  setInterval(function () {
+    io.emit("getUsers", users);
+  }, 3000);
+  //when "addUser" is called from frontend, take userId from frontend and add user
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    io.emit("getUsers", users); //tell all sockets with "getUsers" that a new user is added
+    console.log(users);
+  });
+
+  const getUser = (userId) => {
+    return users.find((user) => user.userId === userId);
+  };
+
+  const getUserBySocketId = (socketId) => {
+    return users.find((user) => user.socketId === socketId);
+  };
+  //send and get message
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    if (user) {
+      io.to(user.socketId).emit("getMessage", {
+        senderId,
+        text,
+      });
+    }
+  });
+
+  //when disconnect
+  socket.on("disconnect", async () => {
+    console.log("a user disconnected");
+    const socketUser = await getUserBySocketId(socket.id);
+    try {
+      const user = await User.findById(socketUser.userId);
+      const date = new Date();
+      await user.updateOne({ lastActive: date });
+      console.log("updatedLastActive");
+    } catch (err) {
+      console.log(err);
+    }
+    removeUser(socket.id);
+    io.emit("getUsers", users); //tell everyone a user is removed
+  });
+});
+
+server.listen(port, () => {
   console.log("Server listening on port: " + port);
 });
