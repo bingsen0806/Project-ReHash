@@ -29,7 +29,7 @@ export default function Home() {
 
         <div className="trendingSwap">
           <span className="trendingSwapHead">Trending Swaps</span>
-          <TrendingSwaps />
+          <TrendingSwaps className="trendingSwapItems" />
         </div>
       </div>
     </div>

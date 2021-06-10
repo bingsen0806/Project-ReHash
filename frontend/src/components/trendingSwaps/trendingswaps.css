@@ -8,6 +8,10 @@
     overflow-y: auto;
 }
 
+.trendingSwapItemBody::-webkit-scrollbar {
+    width: 0px;
+}
+
 .trendingSwapText {
     font-weight: bold;
 }

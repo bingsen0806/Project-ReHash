@@ -1,0 +1,16 @@
+.formWrapper {
+    width: 1000px;
+    justify-content: center;
+    margin-left: 250px;
+    margin-top: 110px;
+}
+
+.formLabel {
+    margin-top: 30px;
+}
+
+.postButton {
+    margin-top: 20px;
+    width: 150px;
+    height: 50px;
+}
