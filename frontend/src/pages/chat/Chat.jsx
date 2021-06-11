@@ -119,6 +119,7 @@ export default function Chat() {
   const handleSendMessage = async (e) => {
     if (newMessage !== "") {
       e.preventDefault();
+      await setNewMessage("");
       const message = {
         sender: user._id,
         text: newMessage,
@@ -141,7 +142,7 @@ export default function Chat() {
           "updated messages. the new messaged sent is: ",
           res.data.text
         );
-        await setNewMessage("");
+
         const receiverId = currentChat.members.find(
           (member) => member !== user._id
         );
@@ -157,6 +158,17 @@ export default function Chat() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      console.log("new message when eneter is pressed: ", newMessage);
+      setNewMessage(newMessage);
+      if (newMessage !== "") {
+        handleSendMessage(e);
+        console.log("passing to handleSendMessage");
+      }
+    }
+  };
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
@@ -243,6 +255,7 @@ export default function Chat() {
                     placeholder="Write a message ..."
                     onChange={(e) => setNewMessage(e.target.value)}
                     value={newMessage}
+                    onKeyDown={handleKeyDown}
                   ></textarea>
                   <button
                     className="chatSubmitButton"
