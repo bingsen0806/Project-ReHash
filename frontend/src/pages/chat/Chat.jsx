@@ -44,7 +44,7 @@ export default function Chat() {
 
   useEffect(() => {
     sockio.on("getUsers", (users) => {
-      // console.log("getUser received on client side");
+      console.log("getUser received on client side");
       setOnlineUsers(
         user.chatFollow.filter((f) => users.some((u) => u.userId === f))
       );
@@ -125,16 +125,6 @@ export default function Chat() {
         conversationId: currentChat._id,
       };
 
-      const receiverId = currentChat.members.find(
-        (member) => member !== user._id
-      );
-
-      sockio.emit("sendMessage", {
-        senderId: user._id,
-        receiverId,
-        text: newMessage,
-      });
-
       try {
         const res = await axios.post("/messages", message);
 
@@ -152,6 +142,15 @@ export default function Chat() {
           res.data.text
         );
         await setNewMessage("");
+        const receiverId = currentChat.members.find(
+          (member) => member !== user._id
+        );
+
+        sockio.emit("sendMessage", {
+          senderId: user._id,
+          receiverId,
+          text: newMessage,
+        });
       } catch (err) {
         console.log(err);
       }

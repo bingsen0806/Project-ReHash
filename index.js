@@ -65,6 +65,8 @@ app.use("/api/messages", messageRoute);
 
 //socket.io connections
 let users = [];
+var someoneGetUser = false;
+var myInterval;
 
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
@@ -75,20 +77,24 @@ const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
 };
 
+setInterval(function () {
+  console.log("someoneGetUser is: ", someoneGetUser);
+  if (!someoneGetUser) {
+    myInterval = setInterval(function () {
+      io.emit("getUsers", users);
+
+      // console.log("the one sending getUsers now is: ", socket.id);
+    }, 15000);
+    someoneGetUser = true;
+    console.log("myInterval changed!");
+  }
+}, 1000);
+
 io.on("connection", (socket) => {
   //when a user connects
   console.log("a user connected");
 
-  setInterval(function () {
-    io.emit("getUsers", users);
-  }, 3000);
-  //when "addUser" is called from frontend, take userId from frontend and add user
-  socket.on("addUser", (userId) => {
-    addUser(userId, socket.id);
-    io.emit("getUsers", users); //tell all sockets with "getUsers" that a new user is added
-    console.log(users);
-  });
-
+  //utility functions
   const getUser = (userId) => {
     return users.find((user) => user.userId === userId);
   };
@@ -96,20 +102,8 @@ io.on("connection", (socket) => {
   const getUserBySocketId = (socketId) => {
     return users.find((user) => user.socketId === socketId);
   };
-  //send and get message
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    if (user) {
-      io.to(user.socketId).emit("getMessage", {
-        senderId,
-        text,
-      });
-    }
-  });
 
-  //when disconnect
-  socket.on("disconnect", async () => {
-    console.log("a user disconnected");
+  const updateLastActive = async () => {
     const socketUser = await getUserBySocketId(socket.id);
     try {
       const user = await User.findById(socketUser.userId);
@@ -119,7 +113,43 @@ io.on("connection", (socket) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  //when "addUser" is called from frontend, take userId from frontend and add user
+  socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    updateLastActive();
+    io.emit("getUsers", users); //tell all sockets with "getUsers" that a new user is added
+    console.log(users);
+  });
+
+  //send and get message
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    const user = getUser(receiverId);
+    if (user) {
+      console.log("emitting getMessage once!");
+      io.to(user.socketId).emit("getMessage", {
+        senderId,
+        text,
+      });
+    }
+  });
+
+  //when asked to updateLastActive
+  socket.on("updateLastActive", () => {
+    updateLastActive();
+  });
+
+  //when disconnect
+  socket.on("disconnect", async () => {
+    console.log("a user disconnected");
+    if (myInterval) {
+      clearInterval(myInterval);
+      someoneGetUser = false;
+    }
+    updateLastActive();
     removeUser(socket.id);
+    console.log(users);
     io.emit("getUsers", users); //tell everyone a user is removed
   });
 });
