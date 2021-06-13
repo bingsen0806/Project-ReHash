@@ -24,7 +24,9 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/product/:categoryName" component={Product} />
+        <Route exact path="/product/:categoryName">
+          <Product />
+        </Route>
 
         <Route exact path="/home">
           {user ? <Home /> : <Register />}

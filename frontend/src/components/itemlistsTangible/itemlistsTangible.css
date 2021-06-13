@@ -1,36 +1,35 @@
 .itemWrapper {
-    display: flex;
-    overflow-x: auto;
-    cursor: grab;
-  
+  display: flex;
+  overflow-x: auto;
+  cursor: grab;
 }
 
 .item {
-    width: 110px;
-    text-align: center;
-    background-color: white;
-    margin-right: 100px;
+  width: 110px;
+  text-align: center;
+  background-color: orange;
+  margin-right: 100px;
 }
 
 .itemButton {
-    height: 150px;
-    width: 150px;
-    background-color: #F7F7F7 !important;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 1px 16px 0 rgba(0,0,0,0.2);
-    vertical-align: middle;
+  height: 150px;
+  width: 150px;
+  background-color: #f7f7f7 !important;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
 }
 
 .itemIcon {
-    font-size: 80px !important;
-    color: rgba(255, 205, 50, 0.71);
-    margin-left: auto;
-    margin-right: auto;
+  font-size: 80px !important;
+  color: rgba(255, 205, 50, 0.71);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .itemText {
-    color: black;
-    font-weight: bold;
-    text-align: center;
+  color: black;
+  font-weight: bold;
+  text-align: center;
 }

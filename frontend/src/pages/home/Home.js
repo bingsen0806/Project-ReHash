@@ -11,7 +11,7 @@ export default function Home() {
   const { user, sockio } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log("socket is: ", sockio.id);
+    console.log("socket is: ", sockio?.id);
     console.log("user is: ", user);
   }, [sockio, user]);
 
@@ -28,7 +28,7 @@ export default function Home() {
         </div>
         <div className="intangible">
           <div className="itemsType">
-            <span>Explore Intangible {sockio.id}</span>
+            <span>Explore Intangible {sockio?.id}</span>
           </div>
           <ItemListsIntangible />
         </div>
