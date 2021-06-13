@@ -15,7 +15,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
-const itemRoute = require("./routes/item");
+const itemRoute = require("./routes/items");
+const categoryRoute = require("./routes/categories");
 const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
 var cors = require("cors");
@@ -62,6 +63,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/items", itemRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
+app.use("/api/items", itemRoute);
+app.use("/api/categories", categoryRoute);
 
 //socket.io connections
 let users = [];

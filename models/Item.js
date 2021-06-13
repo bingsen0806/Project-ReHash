@@ -17,7 +17,7 @@ const ItemSchema = new mongoose.Schema(
     img: {
       type: String,
     },
-    tags: {
+    categories: {
       type: Array,
       default: [],
     },

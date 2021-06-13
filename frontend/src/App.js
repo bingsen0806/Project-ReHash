@@ -20,9 +20,12 @@ import Chat from "./pages/chat/Chat";
 function App() {
   const { user } = useContext(AuthContext);
 
+  //Note to punpun: for
   return (
     <Router>
       <Switch>
+        <Route exact path="/product/:categoryName" component={Product} />
+
         <Route exact path="/home">
           {user ? <Home /> : <Register />}
         </Route>
