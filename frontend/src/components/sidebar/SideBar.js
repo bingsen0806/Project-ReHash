@@ -12,7 +12,7 @@ import { LocalMall, SwapVert, ExitToApp, Settings } from "@material-ui/icons";
 import { AuthContext } from "../../context/AuthContext";
 import { useHistory } from "react-router";
 
-export default function SideBar() {
+export default function SideBar(props) {
   const { user, sockio, dispatch } = useContext(AuthContext);
   const history = useHistory();
 
@@ -42,7 +42,7 @@ export default function SideBar() {
         <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu>
         <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu>
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
-          <img className="userProfile" src="/assests/userProfile.png" alt="" />
+          <img className="userProfile" src={props.src === undefined ? "/assests/userProfile.png" : props.src } alt="" />
         </CDBSidebarHeader>
         <CDBSidebarHeader style={{ textAlign: "center" }}>
           <div>David Rehasher</div>

@@ -1,0 +1,56 @@
+.settingsContainer {
+    display: flex;
+    width: 100%;
+}
+
+.settingsWrapper {
+    margin-top: 170px;
+}
+
+.settingsHeader {
+    font-weight: bold;
+    margin-top: 100px;
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.settingsUserProfileHeader {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.userProfileImg {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 100px;
+    margin-top: 50px;
+}
+
+.settingsPasswordHeader {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.settingsImgInstructions {
+    margin-top: 80px;
+}
+
+.passwordInput {
+    width: 600px;
+    margin-bottom: 20px;
+}
+
+.passwordInputWrapper {
+    margin-top: 20px;
+}
+
+.passwordButton {
+    width: 200px;
+    margin-right: 10px;
+}
+
+.checkboxLabel {
+    margin-left: 10px;
+}

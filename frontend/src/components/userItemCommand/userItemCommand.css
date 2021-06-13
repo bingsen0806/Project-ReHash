@@ -1,0 +1,60 @@
+.userItemCommandPrompt {
+    background-color: #F5F5F7;
+    width: 390px;
+    height: 300px; 
+    margin-left: 100px;
+    position: absolute;
+}
+
+.userItemCommandUserImg {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: -10px;
+    position: absolute;
+}
+
+.userItemCommandUsername {
+    margin-top: 15px;
+    position: static;
+}
+
+.swapAwayButton {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-left: 70px;
+    height: 50px;
+    width: 200px;
+    position: absolute;
+}
+
+.swapAwayButtonTextGroup {
+    margin-left: -10px;
+    color: white;
+    font-weight: bold;
+}
+.swapAwayButtonText {
+    margin-left: 10px;
+}
+
+.buttonWrapper {
+    margin-top: 30px;
+    margin-left: 60px;
+}
+
+.button {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+.icons {
+    margin-right: 10px;
+    color: white;
+}
+
+.action {
+    color: white;
+}
