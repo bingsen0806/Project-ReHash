@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./product.css";
 import TopBar from "../../components/topbar/TopBar";
 import { Row } from "react-bootstrap";
@@ -6,11 +6,12 @@ import ItemListing from "../../components/itemListing/ItemListing";
 import { ArrowBackIos } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Product() {
   const categoryName = useParams().categoryName;
   const [items, setItems] = useState([]);
-
+  const { user, sockio } = useContext(AuthContext);
   useEffect(() => {
     const getItems = async () => {
       try {
@@ -28,7 +29,7 @@ export default function Product() {
   }, [categoryName]);
   return (
     <div>
-      <TopBar />
+      <TopBar currentUser={user} />
 
       <div className="productWrapper">
         <div className="backArrow">
@@ -45,7 +46,7 @@ export default function Product() {
         <Row className="listingRow" xs={1} md={3}>
           {items.map((item) => (
             <div>
-              <ItemListing item={item} />
+              <ItemListing key={item._id} item={item} />
             </div>
           ))}
         </Row>

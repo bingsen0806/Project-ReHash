@@ -17,9 +17,7 @@ router.post("/", async (req, res) => {
 //get conversations by conversation if
 router.get("/id/:conversationId", async (req, res) => {
   try {
-    const conversation = await Conversation.find({
-      _id: req.params.conversationId,
-    });
+    const conversation = await Conversation.findById(req.params.conversationId);
     res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);
@@ -41,8 +39,8 @@ router.get("/:userId", async (req, res) => {
 //get conversation includes two userId
 router.get("/find/:firstUserId/:secondUserId", async (req, res) => {
   try {
-    const conversation = await Conversation.findOne({
-      members: { $in: [req.params.firstUserId, req.params.secondUserId] },
+    const conversation = await Conversation.find({
+      members: { $all: [req.params.firstUserId, req.params.secondUserId] },
     });
     res.status(200).json(conversation);
   } catch (err) {

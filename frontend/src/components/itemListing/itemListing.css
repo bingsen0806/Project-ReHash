@@ -1,0 +1,8 @@
+.itemListingWrapper:hover {
+  cursor: pointer;
+}
+
+.trendingSwapItemBody:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}

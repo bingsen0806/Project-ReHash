@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <div>
-      <TopBar />
+      <TopBar currentUser={user} />
       <Ads />
       <div className="homeWrapper">
         <div className="tangible">

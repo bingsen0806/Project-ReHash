@@ -6,6 +6,7 @@ import TopBar from "../../components/topbar/TopBar";
 import "./chat.css";
 import axios from "axios";
 import { format } from "timeago.js";
+import { useHistory, useParams } from "react-router-dom";
 
 export default function Chat() {
   const [conversations, setConversations] = useState([]);
@@ -22,7 +23,22 @@ export default function Chat() {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   const scrollRef = useRef();
+  const initialActiveConvoId = useParams().initialActiveConvoId;
   const { user, sockio } = useContext(AuthContext);
+  const history = useHistory();
+
+  useEffect(() => {
+    const getInitialActiveConvo = async () => {
+      if (initialActiveConvoId !== "0") {
+        console.log("initialActiveConvoId is: " + initialActiveConvoId);
+        const res = await axios.get(
+          "/conversations/id/" + initialActiveConvoId
+        );
+        setCurrentChat(res.data);
+      }
+    };
+    getInitialActiveConvo();
+  }, [initialActiveConvoId]);
 
   useEffect(() => {
     console.log("socket is: ", sockio.id);
@@ -169,12 +185,17 @@ export default function Chat() {
       }
     }
   };
+
+  const handleViewProfile = () => {
+    history.push("/profile/" + currentChatWith.username + "/listings");
+  };
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
   return (
     <div>
-      <TopBar />
+      <TopBar currentUser={user} />
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
@@ -226,7 +247,10 @@ export default function Chat() {
                       </div>
                     </div>
                   </div>
-                  <button className="chatBoxViewProfileButton">
+                  <button
+                    className="chatBoxViewProfileButton"
+                    onClick={handleViewProfile}
+                  >
                     View Profile
                   </button>
                 </div>

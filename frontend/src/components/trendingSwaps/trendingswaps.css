@@ -1,17 +1,17 @@
 .trendingSwapItemImg {
-    max-height:300px;
-    object-fit:cover;
+  height: 300px;
+  object-fit: cover;
 }
 
 .trendingSwapItemBody {
-    max-height: 130px;
-    overflow-y: auto;
+  height: 130px;
+  overflow-y: auto;
 }
 
 .trendingSwapItemBody::-webkit-scrollbar {
-    width: 0px;
+  width: 0px;
 }
 
 .trendingSwapText {
-    font-weight: bold;
+  font-weight: bold;
 }

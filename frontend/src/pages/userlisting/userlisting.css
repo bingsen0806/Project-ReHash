@@ -1,11 +1,11 @@
 .userlistingContainer {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .userlistingWrapper {
-   display: flex;
-   flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 
@@ -22,9 +22,8 @@
 } */
 
 .tabBar {
-    margin-top: 100px;
-    position: -webkit-sticky;
-    position: sticky;
-    z-index: 999;
+  margin-top: 100px;
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 999;
 }
-

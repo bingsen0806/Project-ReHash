@@ -4,6 +4,10 @@
   top: 0;
 }
 
+.sidebarMenuItem:hover {
+  background-color: lightsalmon;
+}
+
 .sidebarIcons {
   margin-right: 0px;
 }

@@ -15,9 +15,14 @@ const ItemSchema = new mongoose.Schema(
       max: 500,
     },
     img: {
-      type: String,
+      type: Array,
+      default: [],
     },
     categories: {
+      type: Array,
+      default: [],
+    },
+    idealSwaps: {
       type: Array,
       default: [],
     },

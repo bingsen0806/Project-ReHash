@@ -16,6 +16,7 @@ import Login from "./pages/login/Login";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Chat from "./pages/chat/Chat";
+import Settings from "./pages/settings/Settings";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -24,24 +25,35 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/product/:categoryName">
-          <Product />
-        </Route>
-
-        <Route exact path="/home">
-          {user ? <Home /> : <Register />}
-        </Route>
         <Route exact path="/login">
           {user ? <Redirect to="/home" /> : <Login />}
         </Route>
         <Route path="/register">
-          {user ? <Redirect to="/home" /> : <Register />}
+          {user ? <Redirect to="/home" /> : <Login />}
         </Route>
-        <Route exact path="/chat">
-          {user ? <Chat /> : <Register />}
+        <Route exact path="/product/:categoryName">
+          <Product />
         </Route>
-        <Route exact path="/profile">
-          {user ? <UserListing /> : <Register />}
+        <Route exact path="/home">
+          <Home />
+        </Route>
+        <Route exact path="/create">
+          {user ? <CreateListing /> : <Login />}
+        </Route>
+        <Route exact path="/chat/:initialActiveConvoId">
+          {user ? <Chat /> : <Login />}
+        </Route>
+        <Route exact path="/profile/:username/listings">
+          <UserListing />
+        </Route>
+        <Route exact path="/profile/:username/reviews">
+          <Review />
+        </Route>
+        <Route exact path="/profile/:username/settings">
+          <Settings />
+        </Route>
+        <Route exact path="/items/:itemId">
+          <Item />
         </Route>
       </Switch>
     </Router>

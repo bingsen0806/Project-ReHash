@@ -1,4 +1,10 @@
 .singleItemWrapper {
-    height: 400px;
-    width: 400px;
+  height: 300px;
+  width: 400px;
+}
+
+.singleItemCarouselItemImg {
+  height: 250px;
+  width: 400px;
+  object-fit: cover;
 }
