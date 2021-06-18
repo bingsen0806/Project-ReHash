@@ -18,7 +18,7 @@ const ReviewSchema = new mongoose.Schema(
     },
     reviewText: {
       type: String,
-      required: true,
+      default: "",
       max: 1000,
     },
   },

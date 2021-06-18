@@ -35,6 +35,14 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    cumulativeRating: {
+      type: Number,
+      default: 0,
+    },
+    ratedByUsers: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

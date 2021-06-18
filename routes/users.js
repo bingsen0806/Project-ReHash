@@ -32,6 +32,18 @@ router.put("/:id/lastActive", async (req, res) => {
   }
 });
 
+//update a user
+router.put("/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, {
+      $set: req.body,
+    });
+    res.status(200).json({ message: "User has been updated" });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 //chat Follow a user
 router.put("/:id/chatfollow", async (req, res) => {
   if (req.body.userId !== req.params.id) {
