@@ -1,16 +1,77 @@
-.formWrapper {
-    width: 1000px;
-    justify-content: center;
-    margin-left: 250px;
-    margin-top: 110px;
+.createListingHeader {
+  margin-top: 100px;
+  font-weight: bold;
+  font-size: 24px;
+  margin-left: 20px;
 }
 
-.formLabel {
-    margin-top: 30px;
+.uploadImagesCard {
+  background-color: white;
+  width: 660px;
+  height: 600px;
+  margin-left: 50px;
+  margin-top: 40px;
+}
+
+.uploadImagesCardHeader {
+  text-align: center;
+}
+
+.uploadImagesCardSubHeader {
+  color: #d3d3d3;
+  text-align: center;
+}
+.swapImgDragAndDropWrapper {
+  background-color: white;
+  display: flex;
+  margin-top: 30px;
+}
+
+.formWrapper {
+  justify-content: center;
+  margin-left: 250px;
+}
+
+.swapAwayFormControl {
+  width: 400px;
 }
 
 .postButton {
-    margin-top: 20px;
-    width: 150px;
-    height: 50px;
+  margin-top: 20px;
+  width: 150px;
+  height: 50px;
+}
+
+.dragAndDropDiv {
+  height: 150px;
+}
+
+.thumb {
+  /* background-color: aquamarine; */
+  display: inline-flex;
+  border-radius: 2px;
+  border: 1px solid #eaeaea;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  padding: 4px;
+  box-sizing: "border-box";
+}
+
+.userSwapImg {
+  display: block;
+  width: 160px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.thumbsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.uploadImgButton {
+  justify-content: center;
+  text-align: center;
 }

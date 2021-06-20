@@ -20,6 +20,7 @@ const categoryRoute = require("./routes/categories");
 const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
 const reviewRoute = require("./routes/reviews");
+const multer = require("multer");
 var cors = require("cors");
 let port = process.env.PORT || 8080;
 var path = require("path");
@@ -57,6 +58,33 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
+
+//uploading images with multer
+const itemStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "public/images/items"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const itemUpload = multer({ storage: itemStorage });
+app.post("/api/upload/items", itemUpload.array("file"), (req, res) => {
+  try {
+    var imageFileNames = [];
+    for (let i = 0; i < req.files.length; i += 1) {
+      console.log(
+        `File ${req.files[i].filename} uploaded to ${req.files[i].path}`
+      );
+      imageFileNames.push("items/" + req.files[i].filename);
+    }
+    console.log(imageFileNames);
+    return res.status(200).json({ imagePaths: imageFileNames });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 //routes
 app.use("/api/users", userRoute);
