@@ -13,6 +13,12 @@
   font-weight: bold;
   margin-top: 20px;
   margin-left: 40px;
+  /* display: flex; */
+}
+
+.itemHeaderSecond {
+  display: flex;
+  margin-left: 40px;
 }
 
 .itemDescription {
@@ -24,4 +30,23 @@
 .itemIdealSwaps {
   margin-left: 40px;
   margin-top: 10px;
+}
+
+.itemGetLink {
+  cursor: pointer;
+  background-color: rgb(240, 158, 6);
+  color: white;
+  padding: 5px;
+  font-size: 16px;
+  margin-right: 15px;
+  align-self: flex-end;
+  border-radius: 5px;
+}
+
+.itemCopyLinkText {
+  font-size: 14px;
+  font-weight: normal;
+  align-self: flex-end;
+  color: gray;
+  font-style: italic;
 }

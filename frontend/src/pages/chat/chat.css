@@ -138,7 +138,18 @@
   cursor: pointer;
   background-color: rgb(240, 158, 6);
   color: white;
-  margin: 10px 20px;
+  margin: 0px 10px;
+}
+
+.chatAgreementButton {
+  width: 250px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgb(240, 158, 6);
+  color: white;
+  margin: 0px 10px;
 }
 .chatMenuWrapper {
   height: 100%;

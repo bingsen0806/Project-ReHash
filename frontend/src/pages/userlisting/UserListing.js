@@ -17,6 +17,7 @@ export default function UserListing() {
   const [displayItems, setDisplayItems] = useState([]);
   const [viewingCategory, setViewingCategory] = useState("tangibles");
   const [profileUser, setProfileUser] = useState(null);
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     console.log("socket is: ", sockio?.id);
@@ -53,10 +54,12 @@ export default function UserListing() {
 
   const handleClickTangible = () => {
     setViewingCategory("tangibles");
+    setTabValue(0);
   };
 
   const handleClickIntangible = () => {
     setViewingCategory("intangibles");
+    setTabValue(1);
   };
 
   return (
@@ -67,8 +70,13 @@ export default function UserListing() {
 
         <Container className="userlistingWrapper">
           <div className="tabBar">
-            <Paper margin={200}>
-              <Tabs indicatorColor="primary" textColor="primary" centered>
+            <Paper margin={200} style={{ marginBottom: "10px" }}>
+              <Tabs
+                value={tabValue}
+                indicatorColor="primary"
+                textColor="primary"
+                centered
+              >
                 <Tab label="Tangible" onClick={handleClickTangible} />
                 <Tab label="Intangible" onClick={handleClickIntangible} />
               </Tabs>

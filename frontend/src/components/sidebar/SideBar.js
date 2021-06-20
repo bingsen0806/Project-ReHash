@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import "./sidebar.css";
+import { Rating } from "@material-ui/lab";
+
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -67,12 +69,16 @@ export default function SideBar({ sidebarUser }) {
         <CDBSidebarHeader style={{ textAlign: "center" }}>
           <div>{sidebarUser?.username}</div>
           <div className="ratings">
-            <span>Ratings:</span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
+            <div>Ratings: </div>
+            <Rating
+              value={
+                sidebarUser
+                  ? sidebarUser.cumulativeRating / sidebarUser.ratedByUsers
+                  : 3
+              }
+              precision={0.1}
+              readOnly
+            />
           </div>
         </CDBSidebarHeader>
         <CDBSidebarContent>

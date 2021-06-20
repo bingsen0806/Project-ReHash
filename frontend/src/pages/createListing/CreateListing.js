@@ -378,7 +378,9 @@ export default function CreateListing() {
                   value={swapCategories}
                   getOptionLabel={(option) => option.title}
                   onChange={(e, newValue) => {
-                    // setField("swapCategories", newValue);
+                    if (!!errors["swapCategories"]) {
+                      setErrors({ ...errors, swapCategories: null });
+                    }
                     setSwapCategories(newValue);
                     console.log(newValue);
                   }}
@@ -412,7 +414,9 @@ export default function CreateListing() {
                   value={idealCategories}
                   getOptionLabel={(option) => option.title}
                   onChange={(e, newValue) => {
-                    // setField("idealCategories", newValue);
+                    if (!!errors["idealCategories"]) {
+                      setErrors({ ...errors, idealCategories: null });
+                    }
                     setIdealCategories(newValue);
                     console.log(newValue);
                   }}

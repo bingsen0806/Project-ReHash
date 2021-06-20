@@ -24,7 +24,25 @@ export default function ItemListing({ item }) {
           className="trendingSwapItemImg"
         />
         <Card.Body className="trendingSwapItemBody">
-          <Card.Title className="itemListingCardTitle">{item.title}</Card.Title>
+          <Card.Title className="itemListingCardTitle">
+            <span style={{ marginRight: "10px" }}>{item.title}</span>
+            <Chip
+              className="tag"
+              label={item.status === "waiting" ? "available" : item.status}
+              size="small"
+              color={
+                item.status === "waiting"
+                  ? ""
+                  : item.status === "reserved"
+                  ? "primary"
+                  : "secondary"
+              }
+              style={{
+                marginBottom: "5px",
+                marginTop: "5px",
+              }}
+            />
+          </Card.Title>
           <span className="trendingSwapText">Ideal Swap: </span>
           {item.idealSwaps.map((tags) => (
             <Chip

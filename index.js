@@ -20,6 +20,7 @@ const categoryRoute = require("./routes/categories");
 const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
 const reviewRoute = require("./routes/reviews");
+const agreementRoute = require("./routes/agreements");
 const multer = require("multer");
 var cors = require("cors");
 let port = process.env.PORT || 8080;
@@ -95,6 +96,7 @@ app.use("/api/messages", messageRoute);
 app.use("/api/items", itemRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/reviews", reviewRoute);
+app.use("/api/agreements", agreementRoute);
 
 //socket.io connections
 let users = [];

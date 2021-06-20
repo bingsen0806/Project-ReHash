@@ -190,6 +190,14 @@ export default function Chat() {
     history.push("/profile/" + currentChatWith.username + "/listings");
   };
 
+  const handleGenerateAgreement = async () => {
+    console.log("generate agreement is clicked");
+    const res = await axios.post("/agreements");
+    if (res.data && res.data._id) {
+      setNewMessage("Your agreement code has been generated: " + res.data._id);
+    }
+  };
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
@@ -281,6 +289,12 @@ export default function Chat() {
                     value={newMessage}
                     onKeyDown={handleKeyDown}
                   ></textarea>
+                  <button
+                    className="chatAgreementButton"
+                    onClick={handleGenerateAgreement}
+                  >
+                    Generate Agreement
+                  </button>
                   <button
                     className="chatSubmitButton"
                     onClick={handleSendMessage}

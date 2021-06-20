@@ -11,6 +11,7 @@
   border-radius: 50%;
   object-fit: cover;
   position: absolute;
+  cursor: pointer;
 }
 
 .userItemCommandUsername {
@@ -40,4 +41,8 @@
 .action {
   color: white;
   font-size: 20px;
+}
+
+.userItemCommandFormControl {
+  width: 230px;
 }

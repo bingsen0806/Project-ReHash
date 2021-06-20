@@ -4,12 +4,26 @@ import { Alert, Button, Container, Row, Col } from "react-bootstrap";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import EditIcon from "@material-ui/icons/Edit";
 import axios from "axios";
+import { Form } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
-export default function UserItemCommand({ itemUserId }) {
+export default function UserItemCommand({
+  itemUserId,
+  itemStatus,
+  handleReserve,
+  handleUnreserve,
+  handleSwap,
+  handleUnswap,
+  handleDelete,
+}) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [itemUser, setItemUser] = useState(null);
+  const [showInput, setShowInput] = useState(false);
+  const [input, setInput] = useState("");
+  const [error, setError] = useState("");
+  const history = useHistory();
+
   useEffect(() => {
     const getItemUser = async () => {
       if (itemUserId) {
@@ -20,6 +34,40 @@ export default function UserItemCommand({ itemUserId }) {
     };
     getItemUser();
   }, [itemUserId]);
+
+  const handleKeyDownSwap = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      console.log("user pressed enter key and the value is: " + input);
+      if (input !== "") {
+        console.log("input is not empty");
+        try {
+          const res = await axios.get("/agreements?id=" + input);
+          if (!res || res.status !== 200 || !res.data) {
+            console.log("Error 1");
+            setError("Agreement does not exist!");
+          } else if (
+            res.data.parties.length >= 2 ||
+            res.data.items.length >= 2
+          ) {
+            console.log("Error 2");
+            setError("This agreement id already involves 2 parties or 2 items");
+          } else {
+            handleSwap(res.data._id);
+            setInput("");
+            setShowInput(false);
+          }
+        } catch (err) {
+          console.log("Error 1");
+          setError("Agreement does not exist!");
+        }
+      } else {
+        console.log("input empty!");
+        setError("Agreement code cannot be empty!");
+      }
+    }
+  };
+
   return (
     <div>
       <Alert className="userItemCommandPrompt">
@@ -33,6 +81,10 @@ export default function UserItemCommand({ itemUserId }) {
                     ? PF + itemUser.profilePicture
                     : PF + "person/noAvatar.png"
                 }
+                onClick={() => {
+                  itemUser &&
+                    history.push("/profile/" + itemUser.username + "/listings");
+                }}
                 alt=""
               />
             </Col>
@@ -46,29 +98,94 @@ export default function UserItemCommand({ itemUserId }) {
             </Col>
           </Row>
           <div className="buttonWrapper">
+            {itemStatus === "waiting" ? (
+              <div>
+                <Button
+                  className="button"
+                  variant="warning"
+                  onClick={handleReserve}
+                >
+                  <VerifiedUserIcon className="icons" />
+                  <span className="action">Mark as Reserve</span>
+                </Button>
+              </div>
+            ) : itemStatus === "reserved" ? (
+              <div>
+                <Button
+                  className="button"
+                  variant="warning"
+                  onClick={handleUnreserve}
+                >
+                  <VerifiedUserIcon className="icons" />
+                  <span className="action">Unreserve</span>
+                </Button>
+              </div>
+            ) : (
+              <></>
+            )}
             <div>
-              <Button className="button" variant="warning">
-                <EditIcon className="icons" />
-                <span className="action">Edit Swap</span>
-              </Button>
+              {itemStatus === "deleted" ? (
+                <></>
+              ) : itemStatus === "swapped" ? (
+                <Button className="button" variant="warning">
+                  <ShoppingBasketIcon className="icons" />
+                  <span className="action" onClick={handleUnswap}>
+                    Cancel Agreement
+                  </span>
+                </Button>
+              ) : (
+                <>
+                  <Button className="button" variant="warning">
+                    <ShoppingBasketIcon className="icons" />
+                    <span
+                      className="action"
+                      onClick={() => setShowInput(!showInput)}
+                    >
+                      Mark as Swapped
+                    </span>
+                  </Button>
+                  {showInput ? (
+                    <Form className="userItemCommandForm">
+                      <Form.Group controlId="title">
+                        <Form.Control
+                          className="userItemCommandFormControl"
+                          type="input"
+                          maxlength="30"
+                          placeholder="Enter your agreement code"
+                          value={input}
+                          onChange={(e) => {
+                            setInput(e.target.value);
+                            setError("");
+                            console.log("changed to: " + e.target.value);
+                          }}
+                          onKeyDown={handleKeyDownSwap}
+                          isInvalid={error !== ""}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {error}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Form>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
             </div>
+
             <div>
-              <Button className="button" variant="warning">
-                <VerifiedUserIcon className="icons" />
-                <span className="action">Mark as Reserve</span>
-              </Button>
-            </div>
-            <div>
-              <Button className="button" variant="warning">
-                <ShoppingBasketIcon className="icons" />
-                <span className="action">Mark as Swapped</span>
-              </Button>
-            </div>
-            <div>
-              <Button className="button" variant="warning">
-                <HighlightOffIcon className="icons" />
-                <span className="action">Delete</span>
-              </Button>
+              {itemStatus === "deleted" || itemStatus === "swapped" ? (
+                <></>
+              ) : (
+                <Button
+                  className="button"
+                  variant="warning"
+                  onClick={handleDelete}
+                >
+                  <HighlightOffIcon className="icons" />
+                  <span className="action">Delete</span>
+                </Button>
+              )}
             </div>
           </div>
         </Container>

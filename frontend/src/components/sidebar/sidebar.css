@@ -28,9 +28,9 @@
   border-radius: 50%;
   object-fit: cover;
 }
-.fa-star {
-  color: #808080;
-}
-.checked {
-  color: #daa520;
+
+.ratings {
+  display: flex;
+  align-content: space-around;
+  margin-top: 5px;
 }

@@ -58,6 +58,10 @@ export default function SwapAway({ itemUserId }) {
                     ? PF + itemUser.profilePicture
                     : PF + "person/noAvatar.png"
                 }
+                onClick={() => {
+                  itemUser &&
+                    history.push("/profile/" + itemUser.username + "/listings");
+                }}
                 alt=""
               />
             </Col>
