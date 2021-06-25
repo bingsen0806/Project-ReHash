@@ -3,7 +3,7 @@ import RestoreFromTrashRoundedIcon from "@material-ui/icons/RestoreFromTrashRoun
 import { Link } from "react-router-dom";
 import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { io } from "socket.io-client";
@@ -11,9 +11,14 @@ import { io } from "socket.io-client";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { dispatch } = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
   const usernameRef = useRef();
   const passwordRef = useRef();
+
+  useEffect(() => {
+    console.log("user is changed");
+    console.log(user);
+  }, [user]);
 
   const checkCredentials = async () => {
     try {

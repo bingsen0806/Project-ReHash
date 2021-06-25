@@ -70,6 +70,15 @@ const itemStorage = multer.diskStorage({
   },
 });
 
+const personStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "public/images/person"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
 const itemUpload = multer({ storage: itemStorage });
 app.post("/api/upload/items", itemUpload.array("file"), (req, res) => {
   try {
@@ -82,6 +91,17 @@ app.post("/api/upload/items", itemUpload.array("file"), (req, res) => {
     }
     console.log(imageFileNames);
     return res.status(200).json({ imagePaths: imageFileNames });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+const personUpload = multer({ storage: personStorage });
+app.post("/api/upload/person", personUpload.single("file"), (req, res) => {
+  try {
+    const imageFileName = "person/" + req.file.filename;
+    console.log(imageFileName);
+    return res.status(200).json({ imagePath: imageFileName });
   } catch (err) {
     console.log(err);
   }

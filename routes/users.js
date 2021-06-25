@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
       ? await User.findOne({ username: username })
       : await User.findOne({ email: email });
     const { password, updatedAt, ...other } = user._doc; //the _doc is property from mongodb to return the whole object
+    console.log(other);
     res.status(200).json(other);
   } catch (err) {
     return res.status(400).json(err);

@@ -52,8 +52,14 @@ export default function Review() {
     getProfileUser();
   }, [username]);
 
+  useEffect(() => {
+    console.log("user is changed");
+    console.log(user);
+  }, [user]);
+
   //get all the reviews of this profileUser
   useEffect(() => {
+    console.log(user);
     const getReviews = async () => {
       const res = await axios.get("/reviews/profileUser/" + profileUser._id);
       const filterMyReview = res.data.filter(

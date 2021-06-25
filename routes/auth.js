@@ -55,4 +55,29 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//CHANGE PASSWORD
+router.put("/updatePassword/:userId", async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.userId });
+    !user && res.status(400).json({ message: "user not found" });
+
+    const validPassword = await bcrypt.compare(
+      req.body.currentPassword,
+      user.password
+    );
+    !validPassword && res.status(200).json({ message: "wrong password" });
+
+    //generate new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.userId, {
+      $set: { password: hashedPassword },
+    });
+    res.status(200).json({ message: "User password has been updated" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
