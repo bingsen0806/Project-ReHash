@@ -47,6 +47,7 @@ mongoose
 //setup for production environment
 // if (process.env.NODE_ENV === "production") {
 console.log("environment is production!");
+console.log("__dirname is: " + __dirname);
 app.use(express.static(path.join(__dirname, "/frontend/build")));
 
 app.get("/", function (req, res) {
