@@ -67,7 +67,7 @@ export default function Register() {
     };
     try {
       await axios.post("/api/auth/register", user);
-      history.push("/login");
+      history.push("/");
     } catch (err) {
       console.log(err);
     }
@@ -95,7 +95,7 @@ export default function Register() {
         </div>
         <div className="registerRight">
           <div className="registerRightTop">
-            <Link to="/login" className="registerBack">
+            <Link to="/" className="registerBack">
               <ArrowBackIosIcon />
               <span>Back</span>
             </Link>

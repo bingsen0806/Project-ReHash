@@ -56,7 +56,7 @@ export default function TopBar({ currentUser }) {
             to={
               currentUser
                 ? "/profile/" + currentUser.username + "/listings"
-                : "/login"
+                : "/"
             }
           >
             <img

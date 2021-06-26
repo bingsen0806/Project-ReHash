@@ -25,7 +25,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/login">
+        <Route exact path="/">
           {user ? <Redirect to="/home" /> : <Login />}
         </Route>
         <Route path="/register">

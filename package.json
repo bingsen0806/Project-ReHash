@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "SET NODE_ENV=production & node index.js",
+    "dev": "nodemon index.js",
+    "build": "SET NODE_ENV=production & nodemon index.js"
   },
   "author": "Lim Bing Sen",
   "license": "ISC",

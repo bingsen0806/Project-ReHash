@@ -31,7 +31,7 @@ export default function SideBar({ sidebarUser }) {
       }
     };
     await logoutCall(dispatch);
-    history.push("/login");
+    history.push("/");
     console.log("logged out");
   };
 

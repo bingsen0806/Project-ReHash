@@ -25,7 +25,7 @@ export default function SwapAway({ itemUserId }) {
 
   const handleSwapAway = async () => {
     if (!user) {
-      history.push("/login");
+      history.push("/");
       console.log("pushed to login");
     } else {
       const res = await axios.get(
