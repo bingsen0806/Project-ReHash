@@ -81,7 +81,7 @@ export default function SingleItem({ imgLinkArray }) {
           </Carousel.Item>
         ))}
 
-        <Carousel.Item>
+        {/* <Carousel.Item>
           <img
             className="singleItemCarouselItemImg"
             src="/assests/singleItemPics/keychronK2Pic2.jpg"
@@ -94,7 +94,7 @@ export default function SingleItem({ imgLinkArray }) {
             src="/assests/singleItemPics/keychronK2Pic3.jpg"
             alt=""
           />
-        </Carousel.Item>
+        </Carousel.Item> */}
       </Carousel>
     </div>
   );
