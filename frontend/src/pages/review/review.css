@@ -1,6 +1,7 @@
 .userReviewsContainer {
   display: flex;
   width: 100%;
+  height: calc(100vh - 88px);
   /* background-color: indianred; */
 }
 
