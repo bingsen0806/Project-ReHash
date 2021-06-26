@@ -4,12 +4,13 @@
 }
 
 .settingsWrapper {
-  margin-top: 170px;
+  /* margin-top: 170px; */
+  margin-top: 70px;
 }
 
 .settingsHeader {
   font-weight: bold;
-  margin-top: 100px;
+  /* margin-top: 100px; */
   font-size: 24px;
   margin-left: 20px;
 }
