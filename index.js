@@ -57,6 +57,27 @@ if (process.env.NODE_ENV === "production") {
   app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
   });
+  app.get("/register", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
+  app.get("/home", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
+  app.get("/create", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
+  app.get("/product/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
+  app.get("/chat/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
+  app.get("/profile/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
+  app.get("/items/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
 }
 app.use("/images", express.static(path.join(__dirname, "/public/images")));
 

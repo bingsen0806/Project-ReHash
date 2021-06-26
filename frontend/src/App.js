@@ -29,7 +29,7 @@ function App() {
           {user ? <Redirect to="/home" /> : <Login />}
         </Route>
         <Route path="/register">
-          {user ? <Redirect to="/home" /> : <Login />}
+          {user ? <Redirect to="/home" /> : <Register />}
         </Route>
         <Route exact path="/product/:pageType/:categoryName">
           <Product />
