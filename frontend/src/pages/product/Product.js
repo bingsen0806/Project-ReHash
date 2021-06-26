@@ -20,11 +20,11 @@ export default function Product() {
       try {
         if (pageType === "categories" && categoryName) {
           const res = await axios.get(
-            "/items/categories?categoryName=" + categoryName
+            "/api/items/categories?categoryName=" + categoryName
           );
           await setItems(res.data);
         } else if (pageType === "search" && categoryName) {
-          const res = await axios.get("/items?search=" + categoryName);
+          const res = await axios.get("/api/items?search=" + categoryName);
           await setItems(res.data);
         }
       } catch (err) {

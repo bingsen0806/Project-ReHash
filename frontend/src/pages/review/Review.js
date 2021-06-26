@@ -44,7 +44,7 @@ export default function Review() {
   useEffect(() => {
     const getProfileUser = async () => {
       if (username) {
-        const res = await axios.get("/users?username=" + username);
+        const res = await axios.get("/api/users?username=" + username);
         setProfileUser(res.data);
         console.log("profileUser is: " + res.data);
       }
@@ -61,7 +61,9 @@ export default function Review() {
   useEffect(() => {
     console.log(user);
     const getReviews = async () => {
-      const res = await axios.get("/reviews/profileUser/" + profileUser._id);
+      const res = await axios.get(
+        "/api/reviews/profileUser/" + profileUser._id
+      );
       const filterMyReview = res.data.filter(
         //filter away reviews made by currentUser
         (review) => review.reviewerId !== user?._id
@@ -83,7 +85,7 @@ export default function Review() {
         setAlreadyReviewed(true); //set to true so we cannot review the profileUser
       } else {
         const res = await axios.get(
-          "/reviews/between/" + profileUser._id + "/" + user._id
+          "/api/reviews/between/" + profileUser._id + "/" + user._id
         );
         if (res.data.length > 0) {
           setAlreadyReviewed(true);
@@ -107,11 +109,11 @@ export default function Review() {
         rating: rating,
         reviewText: reviewText,
       };
-      const res = await axios.post("/reviews", newReview);
+      const res = await axios.post("/api/reviews", newReview);
       setMyReview([...myReview, res.data]);
       setAlreadyReviewed(true);
       //also update ratings of profileUser
-      const updateRatingRes = await axios.put("/users/" + profileUser._id, {
+      const updateRatingRes = await axios.put("/api/users/" + profileUser._id, {
         cumulativeRating: initialCumRating + rating,
         ratedByUsers: initialRatedBy + 1,
       });
@@ -124,12 +126,12 @@ export default function Review() {
   const handleDelete = async (review) => {
     if (alreadyReviewed) {
       console.log(review);
-      const res = await axios.delete("/reviews/id/" + review._id);
+      const res = await axios.delete("/api/reviews/id/" + review._id);
       console.log(res.status);
       console.log(typeof res.status);
       setMyReview([]);
       setAlreadyReviewed(false);
-      const updateRatingRes = await axios.put("/users/" + profileUser._id, {
+      const updateRatingRes = await axios.put("/api/users/" + profileUser._id, {
         cumulativeRating: initialCumRating - review.rating,
         ratedByUsers: initialRatedBy - 1,
       });

@@ -22,7 +22,7 @@ export default function Item() {
     const getItem = async () => {
       try {
         if (itemId) {
-          const res = await axios.get("/items?itemId=" + itemId);
+          const res = await axios.get("/api/items?itemId=" + itemId);
           await setItem(res.data);
         }
       } catch (err) {
@@ -35,7 +35,7 @@ export default function Item() {
   const handleReserve = async () => {
     try {
       if (itemId) {
-        const res = await axios.put("/items/update/status/" + itemId, {
+        const res = await axios.put("/api/items/update/status/" + itemId, {
           status: "reserved",
         });
         if (res.status === 200 && res.data) {
@@ -50,7 +50,7 @@ export default function Item() {
   const handleUnreserve = async () => {
     try {
       if (itemId) {
-        const res = await axios.put("/items/update/status/" + itemId, {
+        const res = await axios.put("/api/items/update/status/" + itemId, {
           status: "waiting",
         });
         if (res.status === 200 && res.data) {
@@ -66,11 +66,11 @@ export default function Item() {
     console.log("handleSwap called with agreementId: " + agreementId);
     try {
       const agreementRes = await axios.put(
-        "/agreements/update/addParties/" + agreementId,
+        "/api/agreements/update/addParties/" + agreementId,
         { userId: user?._id, itemId: itemId }
       );
       if (agreementRes.status === 200 && itemId) {
-        const res = await axios.put("/items/update/status/" + itemId, {
+        const res = await axios.put("/api/items/update/status/" + itemId, {
           status: "swapped",
         });
         if (res.status === 200 && res.data) {
@@ -85,12 +85,15 @@ export default function Item() {
   const handleUnswap = async () => {
     console.log("handleUnswap called");
     try {
-      const agreementRes = await axios.put("/agreements/update/removeParties", {
-        userId: user?._id,
-        itemId: itemId,
-      });
+      const agreementRes = await axios.put(
+        "/api/agreements/update/removeParties",
+        {
+          userId: user?._id,
+          itemId: itemId,
+        }
+      );
       if (agreementRes.status === 200 && itemId) {
-        const res = await axios.put("/items/update/status/" + itemId, {
+        const res = await axios.put("/api/items/update/status/" + itemId, {
           status: "waiting",
         });
         if (res.status === 200 && res.data) {
@@ -105,7 +108,7 @@ export default function Item() {
   const handleDelete = async () => {
     console.log("handleDelete called");
     try {
-      const res = await axios.delete("/items?itemId=" + item?._id);
+      const res = await axios.delete("/api/items?itemId=" + item?._id);
       if (res.status === 200) {
         history.push("/profile/" + user.username + "/listings");
       }

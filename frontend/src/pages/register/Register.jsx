@@ -13,7 +13,7 @@ export default function Register() {
   const handleEmail = async (e) => {
     setEmail(e.target.value);
     try {
-      await axios.get("/users?email=" + e.target.value);
+      await axios.get("/api/users?email=" + e.target.value);
       e.target.setCustomValidity("Email already taken");
     } catch (err) {
       if (err.response.status === 400) {
@@ -24,7 +24,7 @@ export default function Register() {
   const handleUsername = async (e) => {
     setUsername(e.target.value);
     try {
-      await axios.get("/users?username=" + e.target.value);
+      await axios.get("/api/users?username=" + e.target.value);
       e.target.setCustomValidity("Username already taken");
     } catch (err) {
       if (err.response.status === 400) {
@@ -66,7 +66,7 @@ export default function Register() {
       password: password,
     };
     try {
-      await axios.post("/auth/register", user);
+      await axios.post("/api/auth/register", user);
       history.push("/login");
     } catch (err) {
       console.log(err);

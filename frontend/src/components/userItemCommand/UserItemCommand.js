@@ -27,7 +27,7 @@ export default function UserItemCommand({
   useEffect(() => {
     const getItemUser = async () => {
       if (itemUserId) {
-        const res = await axios.get("/users?userId=" + itemUserId);
+        const res = await axios.get("/api/users?userId=" + itemUserId);
         setItemUser(res.data);
         console.log("itemUser is: " + res.data);
       }
@@ -42,7 +42,7 @@ export default function UserItemCommand({
       if (input !== "") {
         console.log("input is not empty");
         try {
-          const res = await axios.get("/agreements?id=" + input);
+          const res = await axios.get("/api/agreements?id=" + input);
           if (!res || res.status !== 200 || !res.data) {
             console.log("Error 1");
             setError("Agreement does not exist!");

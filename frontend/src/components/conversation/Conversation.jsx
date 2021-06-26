@@ -40,7 +40,7 @@ export default function Conversation({
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios("/users?userId=" + userId);
+        const res = await axios("/api/users?userId=" + userId);
         await setUser(res.data);
         console.log("successfully got user");
       } catch (err) {

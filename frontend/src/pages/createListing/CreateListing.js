@@ -231,7 +231,7 @@ export default function CreateListing() {
       }
 
       console.log(data);
-      const uploadFileRes = await axios.post("/upload/items", data);
+      const uploadFileRes = await axios.post("/api/upload/items", data);
       if (uploadFileRes.status === 200) {
         const newItem = {
           userId: user._id,
@@ -243,7 +243,7 @@ export default function CreateListing() {
           status: "waiting",
         };
         console.log(newItem);
-        const res = await axios.post("/items", newItem);
+        const res = await axios.post("/api/items", newItem);
         console.log(res.data);
       }
 

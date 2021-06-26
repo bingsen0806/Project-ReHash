@@ -23,7 +23,7 @@ export default function Login() {
   const checkCredentials = async () => {
     try {
       const res = await axios
-        .post("/auth/login", {
+        .post("/api/auth/login", {
           username: usernameRef.current.value,
           password: passwordRef.current.value,
         })
@@ -53,7 +53,7 @@ export default function Login() {
     const loginCall = async (userCredential, dispatch) => {
       dispatch({ type: "LOGIN_START" });
       try {
-        const res = await axios.post("/auth/login", userCredential);
+        const res = await axios.post("/api/auth/login", userCredential);
         const sock = await io("ws://localhost:8080");
         sock.on("connect", () => {
           sock.emit("addUser", res.data._id);

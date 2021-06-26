@@ -23,7 +23,7 @@ export default function UserReview({
   //set the reviewer
   useEffect(() => {
     const getReviewUser = async () => {
-      const res = await axios.get("/users?userId=" + review.reviewerId);
+      const res = await axios.get("/api/users?userId=" + review.reviewerId);
       setReviewer(res.data);
     };
     if (review) {

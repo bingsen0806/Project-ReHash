@@ -15,7 +15,7 @@ export default function SwapAway({ itemUserId }) {
   useEffect(() => {
     const getItemUser = async () => {
       if (itemUserId) {
-        const res = await axios.get("/users?userId=" + itemUserId);
+        const res = await axios.get("/api/users?userId=" + itemUserId);
         setItemUser(res.data);
         console.log("itemUser is: " + res.data);
       }
@@ -29,13 +29,13 @@ export default function SwapAway({ itemUserId }) {
       console.log("pushed to login");
     } else {
       const res = await axios.get(
-        "/conversations/find/" + user._id + "/" + itemUserId
+        "/api/conversations/find/" + user._id + "/" + itemUserId
       );
       if (res.data.length > 0) {
         history.push("/chat/" + res.data[0]._id);
         console.log("pushed to chat id:" + res.data[0]._id);
       } else {
-        const newConvo = await axios.post("/conversations", {
+        const newConvo = await axios.post("/api/conversations", {
           members: [itemUserId, user._id],
         });
         //chatFollow is not used for now

@@ -32,7 +32,7 @@ export default function Chat() {
       if (initialActiveConvoId !== "0") {
         console.log("initialActiveConvoId is: " + initialActiveConvoId);
         const res = await axios.get(
-          "/conversations/id/" + initialActiveConvoId
+          "/api/conversations/id/" + initialActiveConvoId
         );
         setCurrentChat(res.data);
       }
@@ -71,7 +71,7 @@ export default function Chat() {
     const getConversations = async () => {
       try {
         //need to change this and add another API when search function is implemented
-        const res = await axios.get("/conversations/" + user._id);
+        const res = await axios.get("/api/conversations/" + user._id);
         await setConversations(res.data);
         // console.log(conversations);
         // console.log(user);
@@ -85,7 +85,7 @@ export default function Chat() {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get("/messages/" + currentChat?._id);
+        const res = await axios.get("/api/messages/" + currentChat?._id);
         setMessages(res.data);
       } catch (err) {
         console.log(err);
@@ -99,7 +99,7 @@ export default function Chat() {
 
     const getCurrentChatWith = async () => {
       try {
-        const res = await axios("/users?userId=" + friendId);
+        const res = await axios("/api/users?userId=" + friendId);
         await setCurrentChatWith(res.data);
       } catch (err) {
         console.log(err);
@@ -112,7 +112,7 @@ export default function Chat() {
     const updateLastActive = async () => {
       var timeago = "";
       try {
-        const res = await axios("/users?userId=" + currentChatWith?._id);
+        const res = await axios("/api/users?userId=" + currentChatWith?._id);
         const newLastActive = res.data.lastActive;
         console.log("newLastActive: ", newLastActive);
         timeago = format(newLastActive);
@@ -143,12 +143,12 @@ export default function Chat() {
       };
 
       try {
-        const res = await axios.post("/messages", message);
+        const res = await axios.post("/api/messages", message);
 
         const lastMessageText = res.data.text;
         const lastMessageTime = res.data.createdAt;
         const updateRes = await axios.put(
-          "/conversations/" + currentChat._id + "/lastmessage",
+          "/api/conversations/" + currentChat._id + "/lastmessage",
           { lastMessageText: lastMessageText, lastMessageTime: lastMessageTime }
         );
         console.log(updateRes);
@@ -192,7 +192,7 @@ export default function Chat() {
 
   const handleGenerateAgreement = async () => {
     console.log("generate agreement is clicked");
-    const res = await axios.post("/agreements");
+    const res = await axios.post("/api/agreements");
     if (res.data && res.data._id) {
       setNewMessage("Your agreement code has been generated: " + res.data._id);
     }

@@ -28,7 +28,7 @@ export default function UserListing() {
   useEffect(() => {
     const getProfileUser = async () => {
       if (username) {
-        const res = await axios.get("/users?username=" + username);
+        const res = await axios.get("/api/users?username=" + username);
         setProfileUser(res.data);
         console.log("profileUser is: " + res.data);
       }
@@ -40,7 +40,7 @@ export default function UserListing() {
     const getDisplayItems = async () => {
       if (profileUser) {
         const res = await axios.get(
-          "/items/categories?categoryName=" +
+          "/api/items/categories?categoryName=" +
             viewingCategory +
             "&userId=" +
             profileUser._id

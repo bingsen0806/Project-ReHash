@@ -54,7 +54,7 @@ export default function Settings() {
       console.log(data);
       const updatePicture = async () => {
         try {
-          const uploadFileRes = await axios.post("/upload/person", data);
+          const uploadFileRes = await axios.post("/api/upload/person", data);
           if (uploadFileRes.status === 200) {
             const newProfilePicture = {
               profilePicture: uploadFileRes.data.imagePath,
@@ -62,7 +62,7 @@ export default function Settings() {
             const newUser = { ...user, ...newProfilePicture };
             console.log(newUser);
 
-            const res = await axios.put("/users/" + user._id, {
+            const res = await axios.put("/api/users/" + user._id, {
               profilePicture: uploadFileRes.data.imagePath,
             });
             if (res.status === 200) {
@@ -113,7 +113,7 @@ export default function Settings() {
     } else {
       const updatePassword = async () => {
         try {
-          const res = await axios.put("/auth/updatePassword/" + user._id, {
+          const res = await axios.put("/api/auth/updatePassword/" + user._id, {
             currentPassword: form.currentPassword,
             newPassword: form.newPassword,
           });
