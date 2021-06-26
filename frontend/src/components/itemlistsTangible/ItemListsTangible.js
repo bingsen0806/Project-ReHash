@@ -37,7 +37,7 @@ export default function ItemLists() {
   };
   const history = useHistory();
   const handleClick = (category) => {
-    history.push("/product/" + category);
+    history.push("/product/categories/" + category);
   };
   return (
     <Carousel responsive={responsive}>

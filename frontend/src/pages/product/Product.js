@@ -10,15 +10,21 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Product() {
   const categoryName = useParams().categoryName;
+  const pageType = useParams().pageType;
   const [items, setItems] = useState([]);
   const { user, sockio } = useContext(AuthContext);
   useEffect(() => {
+    console.log("categoryName is: " + categoryName);
+    console.log("pageType is " + pageType);
     const getItems = async () => {
       try {
-        if (categoryName) {
+        if (pageType === "categories" && categoryName) {
           const res = await axios.get(
             "/items/categories?categoryName=" + categoryName
           );
+          await setItems(res.data);
+        } else if (pageType === "search" && categoryName) {
+          const res = await axios.get("/items?search=" + categoryName);
           await setItems(res.data);
         }
       } catch (err) {
@@ -26,7 +32,7 @@ export default function Product() {
       }
     };
     getItems();
-  }, [categoryName]);
+  }, [categoryName, pageType]);
   return (
     <div>
       <TopBar currentUser={user} />
@@ -39,7 +45,9 @@ export default function Product() {
           {/* </Link> */}
         </div>
         <span className="productHeader">
-          {categoryName
+          {pageType === "search"
+            ? "Search results for: " + categoryName
+            : pageType === "categories" && categoryName
             ? categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
             : "Product Descrption Header"}
         </span>

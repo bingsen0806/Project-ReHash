@@ -1,3 +1,7 @@
+.itemListingWrapper {
+  margin-top: 15px;
+}
+
 .itemListingWrapper:hover {
   cursor: pointer;
 }
