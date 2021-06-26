@@ -5,7 +5,11 @@ const server = require("http").createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:8080",
+      "https://projectrehash.herokuapp.com/",
+    ],
   },
 });
 
@@ -45,15 +49,15 @@ mongoose
   .catch((err) => console.log(err));
 
 //setup for production environment
-// if (process.env.NODE_ENV === "production") {
-console.log("environment is production!");
-console.log("__dirname is: " + __dirname);
-app.use(express.static(path.join(__dirname, "/frontend/build")));
+if (process.env.NODE_ENV === "production") {
+  console.log("environment is production!");
+  console.log("__dirname is: " + __dirname);
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
 
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
-});
-// }
+  app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
+  });
+}
 app.use("/images", express.static(path.join(__dirname, "/public/images")));
 
 //middleware

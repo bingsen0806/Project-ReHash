@@ -54,7 +54,7 @@ export default function Login() {
       dispatch({ type: "LOGIN_START" });
       try {
         const res = await axios.post("/api/auth/login", userCredential);
-        const sock = await io("ws://localhost:8080");
+        const sock = await io(); //const sock = await io("ws://localhost:8080");
         sock.on("connect", () => {
           sock.emit("addUser", res.data._id);
           console.log("sock inside try block: ", sock);
