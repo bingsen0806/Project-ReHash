@@ -1,18 +1,20 @@
 .homeWrapper {
-    margin-top: 100px;
-    margin-left: 20px;
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  /* width: 100%; */
+  overflow-x: hidden;
 }
 
 .itemsType {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .trendingSwapHead {
-    font-size: 24px;
-    font-weight: bold;
+  font-size: 24px;
+  font-weight: bold;
 }
-
-

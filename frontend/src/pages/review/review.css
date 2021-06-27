@@ -9,6 +9,7 @@
   height: 100%;
   width: 83%;
   overflow-y: auto;
+  overflow-x: hidden;
   /* background-color: bisque; */
 }
 .userReviewsWrapper {

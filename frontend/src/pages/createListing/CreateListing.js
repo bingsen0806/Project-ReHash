@@ -259,190 +259,194 @@ export default function CreateListing() {
   return (
     <div>
       <TopBar currentUser={user} />
-      <div className="createListingHeader">
-        <span>Make your swap today!</span>
-      </div>
+      <div className="createListingContainer">
+        <div className="createListingHeader">
+          <span>Make your swap today!</span>
+        </div>
 
-      {/* /* for uploading of images */}
-      <Row className="createListingContent">
-        <Col xs={6}>
-          <Card className="uploadImagesCard shadow p-3 mb-5 bg-white rounded">
-            <Card.Body>
-              <h5 className="uploadImagesCardHeader">
-                Drag and Drop images here
-              </h5>
-              <h6 className="uploadImagesCardSubHeader">or click to upload</h6>
-              <Form>
-                <Form.Group controlId="images">
-                  <Form.Control
-                    type="text"
-                    style={{ display: "none" }}
-                    isInvalid={!!errors.images}
+        {/* /* for uploading of images */}
+        <Row className="createListingContent">
+          <Col xs={6}>
+            <Card className="uploadImagesCard shadow p-3 mb-5 bg-white rounded">
+              <Card.Body>
+                <h5 className="uploadImagesCardHeader">
+                  Drag and Drop images here
+                </h5>
+                <h6 className="uploadImagesCardSubHeader">
+                  or click to upload
+                </h6>
+                <Form>
+                  <Form.Group controlId="images">
+                    <Form.Control
+                      type="text"
+                      style={{ display: "none" }}
+                      isInvalid={!!errors.images}
+                    />
+                    <div className="swapImgDragAndDropWrapper">
+                      <section className="container">
+                        <div
+                          {...getRootProps({ style })}
+                          className="dragAndDropDiv"
+                        >
+                          <input {...getInputProps()} />
+                          <p>
+                            <AddPhotoAlternateOutlinedIcon fontSize="large" />
+                          </p>
+                          <p>Drop away your swap images...</p>
+                        </div>
+                        <aside className="thumbsContainer">{thumbs}</aside>
+                      </section>
+                    </div>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.images}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col xs={6} className="createListingContentRight">
+            <Form className="formWrapper">
+              <Form.Group controlId="title">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  className="swapAwayFormControl"
+                  type="text"
+                  maxlength="50"
+                  placeholder="Enter your swap title"
+                  value={form.title ? form.title : ""}
+                  onChange={(e) => setField("title", e.target.value)}
+                  isInvalid={!!errors.title}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.title}
+                </Form.Control.Feedback>
+                <Form.Text className="text-muted">
+                  Create an interesting title for your swap!
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group controlId="description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  className="swapAwayFormControl"
+                  as="textarea"
+                  maxlength="500"
+                  rows={3}
+                  value={form.description ? form.description : ""}
+                  placeholder="Describe your swap"
+                  onChange={(e) => setField("description", e.target.value)}
+                  isInvalid={!!errors.description}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.description}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group controlId="tangible">
+                <Form.Label>Is your item Tangible or Intangible?</Form.Label>
+                <Form.Control
+                  className="swapAwayFormControl"
+                  as="select"
+                  value={form.tangible}
+                  onChange={(e) => setField("tangible", e.target.value)}
+                  isInvalid={!!errors.tangible}
+                >
+                  <option value="" disabled hidden selected>
+                    Select category:
+                  </option>
+                  {/*The tangibles and intangibles spelling must be exactly like this for the database*/}
+                  <option value="tangibles">Tangible</option>
+                  <option value="intagibles">Intangible</option>
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.tangible}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group controlId="swapCategories">
+                <Form.Label>What is your swap category?</Form.Label>
+                <Form.Control
+                  type="text"
+                  style={{ display: "none" }}
+                  isInvalid={!!errors.swapCategories}
+                />
+                <div className={classes.root}>
+                  <Autocomplete
+                    multiple
+                    limitTags={2}
+                    id="multiple-limit-tags"
+                    options={category}
+                    value={swapCategories}
+                    getOptionLabel={(option) => option.title}
+                    onChange={(e, newValue) => {
+                      if (!!errors["swapCategories"]) {
+                        setErrors({ ...errors, swapCategories: null });
+                      }
+                      setSwapCategories(newValue);
+                      console.log(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Select categories"
+                      />
+                    )}
                   />
-                  <div className="swapImgDragAndDropWrapper">
-                    <section className="container">
-                      <div
-                        {...getRootProps({ style })}
-                        className="dragAndDropDiv"
-                      >
-                        <input {...getInputProps()} />
-                        <p>
-                          <AddPhotoAlternateOutlinedIcon fontSize="large" />
-                        </p>
-                        <p>Drop away your swap images...</p>
-                      </div>
-                      <aside className="thumbsContainer">{thumbs}</aside>
-                    </section>
-                  </div>
-                  <Form.Control.Feedback type="invalid">
-                    {errors.images}
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
+                </div>
+                <Form.Control.Feedback type="invalid">
+                  {errors.swapCategories}
+                </Form.Control.Feedback>
+              </Form.Group>
 
-        <Col xs={6} className="createListingContentRight">
-          <Form className="formWrapper">
-            <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                className="swapAwayFormControl"
-                type="text"
-                maxlength="50"
-                placeholder="Enter your swap title"
-                value={form.title ? form.title : ""}
-                onChange={(e) => setField("title", e.target.value)}
-                isInvalid={!!errors.title}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.title}
-              </Form.Control.Feedback>
-              <Form.Text className="text-muted">
-                Create an interesting title for your swap!
-              </Form.Text>
-            </Form.Group>
-
-            <Form.Group controlId="description">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                className="swapAwayFormControl"
-                as="textarea"
-                maxlength="500"
-                rows={3}
-                value={form.description ? form.description : ""}
-                placeholder="Describe your swap"
-                onChange={(e) => setField("description", e.target.value)}
-                isInvalid={!!errors.description}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors.description}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group controlId="tangible">
-              <Form.Label>Is your item Tangible or Intangible?</Form.Label>
-              <Form.Control
-                className="swapAwayFormControl"
-                as="select"
-                value={form.tangible}
-                onChange={(e) => setField("tangible", e.target.value)}
-                isInvalid={!!errors.tangible}
+              <Form.Group controlId="idealCategories">
+                <Form.Label>What is your ideal swap?</Form.Label>
+                <Form.Control
+                  type="text"
+                  style={{ display: "none" }}
+                  isInvalid={!!errors.idealCategories}
+                />
+                <div className={classes.root}>
+                  <Autocomplete
+                    multiple
+                    limitTags={2}
+                    id="multiple-limit-tags2"
+                    options={category}
+                    value={idealCategories}
+                    getOptionLabel={(option) => option.title}
+                    onChange={(e, newValue) => {
+                      if (!!errors["idealCategories"]) {
+                        setErrors({ ...errors, idealCategories: null });
+                      }
+                      setIdealCategories(newValue);
+                      console.log(newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Select ideal swaps"
+                      />
+                    )}
+                  />
+                </div>
+                <Form.Control.Feedback type="invalid">
+                  {errors.idealCategories}
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Button
+                className="postButton"
+                variant="warning"
+                onClick={handleSubmit}
               >
-                <option value="" disabled hidden selected>
-                  Select category:
-                </option>
-                {/*The tangibles and intangibles spelling must be exactly like this for the database*/}
-                <option value="tangibles">Tangible</option>
-                <option value="intagibles">Intangible</option>
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {errors.tangible}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group controlId="swapCategories">
-              <Form.Label>What is your swap category?</Form.Label>
-              <Form.Control
-                type="text"
-                style={{ display: "none" }}
-                isInvalid={!!errors.swapCategories}
-              />
-              <div className={classes.root}>
-                <Autocomplete
-                  multiple
-                  limitTags={2}
-                  id="multiple-limit-tags"
-                  options={category}
-                  value={swapCategories}
-                  getOptionLabel={(option) => option.title}
-                  onChange={(e, newValue) => {
-                    if (!!errors["swapCategories"]) {
-                      setErrors({ ...errors, swapCategories: null });
-                    }
-                    setSwapCategories(newValue);
-                    console.log(newValue);
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="Select categories"
-                    />
-                  )}
-                />
-              </div>
-              <Form.Control.Feedback type="invalid">
-                {errors.swapCategories}
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group controlId="idealCategories">
-              <Form.Label>What is your ideal swap?</Form.Label>
-              <Form.Control
-                type="text"
-                style={{ display: "none" }}
-                isInvalid={!!errors.idealCategories}
-              />
-              <div className={classes.root}>
-                <Autocomplete
-                  multiple
-                  limitTags={2}
-                  id="multiple-limit-tags2"
-                  options={category}
-                  value={idealCategories}
-                  getOptionLabel={(option) => option.title}
-                  onChange={(e, newValue) => {
-                    if (!!errors["idealCategories"]) {
-                      setErrors({ ...errors, idealCategories: null });
-                    }
-                    setIdealCategories(newValue);
-                    console.log(newValue);
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="Select ideal swaps"
-                    />
-                  )}
-                />
-              </div>
-              <Form.Control.Feedback type="invalid">
-                {errors.idealCategories}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Button
-              className="postButton"
-              variant="warning"
-              onClick={handleSubmit}
-            >
-              Post Swap
-            </Button>
-          </Form>
-        </Col>
-      </Row>
+                Post Swap
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }

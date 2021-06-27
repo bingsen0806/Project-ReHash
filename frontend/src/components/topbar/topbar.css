@@ -4,8 +4,10 @@
   background: rgb(255, 204, 50);
   position: sticky;
   position: -webkit-sticky;
-  z-index: 999;
+  z-index: 9999;
   width: 100%;
+  /* width: 100vw; */
+  overflow-x: hidden;
 }
 
 .mr-auto {

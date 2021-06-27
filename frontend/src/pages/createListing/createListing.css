@@ -1,3 +1,8 @@
+.createListingContainer {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .createListingHeader {
   /* margin-top: 100px; */
   margin-top: 12px;
@@ -54,7 +59,7 @@
 }
 
 .postButton {
-  margin-top: 20px;
+  margin-top: 8px;
   width: 150px;
   height: 50px;
 }

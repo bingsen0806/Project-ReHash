@@ -136,7 +136,7 @@ export default function Item() {
   };
 
   return (
-    <div>
+    <div className="itemPage">
       <TopBar currentUser={user} />
       {/* <div className="itemBackArrow">
         <ArrowBackIos />
