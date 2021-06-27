@@ -1,7 +1,12 @@
 .sidebar {
+  height: 100%;
+  display: flex;
+  overflow-y: auto;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
+  /* overflow-y: auto; */
+  overflow-x: hidden;
 }
 
 .sidebarMenuItem:hover {

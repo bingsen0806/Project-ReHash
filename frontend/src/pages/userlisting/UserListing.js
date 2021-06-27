@@ -67,31 +67,32 @@ export default function UserListing() {
       <TopBar currentUser={user} />
       <div className="userlistingContainer">
         <SideBar className="sidebar" sidebarUser={profileUser} />
-
-        <Container className="userlistingWrapper">
-          <div className="tabBar">
-            <Paper margin={200} style={{ marginBottom: "10px" }}>
-              <Tabs
-                value={tabValue}
-                indicatorColor="primary"
-                textColor="primary"
-                centered
-              >
-                <Tab label="Tangible" onClick={handleClickTangible} />
-                <Tab label="Intangible" onClick={handleClickIntangible} />
-              </Tabs>
-            </Paper>
-          </div>
-          <Row className="listingRow" xs={1} md={3}>
-            {displayItems.length ? (
-              displayItems.map((item) => (
-                <ItemListing key={item._id} item={item} />
-              ))
-            ) : (
-              <div>User does not have any item in this category</div>
-            )}
-          </Row>
-        </Container>
+        <div className="userListingsRight">
+          <Container className="userlistingWrapper">
+            <div className="tabBar">
+              <Paper margin={200} style={{ marginBottom: "10px" }}>
+                <Tabs
+                  value={tabValue}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="Tangible" onClick={handleClickTangible} />
+                  <Tab label="Intangible" onClick={handleClickIntangible} />
+                </Tabs>
+              </Paper>
+            </div>
+            <Row className="listingRow" xs={1} md={3}>
+              {displayItems.length ? (
+                displayItems.map((item) => (
+                  <ItemListing key={item._id} item={item} />
+                ))
+              ) : (
+                <div>User does not have any item in this category</div>
+              )}
+            </Row>
+          </Container>
+        </div>
       </div>
     </div>
   );

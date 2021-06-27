@@ -264,8 +264,8 @@ export default function CreateListing() {
       </div>
 
       {/* /* for uploading of images */}
-      <Row>
-        <Col xs={5}>
+      <Row className="createListingContent">
+        <Col xs={6}>
           <Card className="uploadImagesCard shadow p-3 mb-5 bg-white rounded">
             <Card.Body>
               <h5 className="uploadImagesCardHeader">
@@ -303,7 +303,7 @@ export default function CreateListing() {
           </Card>
         </Col>
 
-        <Col xs={7}>
+        <Col xs={6} className="createListingContentRight">
           <Form className="formWrapper">
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
@@ -409,7 +409,7 @@ export default function CreateListing() {
                 <Autocomplete
                   multiple
                   limitTags={2}
-                  id="multiple-limit-tags"
+                  id="multiple-limit-tags2"
                   options={category}
                   value={idealCategories}
                   getOptionLabel={(option) => option.title}

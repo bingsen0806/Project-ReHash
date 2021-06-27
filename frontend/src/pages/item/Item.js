@@ -138,12 +138,10 @@ export default function Item() {
   return (
     <div>
       <TopBar currentUser={user} />
-      <div className="itemBackArrow">
-        {/* <Link to="/login" className="registerBack"> */}
+      {/* <div className="itemBackArrow">
         <ArrowBackIos />
         <span>Back</span>
-        {/* </Link> */}
-      </div>
+      </div> */}
       <label className="itemHeader">
         {item ? item.title : "Error: No Item Displayed"}
         {item ? (

@@ -1,9 +1,19 @@
 .userlistingContainer {
   display: flex;
   width: 100%;
+  height: calc(100vh - 88px);
+  /* overflow-y: auto; */
 }
 
+.userListingsRight {
+  /* height: calc(100vh - 88px); */
+  height: 100%;
+  width: 83%;
+  overflow-y: auto;
+  /* background-color: bisque; */
+}
 .userlistingWrapper {
+  padding-top: 12px;
   display: flex;
   flex-direction: column;
 }
@@ -15,15 +25,15 @@
 
 .tabRow {
    flex: 10%;
-}
+}*/
 
 .listingRow {
-    flex: 90%;
-} */
+  flex: 90%;
+}
 
 .tabBar {
   /* margin-top: 100px; */
   position: -webkit-sticky;
   position: sticky;
-  z-index: 999;
+  z-index: 998;
 }

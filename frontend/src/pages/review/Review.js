@@ -145,40 +145,41 @@ export default function Review() {
       <TopBar currentUser={user} />
       <div className="userReviewsContainer">
         <SideBar sidebarUser={profileUser} />
-
-        <Container className="userReviewsWrapper">
-          <span className="userReviewsHeader">Reviews</span>
-          {alreadyReviewed ? (
-            <></>
-          ) : (
-            <UserReview
-              className="userReview"
-              doneReview={false}
-              handleSubmit={handleSubmit}
-              handleDelete={handleDelete}
-            />
-          )}
-          {myReview.map((review) => (
-            <UserReview
-              className="userReview"
-              key={review._id}
-              review={review}
-              doneReview={true}
-              handleSubmit={handleSubmit}
-              handleDelete={handleDelete}
-            />
-          ))}
-          {reviews.map((review) => (
-            <UserReview
-              className="userReview"
-              key={review._id}
-              review={review}
-              doneReview={true}
-              handleSubmit={handleSubmit}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </Container>
+        <div className="userReviewsRight">
+          <Container className="userReviewsWrapper">
+            <span className="userReviewsHeader">Reviews</span>
+            {alreadyReviewed ? (
+              <></>
+            ) : (
+              <UserReview
+                className="userReview"
+                doneReview={false}
+                handleSubmit={handleSubmit}
+                handleDelete={handleDelete}
+              />
+            )}
+            {myReview.map((review) => (
+              <UserReview
+                className="userReview"
+                key={review._id}
+                review={review}
+                doneReview={true}
+                handleSubmit={handleSubmit}
+                handleDelete={handleDelete}
+              />
+            ))}
+            {reviews.map((review) => (
+              <UserReview
+                className="userReview"
+                key={review._id}
+                review={review}
+                doneReview={true}
+                handleSubmit={handleSubmit}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </Container>
+        </div>
       </div>
     </div>
   );

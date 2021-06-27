@@ -38,12 +38,10 @@ export default function Product() {
       <TopBar currentUser={user} />
 
       <div className="productWrapper">
-        <div className="backArrow">
-          {/* <Link to="/login" className="registerBack"> */}
+        {/*<div className="backArrow">
           <ArrowBackIos />
           <span>Back</span>
-          {/* </Link> */}
-        </div>
+        </div> */}
         <span className="productHeader">
           {pageType === "search"
             ? "Search results for: " + categoryName

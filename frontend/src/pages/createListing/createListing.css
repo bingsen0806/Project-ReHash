@@ -1,16 +1,23 @@
 .createListingHeader {
   /* margin-top: 100px; */
+  margin-top: 12px;
   font-weight: bold;
   font-size: 24px;
   margin-left: 20px;
 }
 
+.createListingContent {
+  width: 100%;
+  max-width: 100%;
+  /* background-color: bisque; */
+}
+
 .uploadImagesCard {
   background-color: white;
-  width: 660px;
-  height: 600px;
+  /* width: 660px;
+  height: 600px; */
   margin-left: 50px;
-  margin-top: 40px;
+  margin-top: 35px;
 }
 
 .uploadImagesCardHeader {
@@ -27,13 +34,23 @@
   margin-top: 30px;
 }
 
+.createListingContentRight {
+  /* background-color: coral; */
+  /* align-content: flex-start;
+  align-items: flex-start; */
+  margin-top: 28px;
+}
+
 .formWrapper {
-  justify-content: center;
-  margin-left: 250px;
+  /* justify-content: flex-start; */
+  margin-left: 15px;
+  /* background-color: chartreuse; */
+  width: 100%;
 }
 
 .swapAwayFormControl {
-  width: 400px;
+  /* width: 400px; */
+  width: 70%;
 }
 
 .postButton {

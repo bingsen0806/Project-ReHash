@@ -48,13 +48,13 @@ export default function SideBar({ sidebarUser }) {
   return (
     <div
       className="sidebar"
-      style={{ display: "flex", height: "100vh", overflow: "scroll initial" }}
+      // style={{ display: "flex", height: "100vh", overflow: "scroll initial" }}
     >
       <CDBSidebar textColor="black" backgroundColor="#FFD68D">
+        {/* <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu>
         <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu>
         <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu>
-        <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu>
-        <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu>
+        <CDBSidebarMenu className="dummyslot"></CDBSidebarMenu> */}
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
           <img
             className="userProfile"

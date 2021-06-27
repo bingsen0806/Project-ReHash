@@ -2,11 +2,19 @@
   display: flex;
   width: 100%;
   height: calc(100vh - 88px);
+  /* overflow-y: auto; */
 }
 
+.settingsRight {
+  /* height: calc(100vh - 88px); */
+  height: 100%;
+  width: 83%;
+  overflow-y: auto;
+  /* background-color: bisque; */
+}
 .settingsWrapper {
   /* margin-top: 170px; */
-  margin-top: 70px;
+  margin-top: 20px;
 }
 
 .settingsHeader {

@@ -173,141 +173,143 @@ export default function Settings() {
       <TopBar currentUser={user} />
       <div className="settingsContainer">
         <SideBar sidebarUser={user} />
-        <span className="settingsHeader">Settings</span>
-        <Container className="settingsWrapper">
-          <Card
-            style={{ width: "60em", height: "19em" }}
-            className="settingsUserProfileContainer shadow p-3 mb-5 bg-white rounded"
-          >
-            <span className="settingsUserProfileHeader">User Profile</span>
-            <Container>
-              <Row>
-                <Col>
-                  <img
-                    src={
-                      imgFile && imgFile.preview
-                        ? imgFile.preview
-                        : user && user.profilePicture
-                        ? PF + user.profilePicture
-                        : "/assests/userProfile.png"
-                    }
-                    alt=""
-                    className="userProfileImg"
-                  />
-                </Col>
-                <Col>
-                  <div className="settingsImgInstructions">
-                    <div className="settingsImgInstructionsText">
-                      Upload a profile picture of yourself to help others know
-                      more about you!
+        <div className="settingsRight">
+          <span className="settingsHeader">Settings</span>
+          <Container className="settingsWrapper">
+            <Card
+              style={{ width: "60em", height: "19em" }}
+              className="settingsUserProfileContainer shadow p-3 mb-5 bg-white rounded"
+            >
+              <span className="settingsUserProfileHeader">User Profile</span>
+              <Container>
+                <Row>
+                  <Col>
+                    <img
+                      src={
+                        imgFile && imgFile.preview
+                          ? imgFile.preview
+                          : user && user.profilePicture
+                          ? PF + user.profilePicture
+                          : "/assests/userProfile.png"
+                      }
+                      alt=""
+                      className="userProfileImg"
+                    />
+                  </Col>
+                  <Col>
+                    <div className="settingsImgInstructions">
+                      <div className="settingsImgInstructionsText">
+                        Upload a profile picture of yourself to help others know
+                        more about you!
+                      </div>
+                      <Form.Group>
+                        <Form.Control
+                          className="imgUploadButton"
+                          as="input"
+                          name="image-upload"
+                          type="file"
+                          accept="image/*"
+                          onChange={imageHandler}
+                          isInvalid={!!imgError.imgFile}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {imgError.imgFile}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Button
+                        className="changeProfilePictureButton"
+                        variant="warning"
+                        onClick={handleChangePicture}
+                      >
+                        Change profile picture
+                      </Button>
                     </div>
-                    <Form.Group>
-                      <Form.Control
-                        className="imgUploadButton"
-                        as="input"
-                        name="image-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={imageHandler}
-                        isInvalid={!!imgError.imgFile}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {imgError.imgFile}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                    <Button
-                      className="changeProfilePictureButton"
-                      variant="warning"
-                      onClick={handleChangePicture}
-                    >
-                      Change profile picture
-                    </Button>
-                  </div>
-                  {/* <div>{user.profilePicture}</div> */}
-                </Col>
-              </Row>
-            </Container>
-          </Card>
-          <Card
-            style={{ width: "60em" }}
-            className="settingsPasswordContainer shadow p-3 mb-5 bg-white rounded"
-          >
-            <span className="settingsPasswordHeader">Password</span>
-            <Form>
-              <div className="passwordInputWrapper">
-                <Form.Group controlId="oldPassword">
-                  <Form.Control
-                    className="passwordInput"
-                    name="currentPassword"
-                    type={form.showPassword ? "text" : "password"}
-                    placeHolder="Current Password"
-                    value={form.currentPassword}
-                    onChange={(e) =>
-                      setField("currentPassword", e.target.value)
-                    }
-                    isInvalid={!!errors.currentPassword}
-                    isValid={passwordUpdateValid}
+                    {/* <div>{user.profilePicture}</div> */}
+                  </Col>
+                </Row>
+              </Container>
+            </Card>
+            <Card
+              style={{ width: "60em" }}
+              className="settingsPasswordContainer shadow p-3 mb-5 bg-white rounded"
+            >
+              <span className="settingsPasswordHeader">Password</span>
+              <Form>
+                <div className="passwordInputWrapper">
+                  <Form.Group controlId="oldPassword">
+                    <Form.Control
+                      className="passwordInput"
+                      name="currentPassword"
+                      type={form.showPassword ? "text" : "password"}
+                      placeHolder="Current Password"
+                      value={form.currentPassword}
+                      onChange={(e) =>
+                        setField("currentPassword", e.target.value)
+                      }
+                      isInvalid={!!errors.currentPassword}
+                      isValid={passwordUpdateValid}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.currentPassword}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group controlId="newPassword">
+                    <Form.Control
+                      className="passwordInput"
+                      name="newPassword"
+                      type={form.showPassword ? "text" : "password"}
+                      placeHolder="New Password"
+                      value={form.newPassword}
+                      onChange={(e) => setField("newPassword", e.target.value)}
+                      isInvalid={!!errors.newPassword}
+                      isValid={passwordUpdateValid}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.newPassword}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                  <Form.Group controlId="confirmPassword">
+                    <Form.Control
+                      className="passwordInput"
+                      name="confirmPassword"
+                      type={form.showPassword ? "text" : "password"}
+                      placeHolder="Confirm Password"
+                      value={form.confirmPassword}
+                      onChange={(e) =>
+                        setField("confirmPassword", e.target.value)
+                      }
+                      isInvalid={!!errors.confirmPassword}
+                      isValid={passwordUpdateValid}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.confirmPassword}
+                    </Form.Control.Feedback>
+                    <Form.Control.Feedback type="valid">
+                      "Password updated successfully"
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    checked={form.showPassword}
+                    onClick={() => setField("showPassword", !form.showPassword)}
                   />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.currentPassword}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group controlId="newPassword">
-                  <Form.Control
-                    className="passwordInput"
-                    name="newPassword"
-                    type={form.showPassword ? "text" : "password"}
-                    placeHolder="New Password"
-                    value={form.newPassword}
-                    onChange={(e) => setField("newPassword", e.target.value)}
-                    isInvalid={!!errors.newPassword}
-                    isValid={passwordUpdateValid}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.newPassword}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group controlId="confirmPassword">
-                  <Form.Control
-                    className="passwordInput"
-                    name="confirmPassword"
-                    type={form.showPassword ? "text" : "password"}
-                    placeHolder="Confirm Password"
-                    value={form.confirmPassword}
-                    onChange={(e) =>
-                      setField("confirmPassword", e.target.value)
-                    }
-                    isInvalid={!!errors.confirmPassword}
-                    isValid={passwordUpdateValid}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.confirmPassword}
-                  </Form.Control.Feedback>
-                  <Form.Control.Feedback type="valid">
-                    "Password updated successfully"
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  checked={form.showPassword}
-                  onClick={() => setField("showPassword", !form.showPassword)}
-                />
-                <label className="checkboxLabel">Show input</label>
-              </div>
-              <div>
-                <Button
-                  className="passwordButton"
-                  variant="warning"
-                  onClick={handleSubmitPassword}
-                >
-                  Update password
-                </Button>
-              </div>
-            </Form>
-          </Card>
-        </Container>
+                  <label className="checkboxLabel">Show input</label>
+                </div>
+                <div>
+                  <Button
+                    className="passwordButton"
+                    variant="warning"
+                    onClick={handleSubmitPassword}
+                  >
+                    Update password
+                  </Button>
+                </div>
+              </Form>
+            </Card>
+          </Container>
+        </div>
       </div>
     </div>
   );
