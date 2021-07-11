@@ -16,6 +16,7 @@ export default function GroupSharePost() {
                     <Row className="sharePostContainerWrapper">
                         <Col className="sharePostContainerLeft">
                             <input className="sharePostContainerInput" placeholder="Input your post ID..."/>
+                            <input className="sharePostContainerInput" placeholder="Describe your post..."/>
                         </Col>
                         <Col className="sharePostContainerRight">
                             <div className="sharePostButtonWrapper">

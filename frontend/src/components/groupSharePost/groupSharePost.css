@@ -2,7 +2,7 @@
     /* width: 866px; */
     min-width: 400px;
     width: 70%;
-    height: 150px;
+    height: 180px;
     background-color: #FFFFFF;
     /* background-color: yellow; */
     border-radius: 10px;
@@ -46,6 +46,7 @@
 
 .sharePostContainerLeft {
     flex: 9;
+    margin-left: 5%;
     /* background-color: bisque; */  
 }
 
