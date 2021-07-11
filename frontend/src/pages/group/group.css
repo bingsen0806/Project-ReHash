@@ -1,0 +1,44 @@
+/* .groupSidebar {
+    height: 100%;
+    display: flex;
+    overflow-y: auto;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+} */
+
+.groupPageContainer {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 88px);
+}
+
+.groupSidebarWrapper {
+    flex: 2;
+}
+
+
+/* .groupPageContainerRight {
+    flex: 10;
+    margin-left: 20%;
+} */
+
+.groupPageContainerRight {
+    height: 100%;
+    width: 83%;
+    padding-left: 10px;
+    margin-left: 15%;
+    overflow-y: auto;
+}
+
+.groupPagecontainerRightShareWrapper {
+    margin-bottom: 10px;
+}
+
+/* .groupSidebarWrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    height: 100%;
+} */

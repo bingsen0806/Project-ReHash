@@ -11,6 +11,7 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { LocalMall, SwapVert, ExitToApp, Settings } from "@material-ui/icons";
+import GroupIcon from '@material-ui/icons/Group';
 import { AuthContext } from "../../context/AuthContext";
 import { useHistory } from "react-router";
 
@@ -44,6 +45,9 @@ export default function SideBar({ sidebarUser }) {
   };
   const handleSettings = () => {
     history.push("/profile/" + sidebarUser?.username + "/settings");
+  };
+  const handleMyGroups = () => {
+    history.push("/profile/" + sidebarUser?.username + "/mygroups");
   };
   return (
     <div
@@ -97,6 +101,19 @@ export default function SideBar({ sidebarUser }) {
               <SwapVert className="sidebarIcons" />
               <span className="sidebarMenuText">Reviews</span>
             </CDBSidebarMenuItem>
+            <CDBSidebarMenuItem>
+                <GroupIcon className="sidebarIcons"/>
+                <span className="sidebarMenuText">My Groups</span>
+            </CDBSidebarMenuItem>
+            {/* {sidebarUser && sidebarUser._id === user?._id ? (
+              <CDBSidebarMenuItem className="sidebarMenuItem" onClick={handleMyGroups}>
+                <GroupIcon className="sidebarIcons"/>
+                <span className="sidebarMenuText">My Groups</span>
+              </CDBSidebarMenuItem>
+            ) : (
+              <></>
+            )} */}
+  
             {sidebarUser && sidebarUser._id === user?._id ? (
               <CDBSidebarMenuItem
                 className="sidebarMenuItem"

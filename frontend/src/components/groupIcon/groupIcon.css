@@ -1,0 +1,27 @@
+.groupIconButtonBackground {
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    width: 150px;
+    background-color: #f7f7f7;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.groupIconButtonImg {
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    object-fit: cover;
+}
+
+.groupIconButtonName {
+    margin-top: 10px;
+    font-weight: bold;
+}
+

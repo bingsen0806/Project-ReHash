@@ -1,0 +1,153 @@
+.inviteComponentWrapper {
+    background-color: #FFFFFF;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.inviteComponentContainer {
+    /* background-color: blue; */
+    width: 100%;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.inviteComponentText {
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.inviteComponentInput {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #F5F5F7;
+}
+
+::placeholder {
+    font-size: 12px;
+}
+
+.GroupSidebarWrapper {
+    height: 100%;
+    display: flex;
+    overflow-y: auto;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    overflow-x: hidden;
+}
+
+.groupProfile {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.groupName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.groupNameWrapper {
+    /* background-color: blue; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 200px;
+}
+
+
+.groupInviteButtonWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.groupInviteButton {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFAB03;
+    width: 181px;
+    height: 33px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.groupInviteButtonText {
+    color: #FFFFFF;
+}
+
+.groupJoinButtonWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.groupJoinButton {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFAB03;
+    width: 181px;
+    height: 33px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.groupJoinButtonText {
+    color: #FFFFFF;
+}
+
+.groupDescriptionContainer{
+    width: 200px;
+    /* background-color: pink; */
+    word-wrap:break-word;
+    margin-left: 50px;
+}
+
+.groupLeaveButtonWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 10px;
+    /* background-color:aqua; */
+}
+
+.groupMenuItem:hover{
+    background-color: lightsalmon;
+}
+
+.groupMyPostsIcon {
+    margin-right: 0px;
+}
+
+.groupMyPosts {
+    cursor: pointer;
+    margin-left: 0px;
+    padding: 5px 20px;
+}
+
+.groupLeaveButton {
+    display: flex;
+    flex-direction: column;
+    background-color: #FF3F03;
+    width: 181px;
+    height: 40px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.groupLeaveButtonText {
+    color: #FFFFFF;
+    font-weight: bold;
+}
