@@ -18,13 +18,13 @@ export default function ItemListing({ item }) {
   return (
     <div className="itemListingWrapper" onClick={() => handleClickItem()}>
       <Card>
-        {/* <Card.Img
+        <Card.Img
           variant="top"
           src={PF + item.img[0]}
           className="trendingSwapItemImg"
-        /> */}
-        <Card.Img src="/assests/Legobricks.jpg" alt=""/>
-        {/* <Card.Body className="trendingSwapItemBody">
+        />
+     
+        <Card.Body className="trendingSwapItemBody">
           <Card.Title className="itemListingCardTitle">
             <span style={{ marginRight: "10px" }}>{item.title}</span>
             <Chip
@@ -57,11 +57,8 @@ export default function ItemListing({ item }) {
           ))}
 
           <Card.Text>{item.desc}</Card.Text>
-        </Card.Body> */}
-        <Card.Body>
-          This created for testing purpose only.
-          Dont forget to convert the card back to the original version.
         </Card.Body>
+        
       </Card>
     </div>
   );
