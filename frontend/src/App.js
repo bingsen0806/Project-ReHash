@@ -29,7 +29,7 @@ function App() {
       <Switch>
         <Route exact path="/">
           {/* {user ? <Redirect to="/home" /> : <Login />} */}
-          {user ? <Group /> : <Group />}
+          {user ? <Group/> : <Group/>}
         </Route>
         <Route path="/register">
           {user ? <Redirect to="/home" /> : <Register />}

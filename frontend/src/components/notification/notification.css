@@ -1,0 +1,49 @@
+.notiWrapper {
+    /* background-color: brown; */
+    width: 150px;
+}
+
+.notiContainer {
+    /* width: 100px; */
+    /* background-color: green; */
+    word-wrap: break-word;
+    width: 150px;
+    white-space: normal;
+    align-items: center;
+    /* text-align: center; */
+}
+
+.notiContainerUsername {
+    font-weight: bold;
+}
+
+.notiContainerGroupName {
+    font-weight: bold;
+}
+
+.notibuttonGroupWrapper {
+    /* background-color: green; */
+    margin-top: 10px;
+}
+
+.acceptButtonWrapper {
+    background-color: #59da59;
+    text-align: center;
+    border-radius: 5px;
+    width: 60px;
+}
+
+.acceptButtonText {
+    font-size: 18px;
+}
+
+.denyButtonWrapper {
+    background-color: rgb(225, 223, 223);
+    text-align: center;
+    border-radius: 5px;
+    width: 60px;
+}
+
+.denyButtonText {
+    font-size: 18px;
+}

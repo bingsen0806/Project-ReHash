@@ -23,7 +23,7 @@ export default function ItemListing({ item }) {
           src={PF + item.img[0]}
           className="trendingSwapItemImg"
         />
-     
+        {/* <Card.Img src="/assests/Legobricks.jpg"/> */}
         <Card.Body className="trendingSwapItemBody">
           <Card.Title className="itemListingCardTitle">
             <span style={{ marginRight: "10px" }}>{item.title}</span>
@@ -59,6 +59,7 @@ export default function ItemListing({ item }) {
           <Card.Text>{item.desc}</Card.Text>
         </Card.Body>
         
+        {/* <Card.Body>hello</Card.Body> */}
       </Card>
     </div>
   );
