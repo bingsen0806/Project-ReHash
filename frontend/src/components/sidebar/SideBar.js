@@ -11,7 +11,7 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { LocalMall, SwapVert, ExitToApp, Settings } from "@material-ui/icons";
-import GroupIcon from '@material-ui/icons/Group';
+import GroupIcon from "@material-ui/icons/Group";
 import { AuthContext } from "../../context/AuthContext";
 import { useHistory } from "react-router";
 
@@ -101,9 +101,9 @@ export default function SideBar({ sidebarUser }) {
               <SwapVert className="sidebarIcons" />
               <span className="sidebarMenuText">Reviews</span>
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem>
-                <GroupIcon className="sidebarIcons"/>
-                <span className="sidebarMenuText">My Groups</span>
+            <CDBSidebarMenuItem className="sidebarMenuItem">
+              <GroupIcon className="sidebarIcons" />
+              <span className="sidebarMenuText">My Groups</span>
             </CDBSidebarMenuItem>
             {/* {sidebarUser && sidebarUser._id === user?._id ? (
               <CDBSidebarMenuItem className="sidebarMenuItem" onClick={handleMyGroups}>
@@ -113,7 +113,7 @@ export default function SideBar({ sidebarUser }) {
             ) : (
               <></>
             )} */}
-  
+
             {sidebarUser && sidebarUser._id === user?._id ? (
               <CDBSidebarMenuItem
                 className="sidebarMenuItem"

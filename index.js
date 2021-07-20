@@ -25,6 +25,9 @@ const conversationRoute = require("./routes/conversations");
 const messageRoute = require("./routes/messages");
 const reviewRoute = require("./routes/reviews");
 const agreementRoute = require("./routes/agreements");
+const groupRoute = require("./routes/groups");
+const postRoute = require("./routes/posts");
+const commentRoute = require("./routes/comments");
 const multer = require("multer");
 var cors = require("cors");
 let port = process.env.PORT || 8080;
@@ -47,6 +50,8 @@ mongoose
   )
   .then(() => console.log("Database connected!"))
   .catch((err) => console.log(err));
+
+/** TODO ADD groups path to production environment  **/
 
 //setup for production environment
 if (process.env.NODE_ENV === "production") {
@@ -144,6 +149,9 @@ app.use("/api/items", itemRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/agreements", agreementRoute);
+app.use("/api/groups", groupRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/comments", commentRoute);
 
 //socket.io connections
 let users = [];

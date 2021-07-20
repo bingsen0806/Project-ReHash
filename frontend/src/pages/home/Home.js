@@ -8,7 +8,6 @@ import Ads from "../../components/ads/Ads";
 import { AuthContext } from "../../context/AuthContext";
 import GroupIconContainer from "../../components/groupIconContainer/GroupIconContainer";
 
-
 export default function Home() {
   const { user, sockio } = useContext(AuthContext);
 
@@ -40,10 +39,10 @@ export default function Home() {
           </div>
           <GroupIconContainer />
         </div>
-        <div className="trendingSwap">
+        {/* <div className="trendingSwap">
           <span className="trendingSwapHead">Trending Swaps</span>
           <TrendingSwaps className="trendingSwapItems" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

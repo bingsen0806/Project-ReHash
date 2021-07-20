@@ -16,7 +16,7 @@ import Login from "./pages/login/Login";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Chat from "./pages/chat/Chat";
-import MyGroups from "./pages/myGroups/MyGroups"
+import MyGroups from "./pages/myGroups/MyGroups";
 import Settings from "./pages/settings/Settings";
 import Group from "./pages/group/Group";
 
@@ -29,7 +29,7 @@ function App() {
       <Switch>
         <Route exact path="/">
           {/* {user ? <Redirect to="/home" /> : <Login />} */}
-          {user ? <Group/> : <Group/>}
+          {user ? <Group /> : <Group />}
         </Route>
         <Route path="/register">
           {user ? <Redirect to="/home" /> : <Register />}
