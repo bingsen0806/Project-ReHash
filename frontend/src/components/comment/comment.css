@@ -1,0 +1,34 @@
+.commentWrapper {
+    background-color: #F3F5F8;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    border-radius: 10px;
+    padding-bottom: 5px;
+    margin-top: 8px;
+}
+
+.commentContainer {
+    /* background-color:hotpink; */
+}
+
+.commentProfileImg {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.commentProfileText {
+    /* background-color: purple; */
+    padding-left: 10px;
+}
+
+.commentUserContent {
+    width: 90%;
+    /* background-color: blue; */
+    padding-left: 10px;
+    padding-right: 10px;
+    word-wrap: break-word;
+    margin-left: 40px;
+}

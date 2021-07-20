@@ -16,7 +16,9 @@ import Login from "./pages/login/Login";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Chat from "./pages/chat/Chat";
+import MyGroups from "./pages/myGroups/MyGroups"
 import Settings from "./pages/settings/Settings";
+import Group from "./pages/group/Group";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -26,7 +28,8 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/">
-          {user ? <Redirect to="/home" /> : <Login />}
+          {/* {user ? <Redirect to="/home" /> : <Login />} */}
+          {user ? <Group/> : <Group/>}
         </Route>
         <Route path="/register">
           {user ? <Redirect to="/home" /> : <Register />}

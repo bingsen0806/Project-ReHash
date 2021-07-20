@@ -1,0 +1,99 @@
+.groupSharePostWrapper {
+    /* width: 866px; */
+    min-width: 400px;
+    width: 70%;
+    height: 180px;
+    background-color: #FFFFFF;
+    /* background-color: yellow; */
+    border-radius: 10px;
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.sharePostTop {
+    /* background-color: blue; */
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sharePostTopContainer {
+    /* background-color: purple; */
+    /* width: 500px; */
+    width: 59%;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    white-space: nowrap;
+    /* padding-left: 10px; */
+}
+
+.sharePostProfileImg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sharePostProfileText {
+   padding-left: 10px;
+   padding-right: 10px;
+   font-weight: bold;
+   /* background-color: white; */
+}
+
+.shaerPostContainerWrapper {
+    display: flex;
+}
+
+.sharePostContainerLeft {
+    flex: 9;
+    margin-left: 5%;
+    /* background-color: bisque; */  
+}
+
+.sharePostContainerRight {
+    /* background-color: brown; */
+    flex: 3;
+}
+.sharePostContainerInput {
+    /* width: 600px; */
+    width: 60%;
+    height: 40px;
+    /* background-color: white; */
+    /* background-color: green; */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    border: 1px;
+    margin-left: 70px;
+    /* margin-top: 16px;
+    margin-left: 0px;
+    margin-right: 100px; */
+}
+
+::placeholder {
+    color: #878787;
+}
+
+.sharePostButtonWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 10px; */
+}
+
+.sharePostButton {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFAB03;
+    width: 50%;
+    height: 45px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  
+}
+
+.sharePostButtonText {
+    color: white;
+}

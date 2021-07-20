@@ -6,6 +6,8 @@ import ItemListsIntangible from "../../components/itemlistsIntangible/ItemListsI
 import TrendingSwaps from "../../components/trendingSwaps/TrendingSwaps";
 import Ads from "../../components/ads/Ads";
 import { AuthContext } from "../../context/AuthContext";
+import GroupIconContainer from "../../components/groupIconContainer/GroupIconContainer";
+
 
 export default function Home() {
   const { user, sockio } = useContext(AuthContext);
@@ -32,7 +34,12 @@ export default function Home() {
           </div>
           <ItemListsIntangible />
         </div>
-
+        <div className="recommendedGroups">
+          <div className="itemsType">
+            <span>Recommended Groups</span>
+          </div>
+          <GroupIconContainer />
+        </div>
         <div className="trendingSwap">
           <span className="trendingSwapHead">Trending Swaps</span>
           <TrendingSwaps className="trendingSwapItems" />

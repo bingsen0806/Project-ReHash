@@ -6,12 +6,15 @@
   position: -webkit-sticky;
   z-index: 9999;
   width: 100%;
-  /* width: 100vw; */
   /* overflow-x: hidden; */
 }
 
 .mr-auto {
   background-color: rgb(255, 204, 50);
+  /* background-color: green; */
+  width: 100%;
+  align-items: center;
+  text-align: center;
 }
 
 .topbarLeft {
@@ -54,7 +57,7 @@
   flex: 5.5;
 }
 
-.searchbar {
+/* .searchbar {
   width: 1000px;
   height: 30px;
   background-color: white;
@@ -64,13 +67,30 @@
   margin-top: 16px;
   margin-left: 0px;
   margin-right: 100px;
+} */
+
+.searchbar {
+  /* background-color: purple; */
+  width: 60%;
+  min-width: 400px;
+  align-items: center;
+  text-align: center;
+  height: 35px;
+  margin-left: 20px;
+  background-color: white;
+  border-radius: 30px;
 }
 
-.swap {
+/* .swap {
   width: 100%;
   margin-top: 10px;
   margin-left: 30px;
   margin-right: -350px;
+  background-color: blue;
+} */
+
+.swap {
+  /* background-color: blue; */
 }
 
 .searchIcon {
@@ -78,9 +98,15 @@
   margin-left: 10px;
 }
 
-.searchInput {
+/* .searchInput {
   border: none;
   width: 70%;
+} */
+
+.searchInput {
+  border: none;
+  width: 90%;
+  margin-top: 5px;
 }
 
 .searchInput:focus {
@@ -101,19 +127,52 @@
   margin-top: 15px;
 }
 
-.chat {
+/* .chat {
   display: flex;
   font-size: 50px !important;
   margin-right: 20px;
   cursor: pointer;
   margin-left: 20px;
+} */
+
+.chat {
+  /* background-color: red; */
+  margin-left: 40px;
+  font-size: 50px !important;
+  margin-bottom: 10px;
 }
 
-.userProfilePic {
+/* .userProfilePic {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
   margin-left: 20px;
+} */
+
+.userNotification {
+  /* background-color:brown; */
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 10px;
+  border: none;
+}
+.userNotificationList {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.userNotificationIcon {
+  font-size: 40px !important;
+}
+
+.userProfilePic {
+  background-color: aquamarine;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  margin-bottom: 10px;
 }

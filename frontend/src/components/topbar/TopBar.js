@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl, Button, DropdownButton, Dropdown } from "react-bootstrap";
 import "./topbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Search, TextsmsOutlined } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Notification from "../notification/Notification";
 
 export default function TopBar({ currentUser }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -27,6 +29,9 @@ export default function TopBar({ currentUser }) {
       }
     }
   };
+
+  const navbarNotificationTitle = (<NotificationsIcon  className="userNotificationIcon" htmlColor="orange"/>);
+
   return (
     <Navbar className="topbarWrapper fixed-top" expand="lg">
       <Navbar.Brand onClick={() => handleClickHome()}>
@@ -52,6 +57,16 @@ export default function TopBar({ currentUser }) {
           <Link to="/chat/0">
             <TextsmsOutlined className="chat" htmlColor="orange" />
           </Link>
+          {/* notification list */}
+          <DropdownButton className="userNotification" variant="light" title={navbarNotificationTitle}>
+            <div className="userNotificationList">
+              <Dropdown.Item><Notification /></Dropdown.Item>
+              <Dropdown.Item><Notification /></Dropdown.Item>
+              <Dropdown.Item><Notification /></Dropdown.Item>
+            </div>
+          </DropdownButton>
+            {/* <NotificationsIcon className="userNotification" htmlColor="orange"/> */}
+          
           <Link
             to={
               currentUser
@@ -72,5 +87,6 @@ export default function TopBar({ currentUser }) {
         </Nav>
       </Navbar.Collapse>
     </Navbar>
+    
   );
 }
