@@ -1,7 +1,7 @@
 .postWrapper {
   /* margin-left: 300px; */
   min-width: 400px;
-  width: 70%;
+  width: 80%;
   height: auto;
   background-color: #ffffff;
   border-radius: 10px;
@@ -149,6 +149,8 @@
 .postCommentInputWrapper {
   /* background-color: coral; */
   padding-left: 20px;
+  margin-bottom: 5px;
+  padding-right: 10px;
 }
 .postCommentInput {
   /* width: 600px; */
@@ -166,8 +168,12 @@
     margin-right: 100px; */
 }
 
+.postCommentInput:focus {
+  outline: none;
+}
+
 .postCommentContentSection {
-  padding-left: 10px;
+  padding-left: 20px;
   padding-right: 10px;
   max-height: 200px;
   overflow-y: auto;

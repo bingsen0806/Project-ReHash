@@ -11,9 +11,13 @@ import {
 import CreateIcon from "@material-ui/icons/Create";
 import HomeIcon from "@material-ui/icons/Home";
 
-export default function GroupSidebar({ group }) {
+export default function GroupSidebar({
+  group,
+  isGroupMember,
+  handleLeave,
+  handleJoin,
+}) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const [isGroupMember, setIsGroupMember] = useState(true);
   const [showInviteInput, setShowInviteInput] = useState(false);
 
   const handleInviteButton = () => {
@@ -68,7 +72,7 @@ export default function GroupSidebar({ group }) {
             </div>
           ) : (
             <div className="groupJoinButtonWrapper">
-              <div className="groupJoinButton">
+              <div className="groupJoinButton" onClick={handleJoin}>
                 <span className="groupJoinButtonText">+ Join Group</span>
               </div>
             </div>
@@ -115,7 +119,7 @@ export default function GroupSidebar({ group }) {
         <CDBSidebarFooter>
           {isGroupMember ? (
             <div className="groupLeaveButtonWrapper">
-              <div className="groupLeaveButton">
+              <div className="groupLeaveButton" onClick={handleLeave}>
                 <span className="groupLeaveButtonText">Leave Group</span>
               </div>
             </div>

@@ -24,12 +24,27 @@ router.delete("/", async (req, res) => {
   }
 });
 
-//get all comments from a post "/comments/filter?commentId=commentId"
+//get all comments from a post "/comments/filter?postId=postId" and sort by time
 router.get("/filter", async (req, res) => {
   try {
     const postId = req.query.postId;
-    const comments = await Comment.find({ postId: postId });
+    const comments = await Comment.find({ postId: postId }).sort({
+      createdAt: 1,
+    });
     res.status(200).json(comments);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+//delete all comments from a post
+router.delete("/filter", async (req, res) => {
+  try {
+    const postId = req.query.postId;
+    await Comment.deleteMany({ postId: postId });
+    res
+      .status(200)
+      .json({ message: "All comments from this post deleted from database" });
   } catch (err) {
     res.status(400).json(err);
   }

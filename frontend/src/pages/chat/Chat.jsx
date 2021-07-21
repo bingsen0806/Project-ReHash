@@ -8,7 +8,6 @@ import axios from "axios";
 import { format } from "timeago.js";
 import { useHistory, useParams } from "react-router-dom";
 
-
 export default function Chat() {
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
@@ -100,7 +99,7 @@ export default function Chat() {
 
     const getCurrentChatWith = async () => {
       try {
-        const res = await axios("/api/users?userId=" + friendId);
+        const res = await axios.get("/api/users?userId=" + friendId);
         await setCurrentChatWith(res.data);
       } catch (err) {
         console.log(err);
@@ -113,7 +112,9 @@ export default function Chat() {
     const updateLastActive = async () => {
       var timeago = "";
       try {
-        const res = await axios("/api/users?userId=" + currentChatWith?._id);
+        const res = await axios.get(
+          "/api/users?userId=" + currentChatWith?._id
+        );
         const newLastActive = res.data.lastActive;
         console.log("newLastActive: ", newLastActive);
         timeago = format(newLastActive);

@@ -1,99 +1,237 @@
-.groupSharePostWrapper {
-    /* width: 866px; */
-    min-width: 400px;
-    width: 70%;
-    height: 180px;
-    background-color: #FFFFFF;
-    /* background-color: yellow; */
-    border-radius: 10px;
-    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2);
+/* .groupSharePostWrapper {
+  min-width: 400px;
+  width: 70%;
+  height: 180px;
+  background-color: #ffffff;
+  background-color: yellow;
+  border-radius: 10px;
+  box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+.groupSharePostContainer {
+  background-color: aqua;
+  display: flex;
+  flex-direction: column;
 }
 
 .sharePostTop {
-    /* background-color: blue; */
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  background-color: blue;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 100%;
 }
 
 .sharePostTopContainer {
-    /* background-color: purple; */
-    /* width: 500px; */
-    width: 59%;
-    text-overflow: ellipsis;
-    overflow:hidden;
-    white-space: nowrap;
-    /* padding-left: 10px; */
+  background-color: purple;
+  width: 94%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .sharePostProfileImg {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .sharePostProfileText {
-   padding-left: 10px;
-   padding-right: 10px;
-   font-weight: bold;
-   /* background-color: white; */
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
 }
-
-.shaerPostContainerWrapper {
-    display: flex;
+.sharePostContainer {
+  background-color: chartreuse;
+  flex: 10;
+}
+.sharePostContainerWrapper {
+  background-color: aquamarine;
+  height: 100%;
+  display: flex;
 }
 
 .sharePostContainerLeft {
-    flex: 9;
-    margin-left: 5%;
-    /* background-color: bisque; */  
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 9;
+  background-color: bisque;
 }
 
 .sharePostContainerRight {
-    /* background-color: brown; */
-    flex: 3;
+  height: 100%;
+  background-color: brown;
+  flex: 3;
 }
 .sharePostContainerInput {
-    /* width: 600px; */
-    width: 60%;
-    height: 40px;
-    /* background-color: white; */
-    /* background-color: green; */
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    border: 1px;
-    margin-left: 70px;
-    /* margin-top: 16px;
-    margin-left: 0px;
-    margin-right: 100px; */
+  width: 60%;
+  height: 40px;
+  background-color: green;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  border: 1px;
+  margin-left: 70px;
 }
 
 ::placeholder {
-    color: #878787;
+  color: #878787;
 }
 
 .sharePostButtonWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* margin-top: 10px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sharePostButton {
-    display: flex;
-    flex-direction: column;
-    background-color: #FFAB03;
-    width: 50%;
-    height: 45px;
-    border-radius: 5px;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  
+  display: flex;
+  flex-direction: column;
+  background-color: #ffab03;
+  width: 50%;
+  height: 45px;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .sharePostButtonText {
-    color: white;
+  color: white;
+} */
+
+.groupSharePostWrapper {
+  min-width: 400px;
+  width: 80%;
+  height: 230px;
+  background-color: #ffffff;
+  /* background-color: yellow; */
+  border-radius: 10px;
+  box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+.groupSharePostContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sharePostTop {
+  /* background-color: blue; */
+  height: 33%;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.sharePostTopContainer {
+  /* background-color: purple; */
+  width: 94%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sharePostProfileImg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sharePostProfileText {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.sharePostContainer {
+  /* background-color: green; */
+  flex: 7;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.sharePostContainerWrapper {
+  /* background-color: aquamarine; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sharePostContainerTop {
+  display: flex;
+  margin-left: 15px;
+  /* background-color: bisque; */
+}
+
+.sharePostContainerItemId {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sharePostContainerItemIdInput {
+  max-width: 200px;
+  height: 30px;
+  font-size: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
+  border-width: 2px;
+}
+
+.sharePostContainerItemIdInput:focus {
+  outline: none;
+}
+.sharePostContainerErrorMessage {
+  font-size: 10px;
+  color: red;
+}
+
+.sharePostContainerTextArea {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  /* background-color: blue; */
+}
+
+.sharePostContainerTextAreaInput {
+  height: 80px;
+  /* padding-left: 5px; */
+  padding-right: 5px;
+  border: none;
+  outline: none;
+  /* background-color: blue; */
+}
+
+.sharePostContainerTextAreaInput::-webkit-scrollbar {
+  width: 0px;
+}
+
+.sharePostButton {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffab03;
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  color: white;
+}
+.sharePostButton:hover {
+  cursor: pointer;
+}
+
+::placeholder {
+  color: #878787;
+  font-size: 14px;
 }

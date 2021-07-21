@@ -4,22 +4,9 @@ import TopBar from "../../components/topbar/TopBar";
 import GroupSidebar from "../../components/groupSidebar/GroupSidebar";
 import GroupSharePost from "../../components/groupSharePost/GroupSharePost";
 import Post from "../../components/post/Post";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-
-const testPost = {
-  description:
-    "Trading away my ultimate Gen 1 Eevee collection! PM or comment below for more details",
-  likedBy: [],
-  _id: "60f783855b6c5a0b147bd42d",
-  groupId: "60f77ff618a99151cc4df876",
-  postUserId: "60bf21abb893706a58752ecf",
-  itemId: "60f784ab5b6c5a0b147bd42f",
-  createdAt: "2021-07-21T02:16:37.937Z",
-  updatedAt: "2021-07-21T02:16:37.937Z",
-  __v: 0,
-};
 
 export default function Group() {
   const { user, sockio } = useContext(AuthContext);
@@ -27,11 +14,14 @@ export default function Group() {
   const pageType = useParams().pageType;
   const [displayPosts, setDisplayPosts] = useState([]);
   const [group, setGroup] = useState(null);
+  const [isGroupMember, setIsGroupMember] = useState(false); //set to false for now
+  const history = useHistory();
+  //TODO: move isGroupMember state here? function to update leave group or join group
 
   useEffect(() => {
     const getGroup = async () => {
       try {
-        const res = await axios("/api/groups?groupId=" + groupId);
+        const res = await axios.get("/api/groups?groupId=" + groupId);
         await setGroup(res.data);
       } catch (err) {
         console.log(err);
@@ -41,15 +31,21 @@ export default function Group() {
   }, [groupId]);
 
   useEffect(() => {
+    if (group && user) {
+      setIsGroupMember(group.members.includes(user._id));
+    }
+  }, [group, user]);
+
+  useEffect(() => {
     const getDisplayPosts = async () => {
       try {
         if (pageType === "main") {
           console.log("page type is main");
-          const res = await axios("/api/posts/filter?groupId=" + groupId);
+          const res = await axios.get("/api/posts/filter?groupId=" + groupId);
           await setDisplayPosts(res.data);
         } else if (pageType === "myPosts") {
           console.log("page type is myPosts");
-          const res = await axios(
+          const res = await axios.get(
             "/api/posts/filter?groupId=" + groupId + "&userId=" + user?._id
           );
           await setDisplayPosts(res.data);
@@ -61,21 +57,105 @@ export default function Group() {
     getDisplayPosts();
   }, [pageType, groupId, user]);
 
+  //passed into Post component to delete post
+  const handleDelete = async (postId) => {
+    try {
+      console.log("deleting post with id: " + postId); //60f7f6e319807816605c790c
+      const res = await axios.delete("/api/posts?postId=" + postId);
+      if (res.status === 200) {
+        console.log(res.data.message);
+        setDisplayPosts(displayPosts.filter((post) => post._id !== postId));
+        await axios.delete("/api/comments/filter?postId=" + postId); //delete all comments of this post from database at last to avoid waiting
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //passed into GroupSharePost component to add post
+  const handleAdd = async (itemId, description) => {
+    try {
+      if (group && user) {
+        const newPost = {
+          groupId: group._id,
+          postUserId: user._id,
+          description: description,
+          itemId: itemId,
+        };
+        console.log(newPost);
+        const res = await axios.post("/api/posts", newPost);
+        if (res.status === 200) {
+          setDisplayPosts([res.data, ...displayPosts]);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //passed into GroupSideBar to change isGroupMember and update database
+  const handleLeave = async () => {
+    //try without updating the group
+    try {
+      if (group && user) {
+        const res = await axios.put(
+          "/api/groups/" + group._id + "/removeMember/" + user._id
+        );
+        if (res.status === 200) {
+          setIsGroupMember(false);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleJoin = async () => {
+    try {
+      if (!user) {
+        history.push("/");
+      }
+      if (group && user) {
+        const res = await axios.put(
+          "/api/groups/" + group._id + "/addMember/" + user._id
+        );
+        if (res.status === 200) {
+          setIsGroupMember(true);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
-      <div className="groupPageTop">
-        <TopBar currentUser={user} />
-      </div>
+      <div className="groupPageTop">{/* <TopBar currentUser={user} /> */}</div>
       <div className="groupPageContainer">
         <div className="groupSidebarWrapper">
-          <GroupSidebar className="groupSidebarComponent" group={group} />
+          <GroupSidebar
+            className="groupSidebarComponent"
+            group={group}
+            isGroupMember={isGroupMember}
+            handleLeave={handleLeave}
+            handleJoin={handleJoin}
+          />
         </div>
         <div className="groupPageContainerRight">
           <div className="groupPagecontainerRightShareWrapper">
-            <GroupSharePost />
+            {group && user && isGroupMember ? (
+              <GroupSharePost handleAdd={handleAdd} />
+            ) : (
+              <></>
+            )}
           </div>
           {displayPosts.map((post) => (
-            <Post post={post} key={post._id} />
+            <Post
+              post={post}
+              key={post._id}
+              handleDelete={handleDelete}
+              canCommentAndLike={group && user && isGroupMember}
+            />
           ))}
         </div>
       </div>

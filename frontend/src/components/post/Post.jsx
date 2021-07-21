@@ -9,18 +9,23 @@ import ItemListing from "../itemListing/ItemListing";
 import Comment from "../comment/Comment";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
-export default function Post({ post }) {
+export default function Post({ post, handleDelete, canCommentAndLike }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user, sockio } = useContext(AuthContext);
   const [postUser, setPostUser] = useState(null);
   const [postComments, setPostComments] = useState([]);
   const [postItem, setPostItem] = useState(null);
+  const [incomingComment, setIncomingComment] = useState("");
+  const [liked, setLiked] = useState(false);
+  const [displayLikeCount, setDisplayLikeCount] = useState(0);
+  const history = useHistory();
 
   useEffect(() => {
     const getPostUser = async () => {
       try {
-        const res = await axios("/api/users?userId=" + post?.postUserId);
+        const res = await axios.get("/api/users?userId=" + post?.postUserId);
         await setPostUser(res.data);
       } catch (err) {
         console.log(err);
@@ -32,7 +37,7 @@ export default function Post({ post }) {
   useEffect(() => {
     const getPostComments = async () => {
       try {
-        const res = await axios("/api/comments/filter?postId=" + post?._id);
+        const res = await axios.get("/api/comments/filter?postId=" + post?._id);
         await setPostComments(res.data);
       } catch (err) {
         console.log(err);
@@ -44,7 +49,7 @@ export default function Post({ post }) {
   useEffect(() => {
     const getPostItem = async () => {
       try {
-        const res = await axios("/api/items?itemId=" + post?.itemId);
+        const res = await axios.get("/api/items?itemId=" + post?.itemId);
         await setPostItem(res.data);
       } catch (err) {
         console.log(err);
@@ -52,6 +57,107 @@ export default function Post({ post }) {
     };
     getPostItem();
   }, [post]);
+
+  useEffect(() => {
+    if (post) {
+      setDisplayLikeCount(post.likedBy.length);
+      if (user) {
+        setLiked(post.likedBy.includes(user._id));
+      } else {
+        setLiked(false);
+      }
+    }
+  }, [post, user]);
+
+  //handles new comment when user press enter
+  const handleKeyDownComment = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setIncomingComment(incomingComment);
+      if ((incomingComment.match(/^\s*\n*\t*$/) || []).length > 0) {
+        console.log("comment is empty!");
+        setIncomingComment("");
+      } else {
+        console.log("adding new comment...");
+        const newComment = {
+          postId: post._id,
+          commentUserId: user._id,
+          commentText: incomingComment,
+        };
+        try {
+          setIncomingComment("");
+          const res = await axios.post("/api/comments", newComment);
+          await setPostComments([...postComments, res.data]);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  };
+
+  //handles the event when user clicks swapAway
+  const handleSwapAway = async () => {
+    if (!user) {
+      history.push("/");
+      console.log("pushed to login");
+    } else {
+      const res = await axios.get(
+        "/api/conversations/find/" + user._id + "/" + post.postUserId
+      );
+      if (res.data.length > 0) {
+        history.push("/chat/" + res.data[0]._id);
+        console.log("pushed to chat id:" + res.data[0]._id);
+      } else {
+        const newConvo = await axios.post("/api/conversations", {
+          members: [post.postUserId, user._id],
+        });
+        //chatFollow is not used for now
+        history.push("/chat/" + newConvo._id); //likely works but needs to be tested
+        console.log(newConvo.data);
+      }
+    }
+  };
+
+  //handles like and dislike
+  const handleDislike = async () => {
+    if (canCommentAndLike) {
+      setLiked(false);
+      setDisplayLikeCount(displayLikeCount - 1);
+      try {
+        const res = await axios.put(
+          "/api/posts/" + post._id + "/removeLike/" + user?._id
+        );
+        // if (res.status === 200) {
+        // }
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert(
+        "You cannot dislike this post as you are either not logged in or not a member of this group!"
+      );
+    }
+  };
+
+  const handleLike = async () => {
+    if (canCommentAndLike) {
+      setLiked(true);
+      setDisplayLikeCount(displayLikeCount + 1);
+      try {
+        const res = await axios.put(
+          "/api/posts/" + post._id + "/addLike/" + user?._id
+        );
+        // if (res.status === 200) {
+        // }
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      alert(
+        "You cannot like this post as you are either not logged in or not a member of this group!"
+      );
+    }
+  };
 
   return (
     <div className="postWrapper">
@@ -74,19 +180,23 @@ export default function Post({ post }) {
               </span>
             </Col>
             <Col className="postTopContainerRight">
-              {/* Swap Away Button */}
-              <div className="postSwapButtonWrapper">
-                <div className="postSwapButton">
-                  <TextsmsOutlinedIcon className="chatIcon" />
-                  <span className="postSwapButtonText">Swap Away!</span>
+              {user && user._id === post.postUserId ? (
+                <div className="deleteButtonWrapper">
+                  <div
+                    className="deleteButton"
+                    onClick={() => handleDelete(post._id)}
+                  >
+                    <span className="deleteButtonText">Delete</span>
+                  </div>
                 </div>
-              </div>
-              {/* Delete Button */}
-              {/* <div className="deleteButtonWrapper">
-                                    <div className="deleteButton">
-                                        <span className="deleteButtonText">Delete</span>
-                                    </div>
-                                </div> */}
+              ) : (
+                <div className="postSwapButtonWrapper">
+                  <div className="postSwapButton" onClick={handleSwapAway}>
+                    <TextsmsOutlinedIcon className="chatIcon" />
+                    <span className="postSwapButtonText">Swap Away!</span>
+                  </div>
+                </div>
+              )}
             </Col>
           </Row>
           {/* </div> */}
@@ -105,10 +215,12 @@ export default function Post({ post }) {
           <div className="postMiddleItemLikesComments">
             <div className="postMiddleItemLikesCommentsContainer">
               <div className="postMiddleItemLikes">
-                <FavoriteIcon />
-                <span className="numberLikes">
-                  {post?.likedBy ? post.likedBy.length : 0}
-                </span>
+                {liked ? (
+                  <FavoriteIcon onClick={handleDislike} />
+                ) : (
+                  <FavoriteBorderIcon onClick={handleLike} />
+                )}
+                <span className="numberLikes">{displayLikeCount}</span>
               </div>
               <div className="postMiddleItemComments">
                 <ChatBubbleOutlineIcon />
@@ -118,12 +230,17 @@ export default function Post({ post }) {
           </div>
         </div>
         <div className="postBottom">
-          <div className="postCommentInputWrapper">
-            <input
-              className="postCommentInput"
-              placeholder="Write a comment..."
-            />
-          </div>
+          {canCommentAndLike && (
+            <div className="postCommentInputWrapper">
+              <textarea
+                value={incomingComment}
+                onChange={(e) => setIncomingComment(e.target.value)}
+                onKeyDown={handleKeyDownComment}
+                className="postCommentInput"
+                placeholder="Write a comment and press enter to send..."
+              />
+            </div>
+          )}
           <div className="postCommentContentSection">
             {postComments.map((comment) => (
               <Comment
