@@ -28,8 +28,8 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/">
-          {/* {user ? <Redirect to="/home" /> : <Login />} */}
-          {user ? <Group /> : <Group />}
+          {user ? <Redirect to="/home" /> : <Login />}
+          {/* {user ? <Group /> : <Group />} */}
         </Route>
         <Route path="/register">
           {user ? <Redirect to="/home" /> : <Register />}
@@ -55,8 +55,14 @@ function App() {
         <Route exact path="/profile/:username/settings">
           <Settings />
         </Route>
+        <Route exact path="/profile/:username/mygroups">
+          <MyGroups />
+        </Route>
         <Route exact path="/items/:itemId">
           <Item />
+        </Route>
+        <Route exact path="/groups/:groupId/:pageType">
+          <Group />
         </Route>
       </Switch>
     </Router>

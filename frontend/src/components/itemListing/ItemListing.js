@@ -20,8 +20,8 @@ export default function ItemListing({ item, inPost }) {
       <Card>
         {inPost ? (
           <>
-            <Card.Img src="/assests/Legobricks.jpg" />
-            <Card.Body>hello</Card.Body>
+            <Card.Img src={PF + item?.img[0]} />
+            <Card.Body className="PostItemBody">{item?.title}</Card.Body>
           </>
         ) : (
           <>

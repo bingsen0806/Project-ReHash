@@ -34,6 +34,17 @@ router.put("/:id/removeMember/:userId", async (req, res) => {
   }
 });
 
+//get a group by id "/groups?groupId=groupId"
+router.get("/", async (req, res) => {
+  const groupId = req.query.groupId;
+  try {
+    const group = await Group.findById(groupId);
+    res.status(200).json(group);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+});
+
 //get all groups from a user "/groups/filter?userId=userId"
 router.get("/filter", async (req, res) => {
   try {

@@ -101,10 +101,17 @@ export default function SideBar({ sidebarUser }) {
               <SwapVert className="sidebarIcons" />
               <span className="sidebarMenuText">Reviews</span>
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem className="sidebarMenuItem">
-              <GroupIcon className="sidebarIcons" />
-              <span className="sidebarMenuText">My Groups</span>
-            </CDBSidebarMenuItem>
+            {sidebarUser && sidebarUser._id === user?._id ? (
+              <CDBSidebarMenuItem
+                className="sidebarMenuItem"
+                onClick={handleMyGroups}
+              >
+                <GroupIcon className="sidebarIcons" />
+                <span className="sidebarMenuText">My Groups</span>
+              </CDBSidebarMenuItem>
+            ) : (
+              <></>
+            )}
             {/* {sidebarUser && sidebarUser._id === user?._id ? (
               <CDBSidebarMenuItem className="sidebarMenuItem" onClick={handleMyGroups}>
                 <GroupIcon className="sidebarIcons"/>

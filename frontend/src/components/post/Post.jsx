@@ -1,13 +1,58 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./post.css";
 import { Row, Col } from "react-bootstrap";
 import TextsmsOutlinedIcon from "@material-ui/icons/TextsmsOutlined";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ItemListing from "../itemListing/ItemListing";
 import Comment from "../comment/Comment";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
-export default function Post() {
+export default function Post({ post }) {
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const { user, sockio } = useContext(AuthContext);
+  const [postUser, setPostUser] = useState(null);
+  const [postComments, setPostComments] = useState([]);
+  const [postItem, setPostItem] = useState(null);
+
+  useEffect(() => {
+    const getPostUser = async () => {
+      try {
+        const res = await axios("/api/users?userId=" + post?.postUserId);
+        await setPostUser(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPostUser();
+  }, [post]);
+
+  useEffect(() => {
+    const getPostComments = async () => {
+      try {
+        const res = await axios("/api/comments/filter?postId=" + post?._id);
+        await setPostComments(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPostComments();
+  }, [post]);
+
+  useEffect(() => {
+    const getPostItem = async () => {
+      try {
+        const res = await axios("/api/items?itemId=" + post?.itemId);
+        await setPostItem(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPostItem();
+  }, [post]);
+
   return (
     <div className="postWrapper">
       <div className="postContainer">
@@ -17,10 +62,16 @@ export default function Post() {
             <Col className="postTopContainerLeft">
               <img
                 className="postProfileImg"
-                src="/assests/EugeneTan.png"
+                src={
+                  postUser && postUser.profilePicture
+                    ? PF + postUser.profilePicture
+                    : PF + "person/noAvatar.png"
+                }
                 alt=""
               />
-              <span className="postProfileText">Username Here</span>
+              <span className="postProfileText">
+                {postUser?.username ? postUser.username : "No Name"}
+              </span>
             </Col>
             <Col className="postTopContainerRight">
               {/* Swap Away Button */}
@@ -43,28 +94,25 @@ export default function Post() {
         <div className="postMiddle">
           <div className="postMiddleDescription">
             <div className="postMiddleDescriptionContainer">
-              (Post Description Here) Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Nam massa dui, tincidunt at augue in, mollis
-              consequat felis. Vestibulum eget laoreet erat. Mauris eu mollis
-              nisi. Curabitur et ipsum leo. Quisque eu luctus mauris, a
-              consectetur neque. Nulla velit justo, varius eget sagittis eu,
-              egestas non neque. Duis at leo eget sem rhoncus vehicula nec
-              varius urna. Proin a consectetur tellus, vel feugiat leo. Nam
-              condimentum hendrerit velit auctor feugiat.
+              {post?.description
+                ? post.description
+                : "No description available"}
             </div>
           </div>
           <div className="postMiddleItemListing">
-            <ItemListing inPost={true} />
+            <ItemListing item={postItem} inPost={true} />
           </div>
           <div className="postMiddleItemLikesComments">
             <div className="postMiddleItemLikesCommentsContainer">
               <div className="postMiddleItemLikes">
                 <FavoriteIcon />
-                <span className="numberLikes">10</span>
+                <span className="numberLikes">
+                  {post?.likedBy ? post.likedBy.length : 0}
+                </span>
               </div>
               <div className="postMiddleItemComments">
                 <ChatBubbleOutlineIcon />
-                <span className="numberComments">333 comments</span>
+                <span className="numberComments">{postComments.length}</span>
               </div>
             </div>
           </div>
@@ -77,8 +125,13 @@ export default function Post() {
             />
           </div>
           <div className="postCommentContentSection">
-            <Comment />
-            <Comment />
+            {postComments.map((comment) => (
+              <Comment
+                commentText={comment.commentText}
+                commentUserId={comment.commentUserId}
+                key={comment._id}
+              />
+            ))}
           </div>
         </div>
       </div>

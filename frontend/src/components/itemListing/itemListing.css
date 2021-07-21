@@ -10,3 +10,8 @@
   cursor: pointer;
   background-color: lightgray;
 }
+
+.PostItemBody:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
