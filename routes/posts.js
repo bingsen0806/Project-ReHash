@@ -18,7 +18,7 @@ router.delete("/", async (req, res) => {
   try {
     const post = await Post.findById(postId);
     await post.deleteOne();
-    res.status(200).json("the post has been deleted");
+    res.status(200).json({ message: "the post has been deleted" });
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -65,7 +65,7 @@ router.put("/:id/addLike/:userId", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     await post.updateOne({ $push: { likedBy: req.params.userId } });
-    res.status(200).json("user has liked this post");
+    res.status(200).json({ message: "user has liked this post" });
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -76,7 +76,7 @@ router.put("/:id/removeLike/:userId", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     await post.updateOne({ $pull: { likedBy: req.params.userId } });
-    res.status(200).json("user has disliked this post");
+    res.status(200).json({ message: "user has disliked this post" });
   } catch (err) {
     return res.status(400).json(err);
   }

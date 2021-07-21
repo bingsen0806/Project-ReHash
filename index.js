@@ -28,6 +28,7 @@ const agreementRoute = require("./routes/agreements");
 const groupRoute = require("./routes/groups");
 const postRoute = require("./routes/posts");
 const commentRoute = require("./routes/comments");
+const notificationRoute = require("./routes/notifications");
 const multer = require("multer");
 var cors = require("cors");
 let port = process.env.PORT || 8080;
@@ -152,6 +153,7 @@ app.use("/api/agreements", agreementRoute);
 app.use("/api/groups", groupRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/comments", commentRoute);
+app.use("/api/notifications", notificationRoute);
 
 //socket.io connections
 let users = [];
