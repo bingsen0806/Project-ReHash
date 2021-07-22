@@ -143,7 +143,7 @@ export default function Group() {
         </div>
         <div className="groupPageContainerRight">
           <div className="groupPagecontainerRightShareWrapper">
-            {group && user && isGroupMember ? (
+            {group && user && isGroupMember && pageType === "main" ? (
               <GroupSharePost handleAdd={handleAdd} />
             ) : (
               <></>

@@ -23,7 +23,22 @@ import Group from "./pages/group/Group";
 function App() {
   const { user } = useContext(AuthContext);
 
-  //Note to punpun: for
+  /*TODO:
+  1. GroupSideBar invite, edit photo, edit description for creator only
+  3. Create group in home page
+  4. Notifications (basic)
+  2. Backend API for recommended groups
+  3. Filter for groups or items in search function
+  4. Remove search function in chat
+  5. Redo login page and register page
+  6. Surprise swap function on top of the page
+  7. Notifications using socket.io and show notification count
+  8. Cache user data, when update rmb to update local storage also
+  9. Change storage system to online storage
+  10. Show only items that does not belong to you.
+  11. Prevent spamming of notifications by sending error message is user is already invited to the group
+  */
+
   return (
     <Router>
       <Switch>

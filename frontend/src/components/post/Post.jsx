@@ -159,6 +159,12 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
     }
   };
 
+  const handleViewProfile = () => {
+    if (postUser) {
+      history.push("/profile/" + postUser.username + "/listings");
+    }
+  };
+
   return (
     <div className="postWrapper">
       <div className="postContainer">
@@ -174,6 +180,7 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
                     : PF + "person/noAvatar.png"
                 }
                 alt=""
+                onClick={handleViewProfile}
               />
               <span className="postProfileText">
                 {postUser?.username ? postUser.username : "No Name"}

@@ -112,6 +112,15 @@ const personStorage = multer.diskStorage({
   },
 });
 
+const groupStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "public/images/group"));
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
 const itemUpload = multer({ storage: itemStorage });
 app.post("/api/upload/items", itemUpload.array("file"), (req, res) => {
   try {
@@ -133,6 +142,17 @@ const personUpload = multer({ storage: personStorage });
 app.post("/api/upload/person", personUpload.single("file"), (req, res) => {
   try {
     const imageFileName = "person/" + req.file.filename;
+    console.log(imageFileName);
+    return res.status(200).json({ imagePath: imageFileName });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+const groupUpload = multer({ storage: groupStorage });
+app.post("/api/upload/group", groupUpload.single("file"), (req, res) => {
+  try {
+    const imageFileName = "group/" + req.file.filename;
     console.log(imageFileName);
     return res.status(200).json({ imagePath: imageFileName });
   } catch (err) {
