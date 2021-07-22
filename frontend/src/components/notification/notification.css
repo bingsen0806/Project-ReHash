@@ -1,49 +1,58 @@
 .notiWrapper {
-    /* background-color: brown; */
-    width: 150px;
+  width: 170px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .notiContainer {
-    /* width: 100px; */
-    /* background-color: green; */
-    word-wrap: break-word;
-    width: 150px;
-    white-space: normal;
-    align-items: center;
-    /* text-align: center; */
+  /* width: 100px; */
+  /* background-color: green; */
+  word-wrap: break-word;
+  width: 170px;
+  white-space: normal;
+  align-items: center;
+  /* text-align: center; */
 }
 
 .notiContainerUsername {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .notiContainerGroupName {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .notibuttonGroupWrapper {
-    /* background-color: green; */
-    margin-top: 10px;
+  /* background-color: green; */
+  margin-top: 10px;
 }
 
 .acceptButtonWrapper {
-    background-color: #59da59;
-    text-align: center;
-    border-radius: 5px;
-    width: 60px;
+  background-color: #59da59;
+  text-align: center;
+  border-radius: 5px;
+  width: 65px;
+}
+
+.acceptButton {
+  padding: 2px 5px;
 }
 
 .acceptButtonText {
-    font-size: 18px;
+  font-size: 16px;
 }
 
 .denyButtonWrapper {
-    background-color: rgb(225, 223, 223);
-    text-align: center;
-    border-radius: 5px;
-    width: 60px;
+  background-color: rgb(225, 223, 223);
+  text-align: center;
+  border-radius: 5px;
+  width: 65px;
+}
+
+.denyButton {
+  padding: 2px 5px;
 }
 
 .denyButtonText {
-    font-size: 18px;
+  font-size: 16px;
 }

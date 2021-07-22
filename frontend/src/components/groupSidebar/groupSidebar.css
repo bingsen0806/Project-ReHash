@@ -133,9 +133,38 @@
 }
 
 .groupDescriptionHeader {
+  display: flex;
+  justify-content: space-between;
+  /* background-color: darkred; */
+}
+
+.groupDescriptionHeaderText {
   font-weight: bold;
 }
 
+.groupDescriptionHeaderEdit {
+  color: darkorange;
+  text-decoration-line: underline;
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.groupDescriptionTextArea {
+  width: 100%;
+  outline: none;
+  border: none;
+  background-color: #ffd68d;
+}
+
+.groupDescriptionTextArea::-webkit-scrollbar {
+  width: 0;
+}
+
+.groupDescriptionError {
+  font-size: 10px;
+  color: red;
+}
 .groupLeaveButtonWrapper {
   display: flex;
   justify-content: center;

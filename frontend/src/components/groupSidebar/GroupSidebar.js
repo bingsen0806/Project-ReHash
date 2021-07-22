@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./groupSidebar.css";
 import {
   CDBSidebar,
@@ -19,6 +19,7 @@ export default function GroupSidebar({
   isGroupMember,
   handleLeave,
   handleJoin,
+  handleUpdateGroup,
 }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user, sockio } = useContext(AuthContext);
@@ -27,7 +28,18 @@ export default function GroupSidebar({
   const [inviteError, setInviteError] = useState("");
   const [inviteNameInput, setInviteNameInput] = useState("");
   const [inviteSuccess, setInviteSuccess] = useState("");
+  const [editedDescription, setEditedDescription] = useState(""); //the text to be shown in the textarea during edit of description
+  const [editMode, setEditMode] = useState(false);
+  const [descriptionError, setDescriptionError] = useState("");
   const history = useHistory();
+
+  useEffect(() => {
+    if (group) {
+      setEditedDescription(
+        group.description + "(Delete this and press 'Enter' when done editing)"
+      );
+    }
+  }, [group]);
 
   const handleInviteButton = () => {
     showInviteInput ? setShowInviteInput(false) : setShowInviteInput(true);
@@ -70,6 +82,40 @@ export default function GroupSidebar({
           console.log(err);
           setInviteError("User not found!");
         }
+      }
+    }
+  };
+
+  const handleKeyDownDescription = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setEditedDescription(editedDescription);
+      if ((editedDescription.match(/^\s*\n*\t*$/) || []).length > 0) {
+        console.log("editedDescription is empty!");
+        setDescriptionError("Description cannot be empty!");
+        return;
+      }
+      if (editedDescription.length > 200) {
+        setDescriptionError("Description cannot exceed 200 characters!");
+        return;
+      }
+      try {
+        const newGroupDescription = {
+          description: editedDescription,
+        };
+        //update group in database
+        const res = await axios.put(
+          "/api/groups/" + group._id,
+          newGroupDescription
+        );
+        if (res.status === 200) {
+          setEditMode(false);
+          handleUpdateGroup(res.data);
+        }
+      } catch (err) {
+        console.log(err);
+        setDescriptionError("Server error: unable to update!");
+        setEditMode(false);
       }
     }
   };
@@ -206,12 +252,46 @@ export default function GroupSidebar({
         <CDBSidebarContent>
           <CDBSidebarMenu>
             <div className="groupDescriptionContainer">
-              <div className="groupDescriptionHeader">Group Description:</div>
-              <div className="groupDescriptionContent">
-                {group?.description
-                  ? group.description
-                  : "This group creator has left no description of this group"}
+              <div className="groupDescriptionHeader">
+                <div className="groupDescriptionHeaderText">
+                  Group Description:
+                </div>
+                {user && group && user._id === group.creatorId && !editMode ? (
+                  <div
+                    className="groupDescriptionHeaderEdit"
+                    onClick={() => setEditMode(true)}
+                  >
+                    edit
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
+              {editMode ? (
+                <>
+                  <textarea
+                    className="groupDescriptionTextArea"
+                    rows={6}
+                    value={editedDescription}
+                    onChange={(e) => {
+                      if (descriptionError !== "") {
+                        setDescriptionError("");
+                      }
+                      setEditedDescription(e.target.value);
+                    }}
+                    onKeyDown={handleKeyDownDescription}
+                  />
+                  <div className="groupDescriptionError">
+                    {descriptionError}
+                  </div>
+                </>
+              ) : (
+                <div className="groupDescriptionContent">
+                  {group?.description
+                    ? group.description
+                    : "This group creator has left no description of this group"}
+                </div>
+              )}
             </div>
             <CDBSidebarMenuItem
               className="groupMenuItem"

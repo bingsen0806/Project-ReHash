@@ -16,8 +16,16 @@ router.post("/", async (req, res) => {
 router.put("/:id/addMember/:userId", async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
-    await group.updateOne({ $push: { members: req.params.userId } });
-    res.status(200).json({ message: "user has joined this group" });
+    if (group) {
+      if (!group.members.includes(req.params.userId)) {
+        await group.updateOne({ $push: { members: req.params.userId } });
+        res.status(200).json({ message: "user has joined this group" });
+      } else {
+        res.status(400).json({ message: "user already in this group" });
+      }
+    } else {
+      res.status(404).json({ message: "group not found" });
+    }
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -81,5 +89,28 @@ router.put("/:id", async (req, res) => {
 });
 
 /** TODO: get all recommended groups from a user */
+router.get("/recommended/:userId", async (req, res) => {
+  try {
+    const groupsNotIn = await Group.find({
+      members: { $nin: [req.params.userId] },
+    });
+    if (groupsNotIn.length <= 10) {
+      return res.status(200).json(groupsNotIn);
+    } else {
+      var index = [];
+      var recommendedGroups = [];
+      while (recommendedGroups.length < 10) {
+        var r = Math.floor(Math.random() * groupsNotIn.length);
+        if (index.indexOf(r) === -1) {
+          recommendedGroups.push(groupsNotIn[r]);
+          index.push(r);
+        }
+      }
+      return res.status(200).json(recommendedGroups);
+    }
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 
 module.exports = router;

@@ -1,16 +1,26 @@
-import React, { useState } from "react";
-import { Navbar, Nav, Form, FormControl, Button, DropdownButton, Dropdown } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Navbar,
+  Nav,
+  Form,
+  FormControl,
+  Button,
+  DropdownButton,
+  Dropdown,
+} from "react-bootstrap";
 import "./topbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Search, TextsmsOutlined } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import Notification from "../notification/Notification";
+import axios from "axios";
 
 export default function TopBar({ currentUser }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
+  const [userNotifications, setUserNotifications] = useState([]);
 
   const handleClickHome = () => {
     history.push("/home");
@@ -30,7 +40,69 @@ export default function TopBar({ currentUser }) {
     }
   };
 
-  const navbarNotificationTitle = (<NotificationsIcon  className="userNotificationIcon" htmlColor="orange"/>);
+  useEffect(() => {
+    const getUserNotifications = async () => {
+      if (currentUser) {
+        try {
+          const res = await axios.get(
+            "/api/notifications/filter?userId=" + currentUser._id
+          );
+          if (res.status === 200) {
+            setUserNotifications(res.data);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    };
+    getUserNotifications();
+  }, [currentUser]);
+
+  const navbarNotificationTitle = (
+    <NotificationsIcon className="userNotificationIcon" htmlColor="orange" />
+  );
+
+  const handleAccept = async (notification) => {
+    // alert("clicked on accept!");
+    if (notification && currentUser) {
+      try {
+        const deleteRes = await axios.delete(
+          "/api/notifications?notificationId=" + notification._id
+        );
+        if (deleteRes.status === 200) {
+          setUserNotifications(
+            userNotifications.filter((noti) => noti._id !== notification._id)
+          );
+        }
+        const addGroupRes = await axios.put(
+          "/api/groups/" +
+            notification.invitationId +
+            "/addMember/" +
+            currentUser._id
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const handleDeny = async (notification) => {
+    // alert("clicked on deny!");
+    if (notification && currentUser) {
+      try {
+        const deleteRes = await axios.delete(
+          "/api/notifications?notificationId=" + notification._id
+        );
+        if (deleteRes.status === 200) {
+          setUserNotifications(
+            userNotifications.filter((noti) => noti._id !== notification._id)
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   return (
     <Navbar className="topbarWrapper fixed-top" expand="lg">
@@ -58,15 +130,30 @@ export default function TopBar({ currentUser }) {
             <TextsmsOutlined className="chat" htmlColor="orange" />
           </Link>
           {/* notification list */}
-          <DropdownButton className="userNotification" variant="light" title={navbarNotificationTitle}>
+          <DropdownButton
+            className="userNotification"
+            variant="warning"
+            title={navbarNotificationTitle}
+          >
+            <div className="userNotificationLabel">Notifications</div>
             <div className="userNotificationList">
-              <Dropdown.Item><Notification /></Dropdown.Item>
-              <Dropdown.Item><Notification /></Dropdown.Item>
-              <Dropdown.Item><Notification /></Dropdown.Item>
+              {userNotifications.length > 0 ? (
+                userNotifications.map((notification) => (
+                  <Dropdown.Item key={notification._id}>
+                    <Notification
+                      notification={notification}
+                      handleAccept={handleAccept}
+                      handleDeny={handleDeny}
+                    />
+                  </Dropdown.Item>
+                ))
+              ) : (
+                <div className="userNoNotificationsLabel">No notifcations</div>
+              )}
             </div>
           </DropdownButton>
-            {/* <NotificationsIcon className="userNotification" htmlColor="orange"/> */}
-          
+          {/* <NotificationsIcon className="userNotification" htmlColor="orange"/> */}
+
           <Link
             to={
               currentUser
@@ -87,6 +174,5 @@ export default function TopBar({ currentUser }) {
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-    
   );
 }

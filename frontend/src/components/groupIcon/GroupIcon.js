@@ -1,10 +1,14 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import "./groupIcon.css";
 
-export default function GroupIcon({ groupImg, groupName, groupId }) {
+export default function GroupIcon({ groupImg, groupName, groupId, create }) {
   //should limit to 35-40 characters
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const { user, sockio } = useContext(AuthContext);
+  const [newGroupName, setNewGroupName] = useState("");
   const history = useHistory();
 
   const handleClickGroupIcon = () => {
@@ -12,11 +16,55 @@ export default function GroupIcon({ groupImg, groupName, groupId }) {
       history.push("/groups/" + groupId + "/main");
     }
   };
-  return (
-    <div className="groupIconButtonBackground" onClick={handleClickGroupIcon}>
+
+  const handleCreateNewGroup = async () => {
+    if ((newGroupName.match(/^\s*\n*\t*$/) || []).length > 0) {
+      console.log("newGroupName is empty!");
+      setNewGroupName("");
+    } else if (user) {
+      try {
+        const newGroup = {
+          creatorId: user._id,
+          members: [user._id],
+          description:
+            "No description yet. Waiting for group creator to update description.",
+          groupName: newGroupName,
+        };
+        const res = await axios.post("/api/groups", newGroup);
+        if (res.status === 200) {
+          setNewGroupName("");
+          history.push("/groups/" + res.data._id + "/main");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  return create ? (
+    <div className="groupIconButtonBackgroundCreate">
       <img
         className="groupIconButtonImg"
         src={groupImg ? PF + groupImg : PF + "group.noImageUploaded.png"}
+        onClick={handleCreateNewGroup}
+        alt=""
+      />
+      <textarea
+        rows={3}
+        className="groupIconTextArea"
+        placeholder="Enter new group name (max 50 characters) and click '+'"
+        value={newGroupName}
+        onChange={(e) => {
+          if (e.target.value.length <= 50) {
+            setNewGroupName(e.target.value);
+          }
+        }}
+      />
+    </div>
+  ) : (
+    <div className="groupIconButtonBackground" onClick={handleClickGroupIcon}>
+      <img
+        className="groupIconButtonImg"
+        src={groupImg ? PF + groupImg : PF + "group/noImageUploaded.png"}
         alt=""
       />
       <div className="groupIconButtonName">

@@ -1,7 +1,7 @@
 .topbarWrapper {
   height: 88px;
   align-items: center;
-  background: rgb(255, 204, 50);
+  background: #ffc107;
   position: sticky;
   position: -webkit-sticky;
   z-index: 9999;
@@ -10,7 +10,7 @@
 }
 
 .mr-auto {
-  background-color: rgb(255, 204, 50);
+  background-color: #ffc107;
   /* background-color: green; */
   width: 100%;
   align-items: center;
@@ -152,15 +152,30 @@
 } */
 
 .userNotification {
-  /* background-color:brown; */
   margin-left: 3%;
   margin-right: 3%;
   margin-bottom: 10px;
   border: none;
 }
 .userNotificationList {
+  margin-top: 0px;
+  margin-bottom: 0px;
   max-height: 200px;
   overflow-y: scroll;
+}
+
+.userNotificationList::-webkit-scrollbar {
+  width: 0px;
+}
+
+.userNotificationLabel {
+  font-weight: bold;
+  padding-left: 25px;
+}
+
+.userNoNotificationsLabel {
+  padding-left: 25px;
+  font-style: italic;
 }
 
 .userNotificationIcon {

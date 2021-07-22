@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TopBar from "../../components/topbar/TopBar";
 import ItemListsTangible from "../../components/itemlistsTangible/ItemListsTangible";
 import "./home.css";
@@ -7,14 +7,32 @@ import TrendingSwaps from "../../components/trendingSwaps/TrendingSwaps";
 import Ads from "../../components/ads/Ads";
 import { AuthContext } from "../../context/AuthContext";
 import GroupIconContainer from "../../components/groupIconContainer/GroupIconContainer";
+import axios from "axios";
 
 export default function Home() {
   const { user, sockio } = useContext(AuthContext);
+  const [recommendedGroups, setRecommendedGroups] = useState([]);
 
   useEffect(() => {
     console.log("socket is: ", sockio?.id);
     console.log("user is: ", user);
   }, [sockio, user]);
+
+  useEffect(() => {
+    const getRecommendedGroups = async () => {
+      try {
+        if (user) {
+          const res = await axios.get("/api/groups/recommended/" + user._id);
+          if (res.status === 200) {
+            setRecommendedGroups(res.data);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getRecommendedGroups();
+  }, [user]);
 
   return (
     <div>
@@ -37,7 +55,7 @@ export default function Home() {
           <div className="itemsType">
             <span>Recommended Groups</span>
           </div>
-          <GroupIconContainer />
+          <GroupIconContainer recommendedGroups={recommendedGroups} />
         </div>
         {/* <div className="trendingSwap">
           <span className="trendingSwapHead">Trending Swaps</span>

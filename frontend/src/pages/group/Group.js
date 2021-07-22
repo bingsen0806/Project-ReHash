@@ -14,9 +14,8 @@ export default function Group() {
   const pageType = useParams().pageType;
   const [displayPosts, setDisplayPosts] = useState([]);
   const [group, setGroup] = useState(null);
-  const [isGroupMember, setIsGroupMember] = useState(false); //set to false for now
+  const [isGroupMember, setIsGroupMember] = useState(false);
   const history = useHistory();
-  //TODO: move isGroupMember state here? function to update leave group or join group
 
   useEffect(() => {
     const getGroup = async () => {
@@ -128,9 +127,17 @@ export default function Group() {
     }
   };
 
+  const handleUpdateGroup = (group) => {
+    if (group) {
+      setGroup(group);
+    }
+  };
+
   return (
     <div>
-      <div className="groupPageTop">{/* <TopBar currentUser={user} /> */}</div>
+      <div className="groupPageTop">
+        <TopBar currentUser={user} />
+      </div>
       <div className="groupPageContainer">
         <div className="groupSidebarWrapper">
           <GroupSidebar
@@ -139,6 +146,7 @@ export default function Group() {
             isGroupMember={isGroupMember}
             handleLeave={handleLeave}
             handleJoin={handleJoin}
+            handleUpdateGroup={handleUpdateGroup}
           />
         </div>
         <div className="groupPageContainerRight">

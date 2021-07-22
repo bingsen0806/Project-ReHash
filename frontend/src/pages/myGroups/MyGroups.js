@@ -58,6 +58,27 @@ export default function MyGroups() {
                 md={3}
                 xs={2}
               >
+                <Col>
+                  <GroupIcon groupImg="group/add.jpg" create={true} />
+                </Col>
+                {myGroups.map((group) => (
+                  <Col key={group._id}>
+                    <GroupIcon
+                      groupImg={group.groupImg}
+                      groupName={group.groupName}
+                      groupId={group._id}
+                    />
+                  </Col>
+                ))}
+                {myGroups.map((group) => (
+                  <Col key={group._id}>
+                    <GroupIcon
+                      groupImg={group.groupImg}
+                      groupName={group.groupName}
+                      groupId={group._id}
+                    />
+                  </Col>
+                ))}
                 {myGroups.map((group) => (
                   <Col key={group._id}>
                     <GroupIcon

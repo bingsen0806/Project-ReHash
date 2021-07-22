@@ -24,10 +24,7 @@ function App() {
   const { user } = useContext(AuthContext);
 
   /*TODO:
-  1. GroupSideBar invite, edit photo, edit description for creator only
-  3. Create group in home page
-  4. Notifications (basic)
-  2. Backend API for recommended groups
+  0. possible places to pass a handleUpdate function to call for update of groups: Groups page, MyGroups page
   3. Filter for groups or items in search function
   4. Remove search function in chat
   5. Redo login page and register page
