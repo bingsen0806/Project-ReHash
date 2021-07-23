@@ -76,24 +76,6 @@ export default function MyGroups() {
                     />
                   </Col>
                 ))}
-                {myGroups.map((group) => (
-                  <Col key={group._id}>
-                    <GroupIcon
-                      groupImg={group.groupImg}
-                      groupName={group.groupName}
-                      groupId={group._id}
-                    />
-                  </Col>
-                ))}
-                {myGroups.map((group) => (
-                  <Col key={group._id}>
-                    <GroupIcon
-                      groupImg={group.groupImg}
-                      groupName={group.groupName}
-                      groupId={group._id}
-                    />
-                  </Col>
-                ))}
               </Row>
             </div>
           </div>

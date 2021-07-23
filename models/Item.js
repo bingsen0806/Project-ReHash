@@ -30,6 +30,10 @@ const ItemSchema = new mongoose.Schema(
       type: String,
       max: 30,
     },
+    views: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

@@ -22,10 +22,20 @@ export default function Product() {
           const res = await axios.get(
             "/api/items/categories?categoryName=" + categoryName
           );
-          await setItems(res.data);
+          if (res.status === 200) {
+            const displayItems = res.data.filter(
+              (item) => item.userId !== user?._id
+            );
+            await setItems(displayItems);
+          }
         } else if (pageType === "search" && categoryName) {
           const res = await axios.get("/api/items?search=" + categoryName);
-          await setItems(res.data);
+          if (res.status === 200) {
+            const displayItems = res.data.filter(
+              (item) => item.userId !== user?._id
+            );
+            await setItems(displayItems);
+          }
         }
       } catch (err) {
         console.log(err);

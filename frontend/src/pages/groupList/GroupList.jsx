@@ -42,26 +42,6 @@ export default function GroupList() {
               />
             </div>
           ))}
-          {groups.map((group) => (
-            <div>
-              <GroupIcon
-                key={group._id}
-                groupImg={group.groupImg}
-                groupName={group.groupName}
-                groupId={group._id}
-              />
-            </div>
-          ))}
-          {groups.map((group) => (
-            <div>
-              <GroupIcon
-                key={group._id}
-                groupImg={group.groupImg}
-                groupName={group.groupName}
-                groupId={group._id}
-              />
-            </div>
-          ))}
         </Row>
       </div>
     </div>

@@ -330,19 +330,17 @@ export default function GroupSidebar({
               <HomeIcon className="groupMyPostsIcon" />
               <span className="groupMyPosts">Group Home</span>
             </CDBSidebarMenuItem>
-            <CDBSidebarMenuItem
-              className="groupMenuItem"
-              onClick={handleMyPosts}
-            >
-              {isGroupMember ? (
-                <>
-                  <CreateIcon className="groupMyPostsIcon" />
-                  <span className="groupMyPosts">My Posts</span>
-                </>
-              ) : (
-                <></>
-              )}
-            </CDBSidebarMenuItem>
+            {isGroupMember ? (
+              <CDBSidebarMenuItem
+                className="groupMenuItem"
+                onClick={handleMyPosts}
+              >
+                <CreateIcon className="groupMyPostsIcon" />
+                <span className="groupMyPosts">My Posts</span>
+              </CDBSidebarMenuItem>
+            ) : (
+              <></>
+            )}
           </CDBSidebarMenu>
         </CDBSidebarContent>
         <CDBSidebarFooter>

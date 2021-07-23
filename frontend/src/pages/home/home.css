@@ -8,6 +8,13 @@
   /* background-color: darksalmon; */
 }
 
+.adContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
 .itemsType {
   font-size: 24px;
   font-weight: bold;

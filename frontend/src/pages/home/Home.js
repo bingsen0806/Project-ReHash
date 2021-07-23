@@ -12,6 +12,7 @@ import axios from "axios";
 export default function Home() {
   const { user, sockio } = useContext(AuthContext);
   const [recommendedGroups, setRecommendedGroups] = useState([]);
+  const [trendingSwaps, setTrendingSwaps] = useState([]);
 
   useEffect(() => {
     console.log("socket is: ", sockio?.id);
@@ -26,6 +27,12 @@ export default function Home() {
           if (res.status === 200) {
             setRecommendedGroups(res.data);
           }
+        } else {
+          //give a fake userId of "0", because the api will make sure that the user with given userId is not in the recommended group
+          const res = await axios.get("/api/groups/recommended/0");
+          if (res.status === 200) {
+            setRecommendedGroups(res.data);
+          }
         }
       } catch (err) {
         console.log(err);
@@ -34,10 +41,36 @@ export default function Home() {
     getRecommendedGroups();
   }, [user]);
 
+  useEffect(() => {
+    const getTrendingSwaps = async () => {
+      try {
+        if (user) {
+          const res = await axios.get(
+            "/api/items/trendingSwaps?userId=" + user._id
+          );
+          if (res.status === 200) {
+            setTrendingSwaps(res.data);
+          }
+        } else {
+          const res = await axios.get("/api/items/trendingSwaps");
+          if (res.status === 200) {
+            setTrendingSwaps(res.data);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getTrendingSwaps();
+  });
+
   return (
     <div>
       <TopBar currentUser={user} />
-      <Ads />
+      <div className="adContainer">
+        <Ads itemArray={trendingSwaps} />
+      </div>
+
       <div className="homeWrapper">
         <div className="tangible">
           <div className="itemsType">

@@ -36,6 +36,27 @@ router.get("/", async (req, res) => {
   }
 });
 
+//get trending swaps for a user
+//"/items/trendingSwaps?userId=userId" if user is logged in
+//"/items/trendingSwaps" if user is not logged in
+router.get("/trendingSwaps", async (req, res) => {
+  const userId = req.query.userId;
+  try {
+    const thresholdDate = Date.now() - 5 * 24 * 3600 * 1000; //only consider those posted in the past 5 days
+    const recentTrendings = await Item.find({
+      createdAt: { $gt: new Date(thresholdDate) },
+      userId: { $not: { $eq: userId } },
+    }).sort({ views: -1 });
+    if (recentTrendings.length > 5) {
+      return res.status(200).json(recentTrendings.slice(0, 5)); //not tested yet
+    } else {
+      return res.status(200).json(recentTrendings);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 //get all items from a category and user  "/items/categories?categoryName=categoryName&userId=userId"
 router.get("/categories", async (req, res) => {
   try {
@@ -79,6 +100,21 @@ router.put("/update/status/:id", async (req, res) => {
       $set: { status: req.body.status },
     });
     const updatedItem = Object.assign(item, { status: req.body.status });
+    res.status(200).json(updatedItem);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+});
+
+//update an item's views
+router.put("/update/views/:id", async (req, res) => {
+  const itemId = req.params.id;
+  try {
+    const oldItem = await Item.findById(itemId);
+    const item = await Item.findByIdAndUpdate(itemId, {
+      $set: { views: oldItem.views + 1 },
+    });
+    const updatedItem = Object.assign(item, { views: oldItem.views + 1 });
     res.status(200).json(updatedItem);
   } catch (err) {
     return res.status(400).json(err);

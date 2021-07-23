@@ -1,15 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import "./itemListing.css";
 import { Card } from "react-bootstrap";
 import Chip from "@material-ui/core/Chip";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 
 export default function ItemListing({ item, inPost }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const { user, sockio } = useContext(AuthContext);
   const history = useHistory();
   const handleClickItem = () => {
+    if (user && user._id !== item.userId) {
+      try {
+        axios.put("/api/items/update/views/" + item._id);
+      } catch (err) {
+        console.log(err);
+        history.push("/items/" + item._id);
+      }
+    }
     history.push("/items/" + item._id);
-    // console.log("clicked");
   };
 
   useEffect(() => {

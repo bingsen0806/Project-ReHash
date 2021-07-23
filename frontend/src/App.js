@@ -27,11 +27,9 @@ function App() {
   /*TODO:
   4. Remove search function in chat
   5. Redo login page and register page
-  6. Surprise swap function on top of the page
   7. Notifications using socket.io and show notification count
   8. Cache user data, when update rmb to update local storage also
   9. Change storage system to online storage
-  10. Show only items that does not belong to you.
   */
 
   return (
