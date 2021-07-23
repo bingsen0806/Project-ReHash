@@ -61,6 +61,16 @@
   opacity: 1; /* Firefox */
 }
 
+.loginErrorMessageWrapper {
+  display: flex;
+  width: 50%;
+  max-width: 500px;
+  padding-left: 5px;
+  color: red;
+  margin-top: 5px;
+  font-size: 1.2em;
+}
+
 .loginButton {
   background-color: white;
   color: rgba(255, 153, 1, 0.863);

@@ -70,17 +70,21 @@ export default function Chat() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        //need to change this and add another API when search function is implemented
-        const res = await axios.get("/api/conversations/" + user._id);
-        await setConversations(res.data);
-        // console.log(conversations);
-        // console.log(user);
+        const res = await axios.get(
+          "/api/conversations/search/" +
+            user._id +
+            "/searchText?searchText=" +
+            searchText
+        );
+        if (res.status === 200) {
+          setConversations(res.data);
+        }
       } catch (err) {
         console.log(err);
       }
     };
     getConversations();
-  }, [user._id, messages, onlineUsers]);
+  }, [user, messages, onlineUsers, searchText]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -112,13 +116,15 @@ export default function Chat() {
     const updateLastActive = async () => {
       var timeago = "";
       try {
-        const res = await axios.get(
-          "/api/users?userId=" + currentChatWith?._id
-        );
-        const newLastActive = res.data.lastActive;
-        console.log("newLastActive: ", newLastActive);
-        timeago = format(newLastActive);
-        console.log("LOOK AT ME: TIMEAGO ", timeago);
+        if (currentChatWith) {
+          const res = await axios.get(
+            "/api/users?userId=" + currentChatWith?._id
+          );
+          const newLastActive = res.data.lastActive;
+          console.log("newLastActive: ", newLastActive);
+          timeago = format(newLastActive);
+          console.log("LOOK AT ME: TIMEAGO ", timeago);
+        }
       } catch (err) {
         timeago = format(currentChatWith?.lastActive);
         console.log(err);
@@ -203,6 +209,30 @@ export default function Chat() {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
+
+  const handleSearch = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if ((searchText.match(/^\s*\n*\t*$/) || []).length > 0) {
+        console.log("searchText is empty");
+      } else if (user) {
+        try {
+          const res = await axios.get(
+            "/api/conversations/search/" +
+              user._id +
+              "/searchText?searchText=" +
+              searchText
+          );
+          if (res.status === 200) {
+            setConversations(res.data);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  };
+
   return (
     <div>
       <TopBar currentUser={user} />
@@ -210,9 +240,10 @@ export default function Chat() {
         <div className="chatMenu">
           <div className="chatMenuWrapper">
             <input
-              placeholder="Search for users"
+              placeholder="Search for users..."
               className="chatMenuInput"
               onChange={(e) => setSearchText(e.target.value)}
+              onKeyDown={handleSearch}
               value={searchText}
             />
             {conversations.map((c) => {

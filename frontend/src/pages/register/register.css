@@ -97,7 +97,7 @@
 }
 .registerRightHeader {
   width: 60%;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-weight: bold;
   min-width: 250px;
   max-width: 500px;
@@ -130,8 +130,15 @@
   border-radius: 6px;
   border: 1px solid gray;
   outline-color: rgb(6, 162, 252);
-  margin: 15px 0px;
+  margin-top: 15px;
   font-size: 18px;
+}
+
+.registerInputError {
+  padding-left: 5px;
+  margin-bottom: 15px;
+  color: red;
+  font-size: 12px;
 }
 
 .registerButton {

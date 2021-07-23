@@ -7,45 +7,47 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { CircularProgress } from "@material-ui/core";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { user, dispatch } = useContext(AuthContext);
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+  const [errorMessage, setErrorMessage] = useState("");
+  const { user, dispatch, isFetching } = useContext(AuthContext);
+  // const usernameRef = useRef();
+  // const passwordRef = useRef();
 
   useEffect(() => {
     console.log("user is changed");
     console.log(user);
   }, [user]);
 
-  const checkCredentials = async () => {
-    try {
-      const res = await axios
-        .post("/api/auth/login", {
-          username: usernameRef.current.value,
-          password: passwordRef.current.value,
-        })
-        .then(() => {
-          usernameRef.current.setCustomValidity("");
-          passwordRef.current.setCustomValidity("");
-        });
-    } catch (err) {
-      if (err.response.status === 400) {
-        usernameRef.current.setCustomValidity("Incorrect username or password");
-      }
-    }
-  };
+  // const checkCredentials = async () => {
+  //   try {
+  //     const res = await axios
+  //       .post("/api/auth/login", {
+  //         username: usernameRef.current.value,
+  //         password: passwordRef.current.value,
+  //       })
+  //       .then(() => {
+  //         usernameRef.current.setCustomValidity("");
+  //         passwordRef.current.setCustomValidity("");
+  //       });
+  //   } catch (err) {
+  //     if (err.response.status === 400) {
+  //       usernameRef.current.setCustomValidity("Incorrect username or password");
+  //     }
+  //   }
+  // };
   const handleUsername = async (e) => {
     setUsername(e.target.value);
     console.log(e.target.value);
-    checkCredentials();
+    // checkCredentials();
   };
   const handlePassword = async (e) => {
     setPassword(e.target.value);
     console.log(e.target.value);
-    checkCredentials();
+    // checkCredentials();
   };
 
   const handleSubmit = async (e) => {
@@ -64,6 +66,7 @@ export default function Login() {
           });
         });
       } catch (err) {
+        setErrorMessage("Incorrect username or password");
         dispatch({ type: "LOGIN_FAILURE", payload: err });
       }
     };
@@ -97,7 +100,7 @@ export default function Login() {
               placeholder="USERNAME"
               onChange={handleUsername}
               value={username}
-              ref={usernameRef}
+              // ref={usernameRef}
               required
               className="loginInput"
             />
@@ -118,17 +121,23 @@ export default function Login() {
               required
               onChange={handlePassword}
               value={password}
-              ref={passwordRef}
+              // ref={passwordRef}
               className="loginInput"
               type="password"
             />
           </div>
-          <button className="loginButton" type="submit">
-            LOGIN
+          <div className="loginErrorMessageWrapper">{errorMessage}</div>
+
+          <button className="loginButton" type="submit" disabled={isFetching}>
+            {isFetching ? (
+              <CircularProgress color="white" size="20px" />
+            ) : (
+              "LOGIN"
+            )}
           </button>
-          <Link to="/register" className="loginBottomLink">
+          {/* <Link to="/register" className="loginBottomLink">
             Forgot password?
-          </Link>
+          </Link> */}
           <Link to="/register" className="loginBottomLink">
             New to ReHash? Sign up now!
           </Link>
