@@ -16,11 +16,12 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Notification from "../notification/Notification";
 import axios from "axios";
 
-export default function TopBar({ currentUser }) {
+export default function TopBar({ currentUser, handleUpdateGroup }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   const [userNotifications, setUserNotifications] = useState([]);
+  const [searchType, setSearchType] = useState("item");
 
   const handleClickHome = () => {
     history.push("/home");
@@ -35,7 +36,11 @@ export default function TopBar({ currentUser }) {
       if ((searchText.match(/^\s*\n*\t*$/) || []).length > 0) {
         console.log("search string is empty!");
       } else {
-        history.push("/product/search/" + searchText);
+        if (searchType === "item") {
+          history.push("/product/search/" + searchText);
+        } else if (searchType === "group") {
+          history.push("/groups/search/" + searchText);
+        }
       }
     }
   };
@@ -71,7 +76,9 @@ export default function TopBar({ currentUser }) {
         );
         if (deleteRes.status === 200) {
           setUserNotifications(
-            userNotifications.filter((noti) => noti._id !== notification._id)
+            userNotifications.filter(
+              (noti) => noti.invitationId !== notification.invitationId //needs test by sending two noti by diff people for same group, then accept one
+            )
           );
         }
         const addGroupRes = await axios.put(
@@ -80,6 +87,9 @@ export default function TopBar({ currentUser }) {
             "/addMember/" +
             currentUser._id
         );
+        if (addGroupRes.status === 200 && handleUpdateGroup) {
+          handleUpdateGroup([addGroupRes.data]);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -119,12 +129,23 @@ export default function TopBar({ currentUser }) {
           <div className="searchbar">
             <Search className="searchIcon" />
             <input
-              placeholder="Seach for a swap..."
+              placeholder="Seach for groups or swap items..."
               className="searchInput"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               onKeyDown={handleSearch}
             />
+            <select
+              name="choice"
+              className="searchInputSelect"
+              value={searchType}
+              onChange={(e) => setSearchType(e.target.value)}
+            >
+              <option value="item" selected>
+                item
+              </option>
+              <option value="group">group</option>
+            </select>
           </div>
           <Link to="/chat/0">
             <TextsmsOutlined className="chat" htmlColor="orange" />

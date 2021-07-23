@@ -49,7 +49,7 @@ export default function Product() {
             ? categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
             : "Product Descrption Header"}
         </span>
-        <Row className="listingRow" lg={3} md={2} s={1}>
+        <Row className="listingRow" xl={4} lg={3} md={2} sm={1} xs={1}>
           {items.map((item) => (
             <div>
               <ItemListing key={item._id} item={item} />

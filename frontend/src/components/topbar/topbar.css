@@ -79,6 +79,7 @@
   margin-left: 20px;
   background-color: white;
   border-radius: 30px;
+  display: flex;
 }
 
 /* .swap {
@@ -106,10 +107,15 @@
 .searchInput {
   border: none;
   width: 90%;
-  margin-top: 5px;
 }
 
 .searchInput:focus {
+  outline: none;
+}
+
+.searchInputSelect {
+  margin-right: 10px;
+  font-size: 12px;
   outline: none;
 }
 

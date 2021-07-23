@@ -52,7 +52,9 @@ router.get("/filter", async (req, res) => {
       });
       res.status(200).json(posts);
     } else if (userId) {
-      const posts = await Post.find({ postUserId: userId });
+      const posts = await Post.find({ postUserId: userId }).sort({
+        createdAt: -1,
+      });
       res.status(200).json(posts);
     }
   } catch (err) {

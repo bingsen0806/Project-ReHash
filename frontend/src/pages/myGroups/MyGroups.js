@@ -38,10 +38,16 @@ export default function MyGroups() {
     getMyGroups();
   }, [profileUser]);
 
+  const handleUpdateGroup = (group) => {
+    if (group && group.length > 0 && group[0]) {
+      setMyGroups([...group, ...myGroups]);
+    }
+  };
+
   return (
     <div>
       <div className="myGroupsPageTopSection">
-        <TopBar currentUser={user} />
+        <TopBar currentUser={user} handleUpdateGroup={handleUpdateGroup} />
       </div>
       <div className="myGroupsPageMiddleSection">
         <SideBar className="sidebar" sidebarUser={profileUser} />

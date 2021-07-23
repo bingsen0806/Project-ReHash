@@ -47,7 +47,7 @@ export default function Home() {
         </div>
         <div className="intangible">
           <div className="itemsType">
-            <span>Explore Intangible {sockio?.id}</span>
+            <span>Explore Intangible</span>
           </div>
           <ItemListsIntangible />
         </div>

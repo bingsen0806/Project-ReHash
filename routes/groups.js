@@ -19,7 +19,8 @@ router.put("/:id/addMember/:userId", async (req, res) => {
     if (group) {
       if (!group.members.includes(req.params.userId)) {
         await group.updateOne({ $push: { members: req.params.userId } });
-        res.status(200).json({ message: "user has joined this group" });
+        const updatedGroup = await Group.findById(req.params.id);
+        res.status(200).json(updatedGroup);
       } else {
         res.status(400).json({ message: "user already in this group" });
       }
@@ -42,11 +43,24 @@ router.put("/:id/removeMember/:userId", async (req, res) => {
   }
 });
 
+//just a function to generate regex and prevent regex DDoS attack
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 //get a group by id "/groups?groupId=groupId"
+//find groups with names matching the search via partial text search "/groups?search=...."
 router.get("/", async (req, res) => {
   const groupId = req.query.groupId;
+  const searchString = req.query.search;
+  var group = null;
   try {
-    const group = await Group.findById(groupId);
+    if (groupId) {
+      group = await Group.findById(groupId);
+    } else if (searchString) {
+      const regex = new RegExp(escapeRegex(req.query.search), "gi");
+      group = await Group.find({ groupName: regex });
+    }
     res.status(200).json(group);
   } catch (err) {
     return res.status(400).json(err);

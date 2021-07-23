@@ -19,13 +19,12 @@ import Chat from "./pages/chat/Chat";
 import MyGroups from "./pages/myGroups/MyGroups";
 import Settings from "./pages/settings/Settings";
 import Group from "./pages/group/Group";
+import GroupList from "./pages/groupList/GroupList";
 
 function App() {
   const { user } = useContext(AuthContext);
 
   /*TODO:
-  0. possible places to pass a handleUpdate function to call for update of groups: Groups page, MyGroups page
-  3. Filter for groups or items in search function
   4. Remove search function in chat
   5. Redo login page and register page
   6. Surprise swap function on top of the page
@@ -33,7 +32,6 @@ function App() {
   8. Cache user data, when update rmb to update local storage also
   9. Change storage system to online storage
   10. Show only items that does not belong to you.
-  11. Prevent spamming of notifications by sending error message is user is already invited to the group
   */
 
   return (
@@ -72,6 +70,10 @@ function App() {
         </Route>
         <Route exact path="/items/:itemId">
           <Item />
+        </Route>
+        {/* GroupList path must be written before Group */}
+        <Route exact path="/groups/search/:searchText">
+          <GroupList />
         </Route>
         <Route exact path="/groups/:groupId/:pageType">
           <Group />

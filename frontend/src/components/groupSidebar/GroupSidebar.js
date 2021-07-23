@@ -60,21 +60,51 @@ export default function GroupSidebar({
             if (group.members.includes(res.data._id)) {
               setInviteError("User already in this group!");
             } else {
-              const newNotification = {
-                senderName: user.username,
-                receiverId: res.data._id,
-                invitationId: group._id,
-                invitationName: group.groupName,
-              };
-              const notificationRes = await axios.post(
-                "/api/notifications",
-                newNotification
+              //get the notification with this group and user first
+              const getNotiRes = await axios.get(
+                "/api/notifications/filter?userId=" +
+                  res.data._id +
+                  "&invitationId=" +
+                  group._id
               );
-              if (notificationRes.status === 200) {
-                setInviteNameInput("");
-                setInviteSuccess("Invitation sent!");
+              //If notification exist, check if the notification senderNames contain current user, setError if yes, update notification otherwise
+              if (getNotiRes.status === 200 && getNotiRes.data.length > 0) {
+                if (getNotiRes.data[0].senderName.includes(user.username)) {
+                  setInviteError(
+                    "User previously invited and has not responded!"
+                  );
+                } else {
+                  const updateNotiRes = await axios.put(
+                    "/api/notifications/" +
+                      getNotiRes.data[0]._id +
+                      "/addSender/" +
+                      user.username
+                  );
+                  if (updateNotiRes.status === 200) {
+                    setInviteNameInput("");
+                    setInviteSuccess("Invitation sent!");
+                  } else {
+                    setInviteError("Server error. Unable to send notification");
+                  }
+                }
               } else {
-                setInviteError("Server error. Unable to send notification");
+                //Else if notification does not exist, do the below
+                const newNotification = {
+                  senderName: [user.username],
+                  receiverId: res.data._id,
+                  invitationId: group._id,
+                  invitationName: group.groupName,
+                };
+                const notificationRes = await axios.post(
+                  "/api/notifications",
+                  newNotification
+                );
+                if (notificationRes.status === 200) {
+                  setInviteNameInput("");
+                  setInviteSuccess("Invitation sent!");
+                } else {
+                  setInviteError("Server error. Unable to send notification");
+                }
               }
             }
           }

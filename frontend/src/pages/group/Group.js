@@ -56,6 +56,12 @@ export default function Group() {
     getDisplayPosts();
   }, [pageType, groupId, user]);
 
+  const handleUpdateGroupNotification = (group) => {
+    if (group && group.length > 0 && group[0] && user) {
+      setIsGroupMember(group[0].members.includes(user._id));
+    }
+  };
+
   //passed into Post component to delete post
   const handleDelete = async (postId) => {
     try {
@@ -136,7 +142,10 @@ export default function Group() {
   return (
     <div>
       <div className="groupPageTop">
-        <TopBar currentUser={user} />
+        <TopBar
+          currentUser={user}
+          handleUpdateGroup={handleUpdateGroupNotification}
+        />
       </div>
       <div className="groupPageContainer">
         <div className="groupSidebarWrapper">
