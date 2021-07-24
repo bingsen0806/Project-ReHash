@@ -126,7 +126,7 @@ export default function TopBar({ currentUser, handleUpdateGroup }) {
       <Navbar.Collapse id="basic-navbar-nav" className="collapseBar">
         <Nav className="mr-auto">
           <Nav.Link className="swap" onClick={() => handleClickCreate()}>
-            Swap on ReHash
+            Post A Swap!
           </Nav.Link>
           <div className="searchbar">
             <Search className="searchIcon" />
