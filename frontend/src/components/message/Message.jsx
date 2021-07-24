@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 export default function Message({ message, own, pictureLink }) {
   const [displayTimeAgo, setDisplayTimeAgo] = useState("");
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (message) {

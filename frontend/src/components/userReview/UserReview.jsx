@@ -17,6 +17,7 @@ export default function UserReview({
   const [hoverRating, setHoverRating] = useState(0);
   const { user } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const [reviewer, setReviewer] = useState(null);
   const [reviewText, setReviewText] = useState("");
 
@@ -59,10 +60,10 @@ export default function UserReview({
             doneReview
               ? reviewer && reviewer.profilePicture
                 ? PF + reviewer.profilePicture
-                : PF + "person/noAvatar.png"
+                : NO_AVATAR
               : user && user.profilePicture
               ? PF + user.profilePicture
-              : PF + "person/noAvatar.png"
+              : NO_AVATAR
           }
           alt=""
           className="userReviewImg"

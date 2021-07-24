@@ -21,6 +21,7 @@ export default function Chat() {
     useState("");
 
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
 
   const scrollRef = useRef();
   const initialActiveConvoId = useParams().initialActiveConvoId;
@@ -41,15 +42,16 @@ export default function Chat() {
   }, [initialActiveConvoId]);
 
   useEffect(() => {
-    console.log("socket is: ", sockio.id);
-    //can change slightly to map for all convo, even if not opened
-    sockio.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
+    console.log("socket is: ", sockio?.id);
+    if (sockio) {
+      sockio.on("getMessage", (data) => {
+        setArrivalMessage({
+          sender: data.senderId,
+          text: data.text,
+          createdAt: Date.now(),
+        });
       });
-    });
+    }
   }, [sockio]);
 
   useEffect(() => {
@@ -59,12 +61,14 @@ export default function Chat() {
   }, [arrivalMessage, currentChat]);
 
   useEffect(() => {
-    sockio.on("getUsers", (users) => {
-      console.log("getUser received on client side");
-      setOnlineUsers(
-        user.chatFollow.filter((f) => users.some((u) => u.userId === f))
-      );
-    });
+    if (sockio && user) {
+      sockio.on("getUsers", (users) => {
+        console.log("getUser received on client side");
+        setOnlineUsers(
+          user.chatFollow.filter((f) => users.some((u) => u.userId === f))
+        );
+      });
+    }
   }, [user, sockio]);
 
   useEffect(() => {
@@ -170,10 +174,10 @@ export default function Chat() {
         const receiverId = currentChat.members.find(
           (member) => member !== user._id
         );
-
+        // console.log("sockio id right before emitting: " + sockio.id);
         sockio.emit("sendMessage", {
           senderId: user._id,
-          receiverId,
+          receiverId: receiverId,
           text: newMessage,
         });
       } catch (err) {
@@ -272,7 +276,7 @@ export default function Chat() {
                       src={
                         currentChatWith?.profilePicture
                           ? PF + currentChatWith.profilePicture
-                          : PF + "person/noAvatar.png"
+                          : NO_AVATAR
                       }
                       alt=""
                       className="chatBoxHeaderImg"
@@ -300,15 +304,15 @@ export default function Chat() {
                     <div ref={scrollRef}>
                       <Message
                         message={m}
-                        own={m.sender === user._id}
+                        own={m.sender === user?._id}
                         pictureLink={
-                          m.sender === user._id
+                          m.sender === user?._id
                             ? user?.profilePicture
                               ? PF + user.profilePicture
-                              : PF + "person/noAvatar.png"
+                              : NO_AVATAR
                             : currentChatWith?.profilePicture
                             ? PF + currentChatWith.profilePicture
-                            : PF + "person/noAvatar.png"
+                            : NO_AVATAR
                         }
                       />
                     </div>
@@ -338,7 +342,7 @@ export default function Chat() {
               </>
             ) : (
               <span className="noConversationText">
-                Open a conversation to start a chat {sockio.id}
+                Open a conversation to start a chat
               </span>
             )}
           </div>

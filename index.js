@@ -184,8 +184,12 @@ var someoneGetUser = false;
 var myInterval;
 
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
+  if (!users.some((user) => user.userId === userId)) {
     users.push({ userId, socketId });
+  } else {
+    users = users.filter((user) => user.userId !== userId);
+    users.push({ userId, socketId });
+  }
 };
 
 const removeUser = (socketId) => {
@@ -193,7 +197,7 @@ const removeUser = (socketId) => {
 };
 
 setInterval(function () {
-  console.log("someoneGetUser is: ", someoneGetUser);
+  // console.log("someoneGetUser is: ", someoneGetUser);
   if (!someoneGetUser) {
     myInterval = setInterval(function () {
       io.emit("getUsers", users);

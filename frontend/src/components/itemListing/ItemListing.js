@@ -11,15 +11,17 @@ export default function ItemListing({ item, inPost }) {
   const { user, sockio } = useContext(AuthContext);
   const history = useHistory();
   const handleClickItem = () => {
-    if (user && user._id !== item.userId) {
+    if (user && user._id !== item?.userId) {
       try {
         axios.put("/api/items/update/views/" + item._id);
       } catch (err) {
         console.log(err);
-        history.push("/items/" + item._id);
+        // history.push("/items/" + item._id);
       }
     }
-    history.push("/items/" + item._id);
+    if (item?._id) {
+      history.push("/items/" + item._id);
+    }
   };
 
   useEffect(() => {

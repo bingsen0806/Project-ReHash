@@ -15,6 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
+import { storage } from "../../firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,6 +83,8 @@ export default function CreateListing() {
   const [errors, setErrors] = useState({});
   const [idealCategories, setIdealCategories] = useState([]);
   const [swapCategories, setSwapCategories] = useState([]);
+  const [isCreating, setCreating] = useState(false);
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
   //When file is dropped, set the new array of files based on different conditions
   const onDrop = useCallback(
@@ -207,6 +211,48 @@ export default function CreateListing() {
     return newErrors;
   };
 
+  const uploadFirebaseOne = async (file) => {
+    if (!file) {
+      return "";
+    }
+    try {
+      const imageFileName = file.customFileName;
+      console.log("filename is: " + imageFileName);
+      const uploadTask = await storage.ref(`items/${imageFileName}`).put(file);
+      const imageUrl = await storage
+        .ref("items")
+        .child(`${imageFileName}`)
+        .getDownloadURL();
+      const trimImageUrl = imageUrl.replace(PF, "");
+      console.log("trimImageUrl is: " + trimImageUrl);
+      return trimImageUrl;
+    } catch (err) {
+      console.log(err);
+      return "";
+    }
+  };
+
+  const uploadFirebaseMany = async (files) => {
+    if (files.length === 0) return [];
+    var fileUrls = [];
+
+    try {
+      for (var i = 0; i < files.length; i++) {
+        console.log("processing file " + i);
+        const file = files[i];
+        const downloadFileResponse = await uploadFirebaseOne(file);
+        fileUrls.push(downloadFileResponse);
+        console.log(
+          "finish processing file " + i + ": " + downloadFileResponse
+        );
+      }
+      console.log("finish processing all files");
+      console.log(fileUrls);
+      return fileUrls;
+    } catch (err) {
+      return [];
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = findFormErrors();
@@ -214,6 +260,7 @@ export default function CreateListing() {
       setErrors(newErrors);
       console.log(newErrors);
     } else {
+      setCreating(true);
       var newItemSwapCat = swapCategories.map((categoryObject) =>
         categoryObject.title.toLowerCase()
       );
@@ -222,37 +269,53 @@ export default function CreateListing() {
         categoryObject.title.toLowerCase()
       );
 
-      const data = new FormData();
-      for (let i = 0; i < files.length; i += 1) {
-        data.append("file", files[i]);
-        data.append("name", files[i].customFileName);
-        console.log("customFileName is: " + files[i].customFileName);
-        console.log(typeof files[i].customFileName);
-      }
+      try {
+        //modified below
+        const imageArray = await uploadFirebaseMany(files);
+        console.log(imageArray);
 
-      console.log(data);
-      const uploadFileRes = await axios.post("/api/upload/items", data);
-      if (uploadFileRes.status === 200) {
-        const newItem = {
-          userId: user._id,
-          title: form.title,
-          desc: form.description,
-          img: uploadFileRes.data.imagePaths,
-          categories: newItemSwapCat,
-          idealSwaps: newItemIdealSwap,
-          status: "waiting",
-        };
-        console.log(newItem);
-        const res = await axios.post("/api/items", newItem);
-        console.log(res.data);
-      }
+        // const data = new FormData();
+        // for (let i = 0; i < files.length; i += 1) {
+        //   data.append("file", files[i]);
+        //   data.append("name", files[i].customFileName);
+        //   console.log("customFileName is: " + files[i].customFileName);
+        //   console.log(typeof files[i].customFileName);
+        // }
+        // console.log(data);
 
-      setFiles([]);
-      setForm({
-        tangible: "",
-      });
-      setIdealCategories([]);
-      setSwapCategories([]);
+        // const uploadFileRes = await axios.post("/api/upload/items", data);
+        if (imageArray.length > 0 && !imageArray.includes("")) {
+          const newItem = {
+            userId: user._id,
+            title: form.title,
+            desc: form.description,
+            img: imageArray,
+            categories: newItemSwapCat,
+            idealSwaps: newItemIdealSwap,
+            status: "waiting",
+          };
+          console.log(newItem);
+          const res = await axios.post("/api/items", newItem);
+          console.log(res.data);
+        }
+
+        setFiles([]);
+        setForm({
+          tangible: "",
+        });
+        setIdealCategories([]);
+        setSwapCategories([]);
+        setCreating(false);
+      } catch (err) {
+        console.log(err);
+        setFiles([]);
+        setForm({
+          tangible: "",
+        });
+        setIdealCategories([]);
+        setSwapCategories([]);
+        setCreating(false);
+      }
     }
   };
 
@@ -440,8 +503,13 @@ export default function CreateListing() {
                 className="postButton"
                 variant="warning"
                 onClick={handleSubmit}
+                disabled={isCreating}
               >
-                Post Swap
+                {isCreating ? (
+                  <CircularProgress color="white" size="20px" />
+                ) : (
+                  "Post Swap"
+                )}
               </Button>
             </Form>
           </Col>

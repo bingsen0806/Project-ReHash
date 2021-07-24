@@ -6,17 +6,23 @@ import { Container, Card, Form, Button, Col, Row } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
+import { storage } from "../../firebase";
+import { CircularProgress } from "@material-ui/core";
 
 export default function Settings() {
   const { user, sockio, dispatch } = useContext(AuthContext);
   const username = useParams().username;
   const [imgFile, setImgFile] = useState(null);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const EMPTY_USER_PROFILE = process.env.REACT_APP_PUBLIC_FOLDER_USERPROFILE;
 
   const [form, setForm] = useState({ showPassword: false });
   const [errors, setErrors] = useState({});
   const [imgError, setImgError] = useState({});
   const [passwordUpdateValid, setPasswordUpdateValid] = useState(false);
+
+  const [isUpdatingPicture, setIsUpdatingPicture] = useState(false);
+  const [isUpdatingPassword, setisUpdatingPassword] = useState(false);
 
   useEffect(() => {
     console.log("user is changed");
@@ -49,31 +55,95 @@ export default function Settings() {
     if (!imgFile) {
       setImgError({ imgFile: "No image uploaded!" });
     } else {
-      const data = new FormData();
-      data.append("file", imgFile);
-      console.log(data);
+      // const data = new FormData();
+      // data.append("file", imgFile);
+      // console.log(data);
+
       const updatePicture = async () => {
         try {
-          const uploadFileRes = await axios.post("/api/upload/person", data);
-          if (uploadFileRes.status === 200) {
-            const newProfilePicture = {
-              profilePicture: uploadFileRes.data.imagePath,
-            };
-            const newUser = { ...user, ...newProfilePicture };
-            console.log(newUser);
+          // const uploadFileRes = await axios.post("/api/upload/person", data);
+          // if (uploadFileRes.status === 200) {
+          //   const newProfilePicture = {
+          //     profilePicture: uploadFileRes.data.imagePath,
+          //   };
+          //   const newUser = { ...user, ...newProfilePicture };
+          //   console.log(newUser);
 
-            const res = await axios.put("/api/users/" + user._id, {
-              profilePicture: uploadFileRes.data.imagePath,
-            });
-            if (res.status === 200) {
-              dispatch({
-                type: "UPDATE",
-                payload: { user: newUser, sock: sockio },
-              });
+          //   const res = await axios.put("/api/users/" + user._id, {
+          //     profilePicture: uploadFileRes.data.imagePath,
+          //   });
+          //   if (res.status === 200) {
+          //     dispatch({
+          //       type: "UPDATE",
+          //       payload: { user: newUser, sock: sockio },
+          //     });
+          //   }
+          // }
+          setIsUpdatingPicture(true);
+          const imageFileName = Date.now() + imgFile.name;
+          console.log("filename is: " + imageFileName);
+          const uploadTask = storage
+            .ref(`person/${imageFileName}`)
+            .put(imgFile);
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              );
+              console.log("progress is: " + progress.toString());
+            },
+            (error) => {
+              console.log(error);
+              setIsUpdatingPicture(false);
+            },
+            async () => {
+              //get download url and upload the post info
+              try {
+                const imageUrl = await storage
+                  .ref("person")
+                  .child(`${imageFileName}`)
+                  .getDownloadURL();
+                const trimImageUrl = imageUrl.replace(PF, "");
+                console.log(trimImageUrl);
+                const newProfilePicture = {
+                  profilePicture: trimImageUrl,
+                };
+
+                console.log(newProfilePicture);
+                const newUser = { ...user, ...newProfilePicture };
+                console.log(newUser);
+                // update group in database
+                const res = await axios.put("/api/users/" + user._id, {
+                  profilePicture: trimImageUrl,
+                });
+                if (res.status === 200) {
+                  const tempProfilePic = user.profilePicture;
+                  dispatch({
+                    type: "UPDATE",
+                    payload: { user: newUser, sock: sockio },
+                  });
+                  setIsUpdatingPicture(false);
+                  //delete the old picture only after new picture updated to database and updated to Context object
+                  //delete only if previously there is image
+                  if (tempProfilePic && tempProfilePic !== "") {
+                    try {
+                      const imageRef = storage.refFromURL(PF + tempProfilePic);
+                      await imageRef.delete();
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  }
+                }
+              } catch (error) {
+                console.log(error);
+                setIsUpdatingPicture(false);
+              }
             }
-          }
+          );
         } catch (err) {
           console.log(err);
+          setIsUpdatingPicture(false);
         }
       };
 
@@ -113,6 +183,7 @@ export default function Settings() {
     } else {
       const updatePassword = async () => {
         try {
+          setisUpdatingPassword(true);
           const res = await axios.put("/api/auth/updatePassword/" + user._id, {
             currentPassword: form.currentPassword,
             newPassword: form.newPassword,
@@ -129,6 +200,8 @@ export default function Settings() {
               newPassword: "",
               currentPassword: "",
             });
+            setisUpdatingPassword(false);
+            alert("password updated");
           } else if (
             res &&
             res.status === 200 &&
@@ -139,9 +212,12 @@ export default function Settings() {
               ...errors,
               ...wrongPasswordError,
             });
+            setisUpdatingPassword(false);
+            alert("wrong password");
           }
         } catch (err) {
           console.log(err);
+          setisUpdatingPassword(false);
         }
       };
       await updatePassword();
@@ -190,7 +266,7 @@ export default function Settings() {
                           ? imgFile.preview
                           : user && user.profilePicture
                           ? PF + user.profilePicture
-                          : "/assests/userProfile.png"
+                          : EMPTY_USER_PROFILE
                       }
                       alt=""
                       className="userProfileImg"
@@ -220,8 +296,13 @@ export default function Settings() {
                         className="changeProfilePictureButton"
                         variant="warning"
                         onClick={handleChangePicture}
+                        disabled={isUpdatingPicture}
                       >
-                        Change profile picture
+                        {isUpdatingPicture ? (
+                          <CircularProgress color="white" size="20px" />
+                        ) : (
+                          "Change profile picture"
+                        )}
                       </Button>
                     </div>
                     {/* <div>{user.profilePicture}</div> */}
@@ -302,8 +383,13 @@ export default function Settings() {
                     className="passwordButton"
                     variant="warning"
                     onClick={handleSubmitPassword}
+                    disabled={isUpdatingPassword}
                   >
-                    Update password
+                    {isUpdatingPassword ? (
+                      <CircularProgress color="white" size="20px" />
+                    ) : (
+                      "Update password"
+                    )}
                   </Button>
                 </div>
               </Form>

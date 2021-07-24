@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Post = require("../models/Post");
+const Comment = require("../models/Comment");
 
 //create new post
 router.post("/", async (req, res) => {
@@ -21,6 +22,30 @@ router.delete("/", async (req, res) => {
     res.status(200).json({ message: "the post has been deleted" });
   } catch (err) {
     return res.status(400).json(err);
+  }
+});
+
+//delete all posts associated with an item of itemId "/posts/filter?itemId=itemId"
+router.delete("/filter", async (req, res) => {
+  try {
+    const itemId = req.query.itemId;
+    const postsToBeDeleted = await Post.find({ itemId: itemId });
+    Promise.all(
+      postsToBeDeleted.map(async (post) => {
+        try {
+          await Comment.deleteMany({ postId: post._id });
+          await Post.findByIdAndDelete(post._id);
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      })
+    ).then(
+      res.status(200).json({
+        message: "All posts and comments associated with this Item deleted",
+      })
+    );
+  } catch (err) {
+    res.status(400).json(err);
   }
 });
 

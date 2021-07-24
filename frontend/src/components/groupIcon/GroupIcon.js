@@ -7,6 +7,8 @@ import "./groupIcon.css";
 export default function GroupIcon({ groupImg, groupName, groupId, create }) {
   //should limit to 35-40 characters
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const ADD_GROUP_IMAGE = process.env.REACT_APP_PUBLIC_FOLDER_ADDGROUP;
+  const NO_GROUP_IMAGE = process.env.REACT_APP_PUBLIC_FOLDER_NOIMAGEUPLOADED;
   const { user, sockio } = useContext(AuthContext);
   const [newGroupName, setNewGroupName] = useState("");
   const history = useHistory();
@@ -44,7 +46,7 @@ export default function GroupIcon({ groupImg, groupName, groupId, create }) {
     <div className="groupIconButtonBackgroundCreate">
       <img
         className="groupIconButtonImg"
-        src={groupImg ? PF + groupImg : PF + "group.noImageUploaded.png"}
+        src={ADD_GROUP_IMAGE}
         onClick={handleCreateNewGroup}
         alt=""
       />
@@ -64,7 +66,7 @@ export default function GroupIcon({ groupImg, groupName, groupId, create }) {
     <div className="groupIconButtonBackground" onClick={handleClickGroupIcon}>
       <img
         className="groupIconButtonImg"
-        src={groupImg ? PF + groupImg : PF + "group/noImageUploaded.png"}
+        src={groupImg ? PF + groupImg : NO_GROUP_IMAGE}
         alt=""
       />
       <div className="groupIconButtonName">

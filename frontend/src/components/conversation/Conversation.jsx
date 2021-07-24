@@ -11,6 +11,7 @@ export default function Conversation({
   online,
 }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const [displayTimeAgo, setDisplayTimeAgo] = useState("");
   const [user, setUser] = useState(null);
 
@@ -56,11 +57,7 @@ export default function Conversation({
     >
       <div className="conversationLeft">
         <img
-          src={
-            user?.profilePicture
-              ? PF + user.profilePicture
-              : PF + "person/noAvatar.png"
-          }
+          src={user?.profilePicture ? PF + user.profilePicture : NO_AVATAR}
           alt=""
           className="conversationImg"
         />

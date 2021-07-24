@@ -17,6 +17,7 @@ import { useHistory } from "react-router";
 
 export default function SideBar({ sidebarUser }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const { user, sockio, dispatch } = useContext(AuthContext);
   const history = useHistory();
 
@@ -65,7 +66,7 @@ export default function SideBar({ sidebarUser }) {
             src={
               sidebarUser?.profilePicture
                 ? PF + sidebarUser.profilePicture
-                : PF + "person/noAvatar.png"
+                : NO_AVATAR
             }
             alt=""
           />

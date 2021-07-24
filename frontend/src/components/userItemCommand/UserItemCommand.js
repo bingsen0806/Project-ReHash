@@ -7,6 +7,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import axios from "axios";
 import { Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 
 export default function UserItemCommand({
   itemUserId,
@@ -16,8 +17,10 @@ export default function UserItemCommand({
   handleSwap,
   handleUnswap,
   handleDelete,
+  inProgress,
 }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const [itemUser, setItemUser] = useState(null);
   const [showInput, setShowInput] = useState(false);
   const [input, setInput] = useState("");
@@ -79,7 +82,7 @@ export default function UserItemCommand({
                 src={
                   itemUser && itemUser.profilePicture
                     ? PF + itemUser.profilePicture
-                    : PF + "person/noAvatar.png"
+                    : NO_AVATAR
                 }
                 onClick={() => {
                   itemUser &&
@@ -104,9 +107,14 @@ export default function UserItemCommand({
                   className="button"
                   variant="warning"
                   onClick={handleReserve}
+                  disabled={inProgress}
                 >
                   <VerifiedUserIcon className="icons" />
-                  <span className="action">Mark as Reserve</span>
+                  {inProgress ? (
+                    <CircularProgress color="white" size="20px" />
+                  ) : (
+                    <span className="action">Mark as Reserve</span>
+                  )}
                 </Button>
               </div>
             ) : itemStatus === "reserved" ? (
@@ -115,9 +123,14 @@ export default function UserItemCommand({
                   className="button"
                   variant="warning"
                   onClick={handleUnreserve}
+                  disabled={inProgress}
                 >
                   <VerifiedUserIcon className="icons" />
-                  <span className="action">Unreserve</span>
+                  {inProgress ? (
+                    <CircularProgress color="white" size="20px" />
+                  ) : (
+                    <span className="action">Unreserve</span>
+                  )}
                 </Button>
               </div>
             ) : (
@@ -127,22 +140,37 @@ export default function UserItemCommand({
               {itemStatus === "deleted" ? (
                 <></>
               ) : itemStatus === "swapped" ? (
-                <Button className="button" variant="warning">
+                <Button
+                  className="button"
+                  variant="warning"
+                  onClick={handleUnswap}
+                  disabled={inProgress}
+                >
                   <ShoppingBasketIcon className="icons" />
-                  <span className="action" onClick={handleUnswap}>
-                    Cancel Agreement
-                  </span>
+                  {inProgress ? (
+                    <CircularProgress color="white" size="20px" />
+                  ) : (
+                    <span className="action">Cancel Agreement</span>
+                  )}
                 </Button>
               ) : (
                 <>
-                  <Button className="button" variant="warning">
+                  <Button
+                    className="button"
+                    variant="warning"
+                    disabled={inProgress}
+                  >
                     <ShoppingBasketIcon className="icons" />
-                    <span
-                      className="action"
-                      onClick={() => setShowInput(!showInput)}
-                    >
-                      Mark as Swapped
-                    </span>
+                    {inProgress ? (
+                      <CircularProgress color="white" size="20px" />
+                    ) : (
+                      <span
+                        className="action"
+                        onClick={() => setShowInput(!showInput)}
+                      >
+                        Mark as Swapped
+                      </span>
+                    )}
                   </Button>
                   {showInput ? (
                     <Form className="userItemCommandForm">
@@ -181,9 +209,14 @@ export default function UserItemCommand({
                   className="button"
                   variant="warning"
                   onClick={handleDelete}
+                  disabled={inProgress}
                 >
                   <HighlightOffIcon className="icons" />
-                  <span className="action">Delete</span>
+                  {inProgress ? (
+                    <CircularProgress color="white" size="20px" />
+                  ) : (
+                    <span className="action">Delete</span>
+                  )}
                 </Button>
               )}
             </div>

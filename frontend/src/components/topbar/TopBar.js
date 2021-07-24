@@ -18,6 +18,8 @@ import axios from "axios";
 
 export default function TopBar({ currentUser, handleUpdateGroup }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const LOGO = process.env.REACT_APP_PUBLIC_FOLDER_LOGO;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   const [userNotifications, setUserNotifications] = useState([]);
@@ -117,7 +119,7 @@ export default function TopBar({ currentUser, handleUpdateGroup }) {
   return (
     <Navbar className="topbarWrapper fixed-top" expand="lg">
       <Navbar.Brand onClick={() => handleClickHome()}>
-        <img className="ReHashLogo" src={PF + "ReHashLogo.png"} alt="" />
+        <img className="ReHashLogo" src={LOGO} alt="" />
         <span className="logoText">ReHash</span>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -187,7 +189,7 @@ export default function TopBar({ currentUser, handleUpdateGroup }) {
               src={
                 currentUser && currentUser.profilePicture
                   ? PF + currentUser.profilePicture
-                  : PF + "person/noAvatar.png"
+                  : NO_AVATAR
               }
               alt="userProfile"
             />

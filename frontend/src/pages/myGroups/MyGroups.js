@@ -14,6 +14,7 @@ export default function MyGroups() {
   const username = useParams().username;
   const [profileUser, setProfileUser] = useState(null);
   const [myGroups, setMyGroups] = useState([]);
+  const ADD_GROUP_IMAGE = process.env.REACT_APP_PUBLIC_FOLDER_ADDGROUP;
 
   useEffect(() => {
     const getProfileUser = async () => {
@@ -65,7 +66,7 @@ export default function MyGroups() {
                 xs={2}
               >
                 <Col>
-                  <GroupIcon groupImg="group/add.jpg" create={true} />
+                  <GroupIcon groupImg={ADD_GROUP_IMAGE} create={true} />
                 </Col>
                 {myGroups.map((group) => (
                   <Col key={group._id}>

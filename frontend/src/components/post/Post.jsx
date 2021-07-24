@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 
 export default function Post({ post, handleDelete, canCommentAndLike }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const { user, sockio } = useContext(AuthContext);
   const [postUser, setPostUser] = useState(null);
   const [postComments, setPostComments] = useState([]);
@@ -177,7 +178,7 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
                 src={
                   postUser && postUser.profilePicture
                     ? PF + postUser.profilePicture
-                    : PF + "person/noAvatar.png"
+                    : NO_AVATAR
                 }
                 alt=""
                 onClick={handleViewProfile}

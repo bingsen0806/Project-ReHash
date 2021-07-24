@@ -13,6 +13,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { storage } from "../../firebase";
 
 export default function GroupSidebar({
   group,
@@ -22,6 +23,7 @@ export default function GroupSidebar({
   handleUpdateGroup,
 }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_GROUP_IMAGE = process.env.REACT_APP_PUBLIC_FOLDER_NOIMAGEUPLOADED;
   const { user, sockio } = useContext(AuthContext);
   const [showInviteInput, setShowInviteInput] = useState(false);
   const [newImgLink, setNewImgLink] = useState(null);
@@ -191,24 +193,84 @@ export default function GroupSidebar({
       const imageFile = e.target.files[0];
       console.log(imageFile);
       try {
-        const data = new FormData();
-        data.append("file", imageFile);
+        // const data = new FormData();
+        // data.append("file", imageFile);
         //upload picture to storage and get new filename
-        const uploadFileRes = await axios.post("/api/upload/group", data);
-        if (uploadFileRes.status === 200 && group) {
-          const newGroupPicture = {
-            groupImg: uploadFileRes.data.imagePath,
-          };
-          console.log(newGroupPicture);
-          //update group in database
-          const res = await axios.put(
-            "/api/groups/" + group._id,
-            newGroupPicture
-          );
-          if (res.status === 200) {
-            setNewImgLink(uploadFileRes.data.imagePath);
+        // const uploadFileRes = await axios.post("/api/upload/group", data);
+        // if (uploadFileRes.status === 200 && group) {
+        //   const newGroupPicture = {
+        //     groupImg: uploadFileRes.data.imagePath,
+        //   };
+        //   console.log(newGroupPicture);
+        //   //update group in database
+        //   const res = await axios.put(
+        //     "/api/groups/" + group._id,
+        //     newGroupPicture
+        //   );
+        //   if (res.status === 200) {
+        //     setNewImgLink(uploadFileRes.data.imagePath);
+        //   }
+        // }
+
+        //newly added
+
+        const imageFileName = Date.now() + imageFile.name;
+        console.log("filename is: " + imageFileName);
+        const uploadTask = storage.ref(`group/${imageFileName}`).put(imageFile);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            console.log("progress is: " + progress.toString());
+          },
+          (error) => {
+            console.log(error);
+          },
+          async () => {
+            //get download url and upload the post info
+            const imageUrl = await storage
+              .ref("group")
+              .child(`${imageFileName}`)
+              .getDownloadURL();
+            const trimImageUrl = imageUrl.replace(PF, "");
+            console.log(trimImageUrl);
+            const newGroupPicture = {
+              groupImg: trimImageUrl,
+            };
+
+            console.log(newGroupPicture);
+            //update group in database
+            const res = await axios.put(
+              "/api/groups/" + group._id,
+              newGroupPicture
+            );
+            if (res.status === 200) {
+              const tempNewImgLink = newImgLink;
+              setNewImgLink(trimImageUrl);
+              //delete the picture only if new picture successfully registered in database
+              if (
+                (tempNewImgLink && tempNewImgLink !== "") ||
+                (group && group.groupImg !== "")
+              ) {
+                try {
+                  var oldImageRef;
+                  if (tempNewImgLink && tempNewImgLink !== "") {
+                    console.log("taking newImgLink");
+                    oldImageRef = storage.refFromURL(PF + tempNewImgLink);
+                  } else {
+                    console.log("taking groupImg link");
+                    oldImageRef = storage.refFromURL(PF + group.groupImg);
+                  }
+                  await oldImageRef.delete();
+                } catch (error) {
+                  console.log(error);
+                }
+              }
+            }
           }
-        }
+        );
       } catch (err) {
         console.log(err);
       }
@@ -235,10 +297,10 @@ export default function GroupSidebar({
               className="groupProfile"
               src={
                 newImgLink
-                  ? PF + newImgLink
+                  ? PF + newImgLink //removed PF for now
                   : group?.groupImg
                   ? PF + group.groupImg
-                  : PF + "group/noImageUploaded.png"
+                  : NO_GROUP_IMAGE
               }
               alt=""
               onClick={handleClickGroupPicture}

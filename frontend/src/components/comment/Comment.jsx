@@ -9,6 +9,7 @@ export default function Comment({
   handleDelete,
 }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const [commentUser, setCommentUser] = useState(null);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function Comment({
             src={
               commentUser && commentUser.profilePicture
                 ? PF + commentUser.profilePicture
-                : PF + "person/noAvatar.png"
+                : NO_AVATAR
             }
             alt=""
           />

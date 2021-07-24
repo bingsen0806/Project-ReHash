@@ -3,21 +3,23 @@ import "./item.css";
 import TopBar from "../../components/topbar/TopBar";
 import SingleItem from "../../components/singleItem/SingleItem";
 import Chip from "@material-ui/core/Chip";
-import { ArrowBackIos } from "@material-ui/icons";
+import { ArrowBackIos, ImageRounded } from "@material-ui/icons";
 import SwapAway from "../../components/swapAway/SwapAway";
 import UserItemCommand from "../../components/userItemCommand/UserItemCommand";
 import { Container, Row, Col } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
-
+import { storage } from "../../firebase";
 
 export default function Item() {
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user, sockio } = useContext(AuthContext);
   const itemId = useParams().itemId;
   const [item, setItem] = useState(null);
   const history = useHistory();
   const [copyLinkText, setCopyLinkText] = useState("");
+  const [inProgress, setInProgress] = useState(false);
 
   useEffect(() => {
     const getItem = async () => {
@@ -36,14 +38,17 @@ export default function Item() {
   const handleReserve = async () => {
     try {
       if (itemId) {
+        setInProgress(true);
         const res = await axios.put("/api/items/update/status/" + itemId, {
           status: "reserved",
         });
         if (res.status === 200 && res.data) {
           setItem(res.data);
         }
+        setInProgress(false);
       }
     } catch (err) {
+      setInProgress(false);
       console.log(err);
     }
   };
@@ -51,14 +56,17 @@ export default function Item() {
   const handleUnreserve = async () => {
     try {
       if (itemId) {
+        setInProgress(true);
         const res = await axios.put("/api/items/update/status/" + itemId, {
           status: "waiting",
         });
         if (res.status === 200 && res.data) {
           setItem(res.data);
         }
+        setInProgress(false);
       }
     } catch (err) {
+      setInProgress(false);
       console.log(err);
     }
   };
@@ -66,6 +74,7 @@ export default function Item() {
   const handleSwap = async (agreementId) => {
     console.log("handleSwap called with agreementId: " + agreementId);
     try {
+      setInProgress(true);
       const agreementRes = await axios.put(
         "/api/agreements/update/addParties/" + agreementId,
         { userId: user?._id, itemId: itemId }
@@ -77,8 +86,11 @@ export default function Item() {
         if (res.status === 200 && res.data) {
           setItem(res.data);
         }
+        setInProgress(false);
       }
+      setInProgress(false);
     } catch (err) {
+      setInProgress(false);
       console.log(err);
     }
   };
@@ -86,6 +98,7 @@ export default function Item() {
   const handleUnswap = async () => {
     console.log("handleUnswap called");
     try {
+      setInProgress(true);
       const agreementRes = await axios.put(
         "/api/agreements/update/removeParties",
         {
@@ -100,21 +113,42 @@ export default function Item() {
         if (res.status === 200 && res.data) {
           setItem(res.data);
         }
+        setInProgress(false);
       }
+      setInProgress(false);
     } catch (err) {
+      setInProgress(false);
       console.log(err);
     }
   };
 
   const handleDelete = async () => {
     console.log("handleDelete called");
-    try {
-      const res = await axios.delete("/api/items?itemId=" + item?._id);
-      if (res.status === 200) {
-        history.push("/profile/" + user.username + "/listings");
+    if (item) {
+      try {
+        setInProgress(true);
+
+        const tempItemId = item?._id;
+        await axios.delete("/api/posts/filter?itemId=" + tempItemId);
+        const res = await axios.delete("/api/items?itemId=" + item?._id);
+        if (res.status === 200) {
+          history.push("/profile/" + user.username + "/listings");
+        }
+        setInProgress(false);
+        //image can be deleted only after push to the page so that process is faster. In case of fail deletion nothing much
+        //only firebase will store more pictures
+        for (var i = 0; i < item.img.length; i++) {
+          var imageRef = storage.refFromURL(PF + item.img[i]);
+          try {
+            await imageRef.delete();
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      } catch (err) {
+        setInProgress(false);
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -183,6 +217,7 @@ export default function Item() {
                 handleDelete={handleDelete}
                 handleSwap={handleSwap}
                 handleUnswap={handleUnswap}
+                inProgress={inProgress}
               />
             ) : (
               <SwapAway itemUserId={item?.userId} />

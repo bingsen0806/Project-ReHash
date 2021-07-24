@@ -14,6 +14,7 @@ export default function Register() {
   const [emailError, setEmailError] = useState("");
   const [userError, setUserError] = useState("");
   const [isFetching, setIsFetching] = useState(false);
+  const LOGO = process.env.REACT_APP_PUBLIC_FOLDER_LOGO;
 
   const handleEmail = (e) => {
     console.log(e.target.value);
@@ -127,11 +128,7 @@ export default function Register() {
         <div className="registerLeft">
           <div className="registerLeftWrapper  ">
             <div className="registerLeftTop ">
-              <img
-                className="registerLeftLogo"
-                src="/assests/ReHashLogo.png"
-                alt="ReHash logo"
-              />
+              <img className="registerLeftLogo" src={LOGO} alt="ReHash logo" />
               <span id="registerText" className="registerLeftLogoText ">
                 ReHash
               </span>

@@ -9,6 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 export default function SwapAway({ itemUserId }) {
   //if delete, go back to listings page
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const [itemUser, setItemUser] = useState(null);
   const history = useHistory();
   const { user } = useContext(AuthContext);
@@ -56,7 +57,7 @@ export default function SwapAway({ itemUserId }) {
                 src={
                   itemUser && itemUser.profilePicture
                     ? PF + itemUser.profilePicture
-                    : PF + "person/noAvatar.png"
+                    : NO_AVATAR
                 }
                 onClick={() => {
                   itemUser &&

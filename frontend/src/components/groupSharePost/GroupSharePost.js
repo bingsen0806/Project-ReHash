@@ -6,6 +6,7 @@ import axios from "axios";
 
 export default function GroupSharePost({ handleAdd }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const NO_AVATAR = process.env.REACT_APP_PUBLIC_FOLDER_NOAVATAR;
   const { user, sockio } = useContext(AuthContext);
   const [description, setDescription] = useState("");
   const [itemId, setItemId] = useState("");
@@ -51,11 +52,7 @@ export default function GroupSharePost({ handleAdd }) {
           <div className="sharePostTopContainer">
             <img
               className="sharePostProfileImg"
-              src={
-                user?.profilePicture
-                  ? PF + user.profilePicture
-                  : PF + "person/noAvatar.png"
-              }
+              src={user?.profilePicture ? PF + user.profilePicture : NO_AVATAR}
               alt=""
             />
             <span className="sharePostProfileText">
