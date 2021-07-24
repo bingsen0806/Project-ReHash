@@ -82,7 +82,7 @@ export default function UserListing() {
                 </Tabs>
               </Paper>
             </div>
-            <Row className="listingRow" xs={1} md={3}>
+            <Row className="listingRow" xs={1} sm={2} md={2} lg={3}>
               {displayItems.length ? (
                 displayItems.map((item) => (
                   <ItemListing key={item._id} item={item} />
