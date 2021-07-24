@@ -73,7 +73,7 @@ export default function GroupSharePost({ handleAdd }) {
                     }
                   }}
                   className="sharePostContainerItemIdInput"
-                  placeholder="Input your post ID..."
+                  placeholder="Item ID (can be copied from items page)"
                 />
                 <span className="sharePostContainerErrorMessage">
                   {itemError}
