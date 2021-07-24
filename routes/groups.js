@@ -59,7 +59,9 @@ router.get("/", async (req, res) => {
       group = await Group.findById(groupId);
     } else if (searchString) {
       const regex = new RegExp(escapeRegex(req.query.search), "gi");
-      group = await Group.find({ groupName: regex });
+      group = await Group.find({ groupName: regex }).sort((a, b) => {
+        return a.members.length - b.members.length;
+      });
     }
     res.status(200).json(group);
   } catch (err) {
@@ -73,7 +75,7 @@ router.get("/filter", async (req, res) => {
     const userId = req.query.userId;
     const groups = await Group.find({
       members: { $in: [userId] },
-    });
+    }).sort({ createdAt: -1 });
     res.status(200).json(groups);
   } catch (err) {
     res.status(400).json(err);
@@ -103,6 +105,7 @@ router.put("/:id", async (req, res) => {
 });
 
 /** TODO: get all recommended groups from a user */
+//maybe can change to be the top 10 most popular group
 router.get("/recommended/:userId", async (req, res) => {
   try {
     const groupsNotIn = await Group.find({
