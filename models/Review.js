@@ -19,7 +19,7 @@ const ReviewSchema = new mongoose.Schema(
     reviewText: {
       type: String,
       default: "",
-      max: 1000,
+      max: 2000,
     },
   },
   { timestamps: true }

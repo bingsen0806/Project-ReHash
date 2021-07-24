@@ -139,6 +139,7 @@ export default function UserReview({
             placeholder="(Optional) Leave a review ..."
             className="userReviewInput"
             value={reviewText}
+            maxlength="1999"
             onChange={(e) => setReviewText(e.target.value)}
           />
         )}
