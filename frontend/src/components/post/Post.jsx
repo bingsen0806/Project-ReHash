@@ -160,6 +160,19 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
     }
   };
 
+  const handleDeleteComment = async (commentId) => {
+    if (commentId && commentId !== "") {
+      try {
+        const res = await axios.delete("/api/comments?commentId=" + commentId);
+        if (res.status === 200) {
+          setPostComments(postComments.filter((c) => c._id !== commentId));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   const handleViewProfile = () => {
     if (postUser) {
       history.push("/profile/" + postUser.username + "/listings");
@@ -244,6 +257,7 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
                 value={incomingComment}
                 onChange={(e) => setIncomingComment(e.target.value)}
                 onKeyDown={handleKeyDownComment}
+                maxlength="1000"
                 className="postCommentInput"
                 placeholder="Write a comment and press enter to send..."
               />
@@ -252,8 +266,11 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
           <div className="postCommentContentSection">
             {postComments.map((comment) => (
               <Comment
+                commentId={comment._id}
                 commentText={comment.commentText}
                 commentUserId={comment.commentUserId}
+                own={user && user._id === comment.commentUserId}
+                handleDelete={handleDeleteComment}
                 key={comment._id}
               />
             ))}

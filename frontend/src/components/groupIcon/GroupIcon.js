@@ -52,6 +52,7 @@ export default function GroupIcon({ groupImg, groupName, groupId, create }) {
       />
       <textarea
         rows={3}
+        maxlength="50"
         className="groupIconTextArea"
         placeholder="Enter new group name (max 50 characters) and click '+'"
         value={newGroupName}

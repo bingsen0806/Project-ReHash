@@ -1,8 +1,10 @@
+import { Divider } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./comment.css";
 
 export default function Comment({
+  commentId,
   commentText,
   commentUserId,
   own,
@@ -37,9 +39,19 @@ export default function Comment({
             }
             alt=""
           />
-          <span className="commentProfileText">
+          <div className="commentProfileText">
             {commentUser?.username ? commentUser.username : "No Name"}
-          </span>
+          </div>
+          {own ? (
+            <div
+              className="commentDelete"
+              onClick={() => handleDelete(commentId)}
+            >
+              delete
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="commentUserContent">{commentText}</div>
       </div>

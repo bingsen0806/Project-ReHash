@@ -12,6 +12,10 @@
   /* background-color:hotpink; */
 }
 
+.commentUserDetails {
+  display: flex;
+}
+
 .commentProfileImg {
   height: 40px;
   width: 40px;
@@ -21,8 +25,19 @@
 
 .commentProfileText {
   /* background-color: purple; */
+  width: 80%;
   margin-left: 10px;
   font-weight: bold;
+}
+
+.commentDelete {
+  text-decoration: underline;
+  color: rgb(184, 181, 181);
+}
+
+.commentDelete:hover {
+  color: darkgray;
+  cursor: pointer;
 }
 
 .commentUserContent {

@@ -159,7 +159,7 @@ export default function GroupSidebar({
         <input
           className="inviteComponentInput"
           placeholder="Input name and Enter..."
-          maxLength="30"
+          maxlength="30"
           value={inviteNameInput}
           onChange={(e) => {
             setInviteNameInput(e.target.value);
@@ -365,6 +365,7 @@ export default function GroupSidebar({
                   <textarea
                     className="groupDescriptionTextArea"
                     rows={6}
+                    maxlength="250"
                     value={editedDescription}
                     onChange={(e) => {
                       if (descriptionError !== "") {
