@@ -183,8 +183,8 @@ export default function CreateListing() {
     //description error
     if (!description || description === "") {
       newErrors.description = "description cannot be blank!";
-    } else if (description.length > 500) {
-      newErrors.description = "description cannot be more than 500 characters";
+    } else if (description.length > 800) {
+      newErrors.description = "description cannot be more than 800 characters";
     }
 
     //Tangibles of intangibles not selected
@@ -395,7 +395,7 @@ export default function CreateListing() {
                 <Form.Control
                   className="swapAwayFormControl"
                   as="textarea"
-                  maxlength="500"
+                  maxlength="800"
                   rows={3}
                   value={form.description ? form.description : ""}
                   placeholder="Describe your swap"
