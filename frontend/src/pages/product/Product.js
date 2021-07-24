@@ -42,7 +42,7 @@ export default function Product() {
       }
     };
     getItems();
-  }, [categoryName, pageType]);
+  }, [categoryName, pageType, user]);
   return (
     <div>
       <TopBar currentUser={user} />
