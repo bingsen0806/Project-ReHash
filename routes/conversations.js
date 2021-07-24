@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//get conversations by conversation if
+//get conversations by conversation id
 router.get("/id/:conversationId", async (req, res) => {
   try {
     const conversation = await Conversation.findById(req.params.conversationId);
@@ -30,7 +30,7 @@ router.get("/:userId", async (req, res) => {
   try {
     const conversation = await Conversation.find({
       members: { $in: [req.params.userId] },
-    });
+    }).sort({ updatedAt: -1 });
     res.status(200).json(conversation);
   } catch (err) {
     res.status(500).json(err);
