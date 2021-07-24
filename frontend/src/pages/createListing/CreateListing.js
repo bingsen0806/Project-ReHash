@@ -73,7 +73,8 @@ export default function CreateListing() {
     { title: "Indoor Activities" },
     { title: "Sports" },
     { title: "Games and Esports" },
-    { title: "Others" },
+    { title: "Other Intangibles" },
+    { title: "Other Tangibles" },
   ];
 
   //Below is code for the Dropzone

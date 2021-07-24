@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
       item = await Item.findById(itemId);
     } else if (searchString) {
       const regex = new RegExp(escapeRegex(req.query.search), "gi");
-      item = await Item.find({ title: regex });
+      item = await Item.find({ title: regex }).sort({ views: -1 });
     }
     res.status(200).json(item);
   } catch (err) {
@@ -66,13 +66,15 @@ router.get("/categories", async (req, res) => {
       const items = await Item.find({
         userId: userId,
         categories: { $in: [categoryName] },
-      });
+      }).sort({ createdAt: -1 });
       res.status(200).json(items);
     } else if (categoryName) {
-      const items = await Item.find({ categories: { $in: [categoryName] } });
+      const items = await Item.find({
+        categories: { $in: [categoryName] },
+      }).sort({ views: -1 });
       res.status(200).json(items);
     } else if (userId) {
-      const items = await Item.find({ userId: userId });
+      const items = await Item.find({ userId: userId }).sort({ createdAt: -1 });
       res.status(200).json(items);
     }
   } catch (err) {
