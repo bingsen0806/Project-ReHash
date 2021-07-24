@@ -59,9 +59,7 @@ router.get("/", async (req, res) => {
       group = await Group.findById(groupId);
     } else if (searchString) {
       const regex = new RegExp(escapeRegex(req.query.search), "gi");
-      group = await Group.find({ groupName: regex }).sort((a, b) => {
-        return a.members.length - b.members.length;
-      });
+      group = await Group.find({ groupName: regex });
     }
     res.status(200).json(group);
   } catch (err) {
