@@ -66,6 +66,7 @@ export default function GroupSharePost({ handleAdd }) {
               <div className="sharePostContainerItemId">
                 <input
                   value={itemId}
+                  maxlength="30"
                   onChange={(e) => {
                     setItemId(e.target.value);
                     if (itemError !== "") {
@@ -86,6 +87,7 @@ export default function GroupSharePost({ handleAdd }) {
             <div className="sharePostContainerTextArea">
               <textarea
                 value={description}
+                maxlength="1000"
                 onChange={(e) => {
                   setDescription(e.target.value);
                   if (descriptionError !== "") {

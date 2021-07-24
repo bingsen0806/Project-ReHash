@@ -159,6 +159,7 @@ export default function GroupSidebar({
         <input
           className="inviteComponentInput"
           placeholder="Input name and Enter..."
+          maxLength="30"
           value={inviteNameInput}
           onChange={(e) => {
             setInviteNameInput(e.target.value);

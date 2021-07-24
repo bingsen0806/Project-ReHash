@@ -72,6 +72,11 @@ export default function Register() {
   const handleCheckUsername = async (e) => {
     setIsFetching(true);
     e.preventDefault();
+    if (!username || username.length < 3) {
+      setUserError("Username must be at least 3 characters");
+      setIsFetching(false);
+      return;
+    }
     try {
       const res = await axios.get("/api/users?username=" + username);
       if (res.status === 200) {
@@ -163,6 +168,7 @@ export default function Register() {
                 placeholder="Enter username"
                 required
                 value={username}
+                maxlength="30"
                 onChange={handleUsername}
                 className="registerInput"
               />
@@ -173,6 +179,7 @@ export default function Register() {
                 required
                 value={email}
                 onChange={handleEmail}
+                maxlength="50"
                 type="email"
                 className="registerInput"
               />

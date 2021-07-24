@@ -64,7 +64,6 @@ export default function CreateListing() {
     { title: "Sports Equipments" },
     { title: "Home Appliances" },
     { title: "Automotive" },
-    { title: "Clothing" },
     { title: "Hobbies" },
     { title: "Computers and Tech" },
     { title: "Outdoor Activities" },
