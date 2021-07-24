@@ -421,7 +421,7 @@ export default function CreateListing() {
                   </option>
                   {/*The tangibles and intangibles spelling must be exactly like this for the database*/}
                   <option value="tangibles">Tangible</option>
-                  <option value="intagibles">Intangible</option>
+                  <option value="intangibles">Intangible</option>
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">
                   {errors.tangible}
