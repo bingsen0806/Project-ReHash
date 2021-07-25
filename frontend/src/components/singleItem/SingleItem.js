@@ -72,7 +72,7 @@ export default function SingleItem({ imgLinkArray }) {
     <div className="singleItemWrapper">
       <Carousel responsive={responsive}>
         {imgLinkArray?.map((imgLink) => (
-          <Carousel.Item>
+          <Carousel.Item key={imgLink}>
             <img
               className="singleItemCarouselItemImg"
               src={PF + imgLink}

@@ -58,14 +58,16 @@ export default function SwapAway({ itemUserId }) {
           const newConvo = await axios.post("/api/conversations", {
             members: [itemUserId, user._id],
           });
-          //chatFollow is not used for now
-          history.push("/chat/" + newConvo._id); //likely works but needs to be tested
-          const itemUserObject = { userId: itemUser._id };
-          await axios.put(
-            "/api/users/" + user._id + "/chatfollow",
-            itemUserObject
-          ); //this also needs to be moved before history if chat page uses chatFollow
-          console.log(newConvo.data);
+          if (newConvo.status === 200) {
+            //chatFollow is not used for now
+            history.push("/chat/" + newConvo.data._id); //likely works but needs to be tested
+            const itemUserObject = { userId: itemUser._id };
+            await axios.put(
+              "/api/users/" + user._id + "/chatfollow",
+              itemUserObject
+            ); //this also needs to be moved before history if chat page uses chatFollow
+            console.log(newConvo.data);
+          }
         }
       } catch (err) {
         console.log(err);

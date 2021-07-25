@@ -126,12 +126,14 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
             } catch (err) {
               console.log(err);
             }
-          } else {
-            const newConvo = await axios.post("/api/conversations", {
-              members: [post.postUserId, user._id],
-            });
-            //chatFollow is not used for now
-            history.push("/chat/" + newConvo._id); //likely works but needs to be tested
+          }
+        } else {
+          const newConvo = await axios.post("/api/conversations", {
+            members: [post.postUserId, user._id],
+          });
+          //chatFollow is not used for now
+          if (newConvo.status === 200) {
+            history.push("/chat/" + newConvo.data._id); //likely works but needs to be tested
             const postUserObject = { userId: postUser._id };
             await axios.put(
               "/api/users/" + user._id + "/chatfollow",

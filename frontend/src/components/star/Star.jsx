@@ -4,7 +4,7 @@ export default function Star(props) {
   const { fill = "none" } = props;
   return (
     <svg
-      class="w-6 h-6 star"
+      className="w-6 h-6 star"
       fill={fill}
       stroke="currentColor"
       viewBox="0 0 24 24"

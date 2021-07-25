@@ -114,14 +114,15 @@ export default function Chat() {
   }, [currentChat]);
 
   useEffect(() => {
-    const friendId = currentChat?.members.find((m) => m !== user._id);
-
     const getCurrentChatWith = async () => {
-      try {
-        const res = await axios.get("/api/users?userId=" + friendId);
-        await setCurrentChatWith(res.data);
-      } catch (err) {
-        console.log(err);
+      if (currentChat) {
+        try {
+          const friendId = currentChat?.members.find((m) => m !== user._id);
+          const res = await axios.get("/api/users?userId=" + friendId);
+          await setCurrentChatWith(res.data);
+        } catch (err) {
+          console.log(err);
+        }
       }
     };
     getCurrentChatWith();

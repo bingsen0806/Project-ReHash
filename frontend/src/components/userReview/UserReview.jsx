@@ -6,6 +6,7 @@ import RatingIcon from "../RatingIcon/RatingIcon";
 import { AuthContext } from "../../context/AuthContext";
 import { get } from "mongoose";
 import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
 
 export default function UserReview({
   review,
@@ -116,19 +117,25 @@ export default function UserReview({
         <div className="userReviewTopRight">
           {doneReview ? (
             review.reviewerId === user?._id ? (
-              <button
-                disabled={isDeleting}
-                className="userReviewSubmitButton"
-                onClick={() => handleDelete(review)}
-              >
-                Delete
-              </button>
+              isDeleting || isSubmitting ? ( //take not here, need both to work and prevent negative
+                <CircularProgress color="white" size="20px" />
+              ) : (
+                <button
+                  disabled={isDeleting || isSubmitting}
+                  className="userReviewSubmitButton"
+                  onClick={() => handleDelete(review)}
+                >
+                  Delete
+                </button>
+              )
             ) : (
               <></>
             )
+          ) : isSubmitting || isDeleting ? (
+            <CircularProgress color="white" size="20px" />
           ) : (
             <button
-              disabled={isSubmitting}
+              disabled={isSubmitting || isDeleting}
               className="userReviewSubmitButton"
               onClick={() => handleSubmit(reviewText, rating)}
             >

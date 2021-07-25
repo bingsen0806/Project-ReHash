@@ -62,7 +62,7 @@ export default function Product() {
         <Row className="listingRow" xl={4} lg={3} md={2} sm={1} xs={1}>
           {items.length > 0 ? (
             items.map((item) => (
-              <div>
+              <div key={item._id}>
                 <ItemListing key={item._id} item={item} />
               </div>
             ))

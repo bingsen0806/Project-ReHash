@@ -117,16 +117,21 @@ export default function Review() {
         setMyReview([...myReview, res.data]);
         setAlreadyReviewed(true);
         //also update ratings of profileUser
+        const userUpdate = {
+          cumulativeRating: initialCumRating + rating,
+          ratedByUsers: initialRatedBy + 1,
+        };
+        console.log("user update submit: ");
+        console.log(userUpdate);
         const updateRatingRes = await axios.put(
           "/api/users/" + profileUser._id,
-          {
-            cumulativeRating: initialCumRating + rating,
-            ratedByUsers: initialRatedBy + 1,
-          }
+          userUpdate
         );
-        setInitialCumRating(initialCumRating + rating);
-        setInitialRatedBy(initialRatedBy + 1);
-        setIsSubmitting(false);
+        if (updateRatingRes.status === 200) {
+          setInitialCumRating(userUpdate.cumulativeRating);
+          setInitialRatedBy(userUpdate.ratedByUsers);
+          setIsSubmitting(false);
+        }
       } catch (err) {
         console.log(err);
         setIsSubmitting(false);
@@ -141,20 +146,23 @@ export default function Review() {
         setIsDeleting(true);
         console.log(review);
         const res = await axios.delete("/api/reviews/id/" + review._id);
-        console.log(res.status);
-        console.log(typeof res.status);
         setMyReview([]);
         setAlreadyReviewed(false);
+        const userUpdate = {
+          cumulativeRating: initialCumRating - review.rating,
+          ratedByUsers: initialRatedBy - 1,
+        };
+        console.log("user update delete: ");
+        console.log(userUpdate);
         const updateRatingRes = await axios.put(
           "/api/users/" + profileUser._id,
-          {
-            cumulativeRating: initialCumRating - review.rating,
-            ratedByUsers: initialRatedBy - 1,
-          }
+          userUpdate
         );
-        setInitialCumRating(initialCumRating - review.rating);
-        setInitialRatedBy(initialRatedBy - 1);
-        setIsDeleting(false);
+        if (updateRatingRes.status === 200) {
+          setInitialCumRating(userUpdate.cumulativeRating);
+          setInitialRatedBy(userUpdate.ratedByUsers);
+          setIsDeleting(false);
+        }
       } catch (err) {
         console.log(err);
         setIsDeleting(false);
@@ -179,6 +187,7 @@ export default function Review() {
                 handleSubmit={handleSubmit}
                 handleDelete={handleDelete}
                 isSubmitting={isSubmitting}
+                isDeleting={isDeleting}
               />
             )}
             {myReview.map((review) => (
@@ -189,6 +198,7 @@ export default function Review() {
                 doneReview={true}
                 handleSubmit={handleSubmit}
                 handleDelete={handleDelete}
+                isSubmitting={isSubmitting}
                 isDeleting={isDeleting}
               />
             ))}
@@ -200,6 +210,8 @@ export default function Review() {
                 doneReview={true}
                 handleSubmit={handleSubmit}
                 handleDelete={handleDelete}
+                isSubmitting={isSubmitting}
+                isDeleting={isDeleting}
               />
             ))}
           </Container>
