@@ -289,6 +289,28 @@ export default function GroupSidebar({
       history.push("/groups/" + group._id + "/myPosts");
     }
   };
+
+  const groupNameComponent = (text) => {
+    var latestText = text;
+    var textArray = [];
+
+    while (latestText.length > 21) {
+      textArray.push(latestText.slice(0, 21));
+      latestText = latestText.slice(21);
+    }
+    textArray.push(latestText);
+
+    return textArray.map((text) => (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {text}
+      </div>
+    ));
+  };
   return (
     <div className="GroupSidebarWrapper">
       <CDBSidebar textColor="black" backgroundColor="#FFD68D">
@@ -315,32 +337,39 @@ export default function GroupSidebar({
             />
           </div>
         </CDBSidebarHeader>
-        <CDBSidebarHeader style={{ textAlign: "center" }}>
-          <div className="groupNameWrapper">
-            <div className="groupName">
-              <span className="groupNameText">
-                {group?.groupName ? group.groupName : "No Group Name"}
-              </span>
-            </div>
-          </div>
-          {isGroupMember ? (
-            <div>
-              <div className="groupInviteButtonWrapper">
-                <div className="groupInviteButton" onClick={handleInviteButton}>
-                  <span className="groupInviteButtonText">+ Invite</span>
+        <CDBSidebarHeader>
+          <div className="groupJoinInviteContentWrapper">
+            <div className="groupNameWrapper">
+              <div className="groupName">
+                <div className="groupNameText">
+                  {group?.groupName
+                    ? groupNameComponent(group.groupName)
+                    : "No Group Name"}
                 </div>
+              </div>
+            </div>
+            {isGroupMember ? (
+              <div>
+                <div className="groupInviteButtonWrapper">
+                  <div
+                    className="groupInviteButton"
+                    onClick={handleInviteButton}
+                  >
+                    <span className="groupInviteButtonText">+ Invite</span>
+                  </div>
 
-                {/* {showInviteInput ? inviteComponent : <></>} */}
+                  {/* {showInviteInput ? inviteComponent : <></>} */}
+                </div>
+                {showInviteInput ? inviteComponent : <></>}
               </div>
-              <div>{showInviteInput ? inviteComponent : <></>}</div>
-            </div>
-          ) : (
-            <div className="groupJoinButtonWrapper">
-              <div className="groupJoinButton" onClick={handleJoin}>
-                <span className="groupJoinButtonText">+ Join Group</span>
+            ) : (
+              <div className="groupJoinButtonWrapper">
+                <div className="groupJoinButton" onClick={handleJoin}>
+                  <span className="groupJoinButtonText">+ Join Group</span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </CDBSidebarHeader>
         <CDBSidebarContent>
           <CDBSidebarMenu>

@@ -1,7 +1,6 @@
 .inviteComponentWrapper {
   background-color: #ffffff;
   padding: 10px;
-  margin-left: 10px;
   border-radius: 10px;
   margin-top: 10px;
 }
@@ -68,14 +67,23 @@
 .groupName {
   font-size: 18px;
   font-weight: bold;
+  /* background-color: darkorange;*/
+}
+
+.groupNameText {
+  /* background-color: darkorchid; */
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
 }
 
 .groupNameWrapper {
   /* background-color: blue; */
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   white-space: nowrap;
   overflow: hidden;
-  width: 200px;
+  width: 110%;
 }
 
 .groupInviteButtonWrapper {
