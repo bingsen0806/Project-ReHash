@@ -74,12 +74,19 @@ export default function Chat() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        if (searchText && searchText.length >= 3) {
+        if (searchText && searchText.length >= 3 && user) {
           const res = await axios.get(
             "/api/conversations/search/" +
               user._id +
               "/searchText?searchText=" +
               searchText
+          );
+          if (res.status === 200) {
+            setConversations(res.data);
+          }
+        } else if (user) {
+          const res = await axios.get(
+            "/api/conversations/search/" + user._id + "/searchText"
           );
           if (res.status === 200) {
             setConversations(res.data);

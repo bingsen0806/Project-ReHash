@@ -46,6 +46,7 @@ router.get("/trendingSwaps", async (req, res) => {
     const recentTrendings = await Item.find({
       createdAt: { $gt: new Date(thresholdDate) },
       userId: { $not: { $eq: userId } },
+      status: "waiting",
     }).sort({ views: -1 });
     if (recentTrendings.length > 5) {
       return res.status(200).json(recentTrendings.slice(0, 5)); //not tested yet
@@ -66,6 +67,7 @@ router.get("/categories", async (req, res) => {
       const items = await Item.find({
         userId: userId,
         categories: { $in: [categoryName] },
+        status: "waiting",
       }).sort({ createdAt: -1 });
       res.status(200).json(items);
     } else if (categoryName) {
