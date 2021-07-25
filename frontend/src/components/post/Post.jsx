@@ -281,6 +281,7 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
           {canCommentAndLike && (
             <div className="postCommentInputWrapper">
               <textarea
+                rows={Math.min(4, Math.floor(incomingComment.length / 75)) + 1}
                 value={incomingComment}
                 onChange={(e) => setIncomingComment(e.target.value)}
                 onKeyDown={handleKeyDownComment}

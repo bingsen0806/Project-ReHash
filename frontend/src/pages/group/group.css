@@ -10,15 +10,14 @@
 } */
 
 .groupPageContainer {
-    display: flex;
-    width: 100%;
-    height: calc(100vh - 88px);
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 88px);
 }
 
 .groupSidebarWrapper {
-    flex: 2;
+  flex: 2;
 }
-
 
 /* .groupPageContainerRight {
     flex: 10;
@@ -26,15 +25,27 @@
 } */
 
 .groupPageContainerRight {
-    height: 100%;
-    width: 83%;
-    padding-left: 10px;
-    margin-left: 15%;
-    overflow-y: auto;
+  height: 100%;
+  width: 83%;
+  padding-left: 10px;
+  margin-left: 15%;
+  overflow-y: auto;
 }
 
-.groupPagecontainerRightShareWrapper {
-    margin-bottom: 10px;
+.groupPageContainerRightShareWrapper {
+  margin-bottom: 10px;
+}
+
+.groupPageNoPost {
+  margin-top: 50px;
+  display: flex;
+  width: 80%;
+  height: 150px;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  color: rgb(224, 220, 220);
+  /* background-color: darksalmon; */
 }
 
 /* .groupSidebarWrapper {

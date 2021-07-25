@@ -160,8 +160,10 @@
 
 .groupDescriptionTextArea {
   width: 100%;
-  outline: none;
-  border: none;
+  border-color: darkorange;
+  border-radius: 10px;
+  border-width: 3px;
+  outline-color: darkorange;
   background-color: #ffd68d;
 }
 

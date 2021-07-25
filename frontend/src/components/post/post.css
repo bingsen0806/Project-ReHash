@@ -151,12 +151,12 @@
   /* background-color: coral; */
   padding-left: 20px;
   /* margin-bottom: 5px; */
-  padding-right: 10px;
+  padding-right: 5px;
 }
 .postCommentInput {
   /* width: 600px; */
   width: 97%;
-  height: 40px;
+  max-height: 150px;
   /* background-color: white; */
   /* background-color: green; */
   border-radius: 10px;
@@ -170,7 +170,11 @@
 }
 
 .postCommentInput:focus {
-  outline: none;
+  outline-color: rgb(41, 156, 233);
+}
+
+.postCommentInput::-webkit-scrollbar {
+  width: 0px;
 }
 
 .postCommentContentSection {

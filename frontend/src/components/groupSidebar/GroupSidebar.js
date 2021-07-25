@@ -393,7 +393,7 @@ export default function GroupSidebar({
                 <>
                   <textarea
                     className="groupDescriptionTextArea"
-                    rows={6}
+                    rows={Math.floor(editedDescription.length / 24) + 1}
                     maxlength="250"
                     value={editedDescription}
                     onChange={(e) => {

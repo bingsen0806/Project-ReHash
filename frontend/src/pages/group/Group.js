@@ -159,21 +159,29 @@ export default function Group() {
           />
         </div>
         <div className="groupPageContainerRight">
-          <div className="groupPagecontainerRightShareWrapper">
+          <div className="groupPageContainerRightShareWrapper">
             {group && user && isGroupMember && pageType === "main" ? (
               <GroupSharePost handleAdd={handleAdd} />
             ) : (
               <></>
             )}
           </div>
-          {displayPosts.map((post) => (
-            <Post
-              post={post}
-              key={post._id}
-              handleDelete={handleDelete}
-              canCommentAndLike={group && user && isGroupMember}
-            />
-          ))}
+          {displayPosts && displayPosts.length > 0 ? (
+            displayPosts.map((post) => (
+              <Post
+                post={post}
+                key={post._id}
+                handleDelete={handleDelete}
+                canCommentAndLike={group && user && isGroupMember}
+              />
+            ))
+          ) : (
+            <div className="groupPageNoPost">
+              No post to see :(
+              <br />
+              Why not create one?
+            </div>
+          )}
         </div>
       </div>
     </div>
