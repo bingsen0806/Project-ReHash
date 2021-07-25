@@ -28,7 +28,9 @@ router.get("/", async (req, res) => {
       item = await Item.findById(itemId);
     } else if (searchString) {
       const regex = new RegExp(escapeRegex(req.query.search), "gi");
-      item = await Item.find({ title: regex }).sort({ views: -1 });
+      item = await Item.find({ title: regex, status: "waiting" }).sort({
+        views: -1,
+      });
     }
     res.status(200).json(item);
   } catch (err) {
