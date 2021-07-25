@@ -67,12 +67,12 @@ router.get("/categories", async (req, res) => {
       const items = await Item.find({
         userId: userId,
         categories: { $in: [categoryName] },
-        status: "waiting",
       }).sort({ createdAt: -1 });
       res.status(200).json(items);
     } else if (categoryName) {
       const items = await Item.find({
         categories: { $in: [categoryName] },
+        status: "waiting",
       }).sort({ views: -1 });
       res.status(200).json(items);
     } else if (userId) {
