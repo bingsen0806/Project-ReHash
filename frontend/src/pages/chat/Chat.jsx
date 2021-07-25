@@ -268,8 +268,9 @@ export default function Chat() {
             {conversations.map((c) => {
               const userId = c.members.find((m) => m !== user._id);
               return (
-                <div onClick={() => setCurrentChat(c)}>
+                <div onClick={() => setCurrentChat(c)} key={c._id}>
                   <Conversation
+                    key={c._id}
                     online={onlineUsers.includes(userId)}
                     lastMessageText={c.lastMessageText}
                     lastMessageTime={c.lastMessageTime}
@@ -316,9 +317,10 @@ export default function Chat() {
                 </div>
                 <div className="chatBoxTop">
                   {messages.map((m) => (
-                    <div ref={scrollRef}>
+                    <div ref={scrollRef} key={m._id}>
                       <Message
                         message={m}
+                        key={m._id}
                         own={m.sender === user?._id}
                         pictureLink={
                           m.sender === user?._id
