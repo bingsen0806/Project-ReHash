@@ -45,7 +45,7 @@ export default function Product() {
   }, [categoryName, pageType, user]);
   return (
     <div>
-      {/* <TopBar currentUser={user} /> */}
+      <TopBar currentUser={user} />
 
       <div className="productWrapper">
         {/*<div className="backArrow">
