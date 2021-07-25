@@ -13,6 +13,7 @@ import axios from "axios";
 export default function UserListing() {
   const { user, sockio } = useContext(AuthContext); //this user is currentUser
   const username = useParams().username;
+  const viewCategory = useParams().viewingCategory;
   // const subpage = useParams().subpage;
   const [displayItems, setDisplayItems] = useState([]);
   const [viewingCategory, setViewingCategory] = useState("tangibles");
@@ -35,6 +36,13 @@ export default function UserListing() {
     };
     getProfileUser();
   }, [username]);
+
+  useEffect(() => {
+    if (viewCategory && viewCategory.length > 0) {
+      setViewingCategory(viewCategory);
+      setTabValue(viewCategory === "tangibles" ? 0 : 1);
+    }
+  }, [viewCategory]);
 
   useEffect(() => {
     const getDisplayItems = async () => {

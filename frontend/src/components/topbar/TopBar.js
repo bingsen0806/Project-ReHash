@@ -35,8 +35,12 @@ export default function TopBar({ currentUser, handleUpdateGroup }) {
   const handleSearch = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if ((searchText.match(/^\s*\n*\t*$/) || []).length > 0) {
-        console.log("search string is empty!");
+      if (
+        (searchText.match(/^\s*\n*\t*$/) || []).length > 0 ||
+        searchText.length < 3
+      ) {
+        console.log("search string is empty or too short!");
+        setSearchText("");
       } else {
         if (searchType === "item") {
           history.push("/product/search/" + searchText);
@@ -131,7 +135,7 @@ export default function TopBar({ currentUser, handleUpdateGroup }) {
           <div className="searchbar">
             <Search className="searchIcon" />
             <input
-              placeholder="Seach for groups or swap items..."
+              placeholder="Enter at least 3 characters to search..."
               className="searchInput"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}

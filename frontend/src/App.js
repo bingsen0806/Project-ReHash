@@ -51,6 +51,9 @@ function App() {
         <Route exact path="/chat/:initialActiveConvoId">
           {user ? <Chat /> : <Login />}
         </Route>
+        <Route exact path="/profile/:username/listings/:viewingCategory">
+          <UserListing />
+        </Route>
         <Route exact path="/profile/:username/listings">
           <UserListing />
         </Route>

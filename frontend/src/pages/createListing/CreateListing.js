@@ -17,6 +17,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 import { storage } from "../../firebase";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,6 +86,7 @@ export default function CreateListing() {
   const [swapCategories, setSwapCategories] = useState([]);
   const [isCreating, setCreating] = useState(false);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const history = useHistory();
 
   //When file is dropped, set the new array of files based on different conditions
   const onDrop = useCallback(
@@ -297,6 +299,11 @@ export default function CreateListing() {
           console.log(newItem);
           const res = await axios.post("/api/items", newItem);
           console.log(res.data);
+          if (res.status === 200 && user) {
+            history.push(
+              "/profile/" + user.username + "/listings/" + form.tangible
+            );
+          }
         }
 
         setFiles([]);

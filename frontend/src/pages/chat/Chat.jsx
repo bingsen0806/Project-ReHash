@@ -74,14 +74,16 @@ export default function Chat() {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await axios.get(
-          "/api/conversations/search/" +
-            user._id +
-            "/searchText?searchText=" +
-            searchText
-        );
-        if (res.status === 200) {
-          setConversations(res.data);
+        if (searchText && searchText.length >= 3) {
+          const res = await axios.get(
+            "/api/conversations/search/" +
+              user._id +
+              "/searchText?searchText=" +
+              searchText
+          );
+          if (res.status === 200) {
+            setConversations(res.data);
+          }
         }
       } catch (err) {
         console.log(err);
@@ -217,7 +219,10 @@ export default function Chat() {
   const handleSearch = async (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if ((searchText.match(/^\s*\n*\t*$/) || []).length > 0) {
+      if (
+        (searchText.match(/^\s*\n*\t*$/) || []).length > 0 ||
+        searchText.length < 3
+      ) {
         console.log("searchText is empty");
       } else if (user) {
         try {
@@ -244,7 +249,7 @@ export default function Chat() {
         <div className="chatMenu">
           <div className="chatMenuWrapper">
             <input
-              placeholder="Search for users..."
+              placeholder="Search for users (at least 3 characters)..."
               className="chatMenuInput"
               onChange={(e) => setSearchText(e.target.value)}
               onKeyDown={handleSearch}
