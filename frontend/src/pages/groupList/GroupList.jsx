@@ -33,7 +33,7 @@ export default function GroupList() {
         </div>
         <Row className="listingRow" xl={5} lg={4} md={3} sm={2}>
           {groups.map((group) => (
-            <div>
+            <div key={group._id}>
               <GroupIcon
                 key={group._id}
                 groupImg={group.groupImg}
