@@ -68,9 +68,7 @@ export default function Product() {
             ))
           ) : pageType === "categories" ? (
             <div className="productNoResult">
-              No valid items in this category. Note that you can't view reserved
-              items or items that are already swapped. You also cannot view your
-              own items here. Go under "Listings" to view your own item.
+              No valid items in this category.
             </div>
           ) : (
             <div className="productNoResult">No result</div>

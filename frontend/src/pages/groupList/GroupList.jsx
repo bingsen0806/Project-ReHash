@@ -32,16 +32,20 @@ export default function GroupList() {
           {searchText ? "Search results for: " + searchText : ""}
         </div>
         <Row className="listingRow" xl={5} lg={4} md={3} sm={2}>
-          {groups.map((group) => (
-            <div key={group._id}>
-              <GroupIcon
-                key={group._id}
-                groupImg={group.groupImg}
-                groupName={group.groupName}
-                groupId={group._id}
-              />
-            </div>
-          ))}
+          {groups.length > 0 ? (
+            groups.map((group) => (
+              <div key={group._id}>
+                <GroupIcon
+                  key={group._id}
+                  groupImg={group.groupImg}
+                  groupName={group.groupName}
+                  groupId={group._id}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="productNoResult">No result</div>
+          )}
         </Row>
       </div>
     </div>
