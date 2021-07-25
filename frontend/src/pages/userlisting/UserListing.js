@@ -9,6 +9,7 @@ import { AuthContext } from "../../context/AuthContext";
 import UserReview from "../../components/userReview/UserReview";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
 
 export default function UserListing() {
   const { user, sockio } = useContext(AuthContext); //this user is currentUser
@@ -19,6 +20,7 @@ export default function UserListing() {
   const [viewingCategory, setViewingCategory] = useState("tangibles");
   const [profileUser, setProfileUser] = useState(null);
   const [tabValue, setTabValue] = useState(0);
+  const [isChangingTab, setIsChangingTab] = useState(false);
 
   useEffect(() => {
     console.log("socket is: ", sockio?.id);
@@ -47,14 +49,21 @@ export default function UserListing() {
   useEffect(() => {
     const getDisplayItems = async () => {
       if (profileUser) {
-        const res = await axios.get(
-          "/api/items/categories?categoryName=" +
-            viewingCategory +
-            "&userId=" +
-            profileUser._id
-        );
-        setDisplayItems(res.data);
-        //console.log(res.data);
+        try {
+          setIsChangingTab(true);
+          const res = await axios.get(
+            "/api/items/categories?categoryName=" +
+              viewingCategory +
+              "&userId=" +
+              profileUser._id
+          );
+          setDisplayItems(res.data);
+          setIsChangingTab(false);
+          //console.log(res.data);
+        } catch (err) {
+          setIsChangingTab(false);
+          console.log(err);
+        }
       }
     };
     getDisplayItems();
@@ -90,15 +99,21 @@ export default function UserListing() {
                 </Tabs>
               </Paper>
             </div>
-            <Row className="listingRow" xs={1} sm={2} md={2} lg={3}>
-              {displayItems.length ? (
-                displayItems.map((item) => (
-                  <ItemListing key={item._id} item={item} />
-                ))
-              ) : (
-                <div>User does not have any item in this category</div>
-              )}
-            </Row>
+            {isChangingTab ? (
+              <div className="userListingLoading">
+                <CircularProgress color="primary" size="48px" />
+              </div>
+            ) : (
+              <Row className="listingRow" xs={1} sm={2} md={2} lg={3}>
+                {displayItems.length ? (
+                  displayItems.map((item) => (
+                    <ItemListing key={item._id} item={item} />
+                  ))
+                ) : (
+                  <div>User does not have any item in this category</div>
+                )}
+              </Row>
+            )}
           </Container>
         </div>
       </div>

@@ -122,6 +122,10 @@
   /* background-color: wheat; */
 }
 
+.chatMessageInput::placeholder {
+  font-size: 22px;
+}
+
 .chatMessageInput:focus {
   outline: none;
 }

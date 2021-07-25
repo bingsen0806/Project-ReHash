@@ -102,19 +102,46 @@ export default function Post({ post, handleDelete, canCommentAndLike }) {
       history.push("/");
       console.log("pushed to login");
     } else {
-      const res = await axios.get(
-        "/api/conversations/find/" + user._id + "/" + post.postUserId
-      );
-      if (res.data.length > 0) {
-        history.push("/chat/" + res.data[0]._id);
-        console.log("pushed to chat id:" + res.data[0]._id);
-      } else {
-        const newConvo = await axios.post("/api/conversations", {
-          members: [post.postUserId, user._id],
-        });
-        //chatFollow is not used for now
-        history.push("/chat/" + newConvo._id); //likely works but needs to be tested
-        console.log(newConvo.data);
+      try {
+        const res = await axios.get(
+          "/api/conversations/find/" + user._id + "/" + post.postUserId
+        );
+        if (res.data.length > 0) {
+          history.push("/chat/" + res.data[0]._id);
+          console.log("pushed to chat id:" + res.data[0]._id);
+          //just updating chatFollow below, need to put this before history.push if the chat uses chatFollow
+          //but for now chat does not use chatFollow
+          if (postUser && user) {
+            try {
+              const postUserObject = { userId: postUser._id };
+              if (
+                !user.chatFollow.includes(postUser._id) ||
+                !postUser.chatFollow.includes(user._id)
+              ) {
+                await axios.put(
+                  "/api/users/" + user._id + "/chatfollow",
+                  postUserObject
+                );
+              }
+            } catch (err) {
+              console.log(err);
+            }
+          } else {
+            const newConvo = await axios.post("/api/conversations", {
+              members: [post.postUserId, user._id],
+            });
+            //chatFollow is not used for now
+            history.push("/chat/" + newConvo._id); //likely works but needs to be tested
+            const postUserObject = { userId: postUser._id };
+            await axios.put(
+              "/api/users/" + user._id + "/chatfollow",
+              postUserObject
+            ); //this also needs to be moved before history if chat page uses chatFollow
+            console.log(newConvo.data);
+          }
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   };

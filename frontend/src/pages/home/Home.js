@@ -62,7 +62,7 @@ export default function Home() {
       }
     };
     getTrendingSwaps();
-  });
+  }, [user]);
 
   return (
     <div>

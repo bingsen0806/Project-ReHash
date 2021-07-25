@@ -12,6 +12,8 @@ export default function UserReview({
   doneReview,
   handleSubmit,
   handleDelete,
+  isSubmitting,
+  isDeleting,
 }) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -55,57 +57,59 @@ export default function UserReview({
   return (
     <div className="userReview">
       <div className="userReviewTop">
-        <img
-          src={
-            doneReview
-              ? reviewer && reviewer.profilePicture
-                ? PF + reviewer.profilePicture
+        <div className="userReviewTopImgAndMiddle">
+          <img
+            src={
+              doneReview
+                ? reviewer && reviewer.profilePicture
+                  ? PF + reviewer.profilePicture
+                  : NO_AVATAR
+                : user && user.profilePicture
+                ? PF + user.profilePicture
                 : NO_AVATAR
-              : user && user.profilePicture
-              ? PF + user.profilePicture
-              : NO_AVATAR
-          }
-          alt=""
-          className="userReviewImg"
-        />
-        <div className="userReviewTopMiddle">
-          <div className="userReviewTopMiddleName">
-            {doneReview
-              ? reviewer?.username
-              : user
-              ? user.username
-              : "Anonymous"}
-          </div>
-          <div className="userReviewTopMiddleRatings">
-            <div className="userReviewTopMiddleRatingsText">Ratings: </div>
-            <div className="userReviewRatingStars">
-              {review
-                ? [1, 2, 3, 4, 5].map((index) => {
-                    return (
-                      <RatingIcon
-                        index={index}
-                        rating={rating}
-                        hoverRating={hoverRating}
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
-                        onSaveRating={onSaveRating}
-                        selected={review.rating >= index}
-                        notSelected={review.rating < index}
-                      />
-                    );
-                  })
-                : [1, 2, 3, 4, 5].map((index) => {
-                    return (
-                      <RatingIcon
-                        index={index}
-                        rating={rating}
-                        hoverRating={hoverRating}
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
-                        onSaveRating={onSaveRating}
-                      />
-                    );
-                  })}
+            }
+            alt=""
+            className="userReviewImg"
+          />
+          <div className="userReviewTopMiddle">
+            <div className="userReviewTopMiddleName">
+              {doneReview
+                ? reviewer?.username
+                : user
+                ? user.username
+                : "Anonymous"}
+            </div>
+            <div className="userReviewTopMiddleRatings">
+              <div className="userReviewTopMiddleRatingsText">Ratings: </div>
+              <div className="userReviewRatingStars">
+                {review
+                  ? [1, 2, 3, 4, 5].map((index) => {
+                      return (
+                        <RatingIcon
+                          index={index}
+                          rating={rating}
+                          hoverRating={hoverRating}
+                          onMouseEnter={onMouseEnter}
+                          onMouseLeave={onMouseLeave}
+                          onSaveRating={onSaveRating}
+                          selected={review.rating >= index}
+                          notSelected={review.rating < index}
+                        />
+                      );
+                    })
+                  : [1, 2, 3, 4, 5].map((index) => {
+                      return (
+                        <RatingIcon
+                          index={index}
+                          rating={rating}
+                          hoverRating={hoverRating}
+                          onMouseEnter={onMouseEnter}
+                          onMouseLeave={onMouseLeave}
+                          onSaveRating={onSaveRating}
+                        />
+                      );
+                    })}
+              </div>
             </div>
           </div>
         </div>
@@ -113,6 +117,7 @@ export default function UserReview({
           {doneReview ? (
             review.reviewerId === user?._id ? (
               <button
+                disabled={isDeleting}
                 className="userReviewSubmitButton"
                 onClick={() => handleDelete(review)}
               >
@@ -123,6 +128,7 @@ export default function UserReview({
             )
           ) : (
             <button
+              disabled={isSubmitting}
               className="userReviewSubmitButton"
               onClick={() => handleSubmit(reviewText, rating)}
             >

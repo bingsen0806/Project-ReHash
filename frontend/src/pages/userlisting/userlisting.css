@@ -17,6 +17,7 @@
   padding-top: 12px;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 /* 
@@ -27,7 +28,12 @@
 .tabRow {
    flex: 10%;
 }*/
-
+.userListingLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 .listingRow {
   flex: 90%;
 }

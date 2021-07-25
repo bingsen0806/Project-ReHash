@@ -239,6 +239,7 @@ io.on("connection", (socket) => {
     addUser(userId, socket.id);
     updateLastActive();
     io.emit("getUsers", users); //tell all sockets with "getUsers" that a new user is added
+    console.log("user is: ");
     console.log(users);
   });
 

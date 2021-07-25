@@ -64,9 +64,11 @@ export default function Chat() {
     if (sockio && user) {
       sockio.on("getUsers", (users) => {
         console.log("getUser received on client side");
-        setOnlineUsers(
-          user.chatFollow.filter((f) => users.some((u) => u.userId === f))
-        );
+        console.log(users);
+        // setOnlineUsers(
+        //   user.chatFollow.filter((f) => users.some((u) => u.userId === f))
+        // );
+        setOnlineUsers(users.map((user) => user.userId));
       });
     }
   }, [user, sockio]);

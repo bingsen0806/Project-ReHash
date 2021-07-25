@@ -45,7 +45,7 @@ export default function Product() {
   }, [categoryName, pageType, user]);
   return (
     <div>
-      <TopBar currentUser={user} />
+      {/* <TopBar currentUser={user} /> */}
 
       <div className="productWrapper">
         {/*<div className="backArrow">
@@ -60,11 +60,21 @@ export default function Product() {
             : "Product Descrption Header"}
         </span>
         <Row className="listingRow" xl={4} lg={3} md={2} sm={1} xs={1}>
-          {items.map((item) => (
-            <div>
-              <ItemListing key={item._id} item={item} />
+          {items.length > 0 ? (
+            items.map((item) => (
+              <div>
+                <ItemListing key={item._id} item={item} />
+              </div>
+            ))
+          ) : pageType === "categories" ? (
+            <div className="productNoResult">
+              No valid items in this category. Note that you can't view reserved
+              items or items that are already swapped. You also cannot view your
+              own items here. Go under "Listings" to view your own item.
             </div>
-          ))}
+          ) : (
+            <div className="productNoResult">No result</div>
+          )}
         </Row>
       </div>
     </div>

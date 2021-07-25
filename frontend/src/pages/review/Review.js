@@ -40,6 +40,8 @@ export default function Review() {
   const [myReview, setMyReview] = useState([]); //the review by the currentUser on the profileUser
   const [initialCumRating, setInitialCumRating] = useState(0);
   const [initialRatedBy, setInitialRatedBy] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   //get the profile user of this page
   useEffect(() => {
     const getProfileUser = async () => {
@@ -102,6 +104,7 @@ export default function Review() {
   //handleSubmit if a review is added
   const handleSubmit = async (reviewText, rating) => {
     if (!alreadyReviewed && rating > 0) {
+      setIsSubmitting(true);
       console.log("reviewText is: " + reviewText + "\n rating is: " + rating);
       const newReview = {
         reviewerId: user._id,
@@ -109,34 +112,53 @@ export default function Review() {
         rating: rating,
         reviewText: reviewText,
       };
-      const res = await axios.post("/api/reviews", newReview);
-      setMyReview([...myReview, res.data]);
-      setAlreadyReviewed(true);
-      //also update ratings of profileUser
-      const updateRatingRes = await axios.put("/api/users/" + profileUser._id, {
-        cumulativeRating: initialCumRating + rating,
-        ratedByUsers: initialRatedBy + 1,
-      });
-      setInitialCumRating(initialCumRating + rating);
-      setInitialRatedBy(initialRatedBy + 1);
+      try {
+        const res = await axios.post("/api/reviews", newReview);
+        setMyReview([...myReview, res.data]);
+        setAlreadyReviewed(true);
+        //also update ratings of profileUser
+        const updateRatingRes = await axios.put(
+          "/api/users/" + profileUser._id,
+          {
+            cumulativeRating: initialCumRating + rating,
+            ratedByUsers: initialRatedBy + 1,
+          }
+        );
+        setInitialCumRating(initialCumRating + rating);
+        setInitialRatedBy(initialRatedBy + 1);
+        setIsSubmitting(false);
+      } catch (err) {
+        console.log(err);
+        setIsSubmitting(false);
+      }
     }
   };
 
   //handleDelete if own rating is deleted
   const handleDelete = async (review) => {
-    if (alreadyReviewed) {
-      console.log(review);
-      const res = await axios.delete("/api/reviews/id/" + review._id);
-      console.log(res.status);
-      console.log(typeof res.status);
-      setMyReview([]);
-      setAlreadyReviewed(false);
-      const updateRatingRes = await axios.put("/api/users/" + profileUser._id, {
-        cumulativeRating: initialCumRating - review.rating,
-        ratedByUsers: initialRatedBy - 1,
-      });
-      setInitialCumRating(initialCumRating - review.rating);
-      setInitialRatedBy(initialRatedBy - 1);
+    if (alreadyReviewed && profileUser) {
+      try {
+        setIsDeleting(true);
+        console.log(review);
+        const res = await axios.delete("/api/reviews/id/" + review._id);
+        console.log(res.status);
+        console.log(typeof res.status);
+        setMyReview([]);
+        setAlreadyReviewed(false);
+        const updateRatingRes = await axios.put(
+          "/api/users/" + profileUser._id,
+          {
+            cumulativeRating: initialCumRating - review.rating,
+            ratedByUsers: initialRatedBy - 1,
+          }
+        );
+        setInitialCumRating(initialCumRating - review.rating);
+        setInitialRatedBy(initialRatedBy - 1);
+        setIsDeleting(false);
+      } catch (err) {
+        console.log(err);
+        setIsDeleting(false);
+      }
     }
   };
 
@@ -156,6 +178,7 @@ export default function Review() {
                 doneReview={false}
                 handleSubmit={handleSubmit}
                 handleDelete={handleDelete}
+                isSubmitting={isSubmitting}
               />
             )}
             {myReview.map((review) => (
@@ -166,6 +189,7 @@ export default function Review() {
                 doneReview={true}
                 handleSubmit={handleSubmit}
                 handleDelete={handleDelete}
+                isDeleting={isDeleting}
               />
             ))}
             {reviews.map((review) => (
